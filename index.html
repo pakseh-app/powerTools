@@ -3,9 +3,9 @@
 
 <head>
 
-    <!-- ========================================================= -->
+    <!-- ============================================== -->
     <!-- META -->
-    <!-- ========================================================= -->
+    <!-- ============================================== -->
 
     <meta charset="UTF-8">
 
@@ -19,7 +19,7 @@
           content="PowerTools - Ultimate AI Creator Suite">
 
     <meta name="keywords"
-          content="AI, Prompt Generator, Affiliate, Image Generator, Video Generator">
+          content="AI, Prompt Generator, Image, Video, Affiliate">
 
     <meta name="author"
           content="PowerTools">
@@ -27,15 +27,15 @@
     <meta name="theme-color"
           content="#0f172a">
 
-    <!-- ========================================================= -->
+    <!-- ============================================== -->
     <!-- TITLE -->
-    <!-- ========================================================= -->
+    <!-- ============================================== -->
 
     <title>PowerTools</title>
 
-    <!-- ========================================================= -->
-    <!-- GOOGLE FONT -->
-    <!-- ========================================================= -->
+    <!-- ============================================== -->
+    <!-- FONT -->
+    <!-- ============================================== -->
 
     <link rel="preconnect"
           href="https://fonts.googleapis.com">
@@ -47,50 +47,33 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
           rel="stylesheet">
 
-    <!-- ========================================================= -->
+    <!-- ============================================== -->
     <!-- CSS -->
-    <!-- ========================================================= -->
+    <!-- ============================================== -->
 
-    <link rel="stylesheet"
-          href="css/main.css">
-
-    <link rel="stylesheet"
-          href="css/sidebar.css">
-
-    <link rel="stylesheet"
-          href="css/dashboard.css">
-
-    <link rel="stylesheet"
-          href="css/cards.css">
-
-    <link rel="stylesheet"
-          href="css/forms.css">
-
-    <link rel="stylesheet"
-          href="css/buttons.css">
-
-    <link rel="stylesheet"
-          href="css/modal.css">
-
-    <link rel="stylesheet"
-          href="css/topbar.css">
-
-    <link rel="stylesheet"
-          href="css/responsive.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/sidebar.css">
+    <link rel="stylesheet" href="css/topbar.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/cards.css">
+    <link rel="stylesheet" href="css/forms.css">
+    <link rel="stylesheet" href="css/buttons.css">
+    <link rel="stylesheet" href="css/modal.css">
+    <link rel="stylesheet" href="css/responsive.css">
 
 </head>
 
 <body>
 
-<!-- ========================================================= -->
-<!-- LOADING SCREEN -->
-<!-- ========================================================= -->
+<!-- ============================================== -->
+<!-- LOADING -->
+<!-- ============================================== -->
 
 <div id="loading-screen">
 
-    <div class="loading-container">
+    <div class="loading-content">
 
-        <div class="loading-logo">
+        <div class="loading-icon">
 
             ⚡
 
@@ -110,71 +93,828 @@
 
         <div class="loading-bar">
 
-            <div class="loading-progress">
-
-            </div>
+            <div class="loading-progress"></div>
 
         </div>
-
-        <small>
-
-            Initializing AI Modules...
-
-        </small>
 
     </div>
 
 </div>
 
-<!-- ========================================================= -->
-<!-- APPLICATION -->
-<!-- ========================================================= -->
+<!-- ============================================== -->
+<!-- APP -->
+<!-- ============================================== -->
 
 <div id="app">
 
-    <!-- ===================================================== -->
+    <!-- ========================================== -->
     <!-- SIDEBAR -->
-    <!-- ===================================================== -->
+    <!-- ========================================== -->
 
     <aside id="sidebar">
 
-        <!-- Sidebar akan dibuat pada PART berikutnya -->
+        <div class="sidebar-header">
+
+            <div class="logo">
+
+                <div class="logo-icon">
+
+                    ⚡
+
+                </div>
+
+                <div class="logo-text">
+
+                    <h2>
+
+                        PowerTools
+
+                    </h2>
+
+                    <span>
+
+                        Ultimate AI Creator Suite
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ====================================== -->
+        <!-- MENU -->
+        <!-- ====================================== -->
+
+        <nav class="sidebar-menu">
+
+            <button class="menu-item active">
+
+                <span>🏠</span>
+
+                <label>Dashboard</label>
+
+            </button>
+
+            <button class="menu-item">
+
+                <span>✨</span>
+
+                <label>Smart Prompt</label>
+
+            </button>
+
+            <button class="menu-item">
+
+                <span>🛒</span>
+
+                <label>Affiliate Studio</label>
+
+            </button>
+
+            <button class="menu-item">
+
+                <span>🖼️</span>
+
+                <label>Image Studio</label>
+
+            </button>
+
+            <button class="menu-item">
+
+                <span>🎥</span>
+
+                <label>Video Studio</label>
+
+            </button>
+
+            <button class="menu-item">
+
+                <span>🎬</span>
+
+                <label>Storyboard</label>
+
+            </button>
+
+            <button class="menu-item">
+
+                <span>🎙️</span>
+
+                <label>AI Narrator</label>
+
+            </button>
+
+            <button class="menu-item">
+
+                <span>📚</span>
+
+                <label>Prompt Library</label>
+
+            </button>
+
+            <button class="menu-item">
+
+                <span>🧠</span>
+
+                <label>Prompt Optimizer</label>
+
+            </button>
+
+            <button class="menu-item">
+
+                <span>📁</span>
+
+                <label>Workspace</label>
+
+            </button>
+
+            <button class="menu-item">
+
+                <span>⚙️</span>
+
+                <label>Settings</label>
+
+            </button>
+
+        </nav>
+
+        <div class="sidebar-footer">
+
+            <small>
+
+                Version 1.0 Alpha
+
+            </small>
+
+        </div>
 
     </aside>
 
-    <!-- ===================================================== -->
+    <!-- ========================================== -->
     <!-- MAIN -->
-    <!-- ===================================================== -->
+    <!-- ========================================== -->
 
     <main id="main">
 
-        <!-- ================================================= -->
+        <!-- ====================================== -->
         <!-- TOPBAR -->
-        <!-- ================================================= -->
+        <!-- ====================================== -->
 
         <header id="topbar">
 
-            <!-- Topbar akan dibuat pada PART berikutnya -->
+                        <div class="topbar-left">
+
+                <button id="menu-toggle"
+                        class="icon-button">
+
+                    ☰
+
+                </button>
+
+                <div class="page-title">
+
+                    <h1>
+
+                        Dashboard
+
+                    </h1>
+
+                    <span>
+
+                        Welcome to PowerTools
+
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="topbar-center">
+
+                <div class="search-box">
+
+                    <input
+                        type="text"
+                        id="global-search"
+                        placeholder="Cari tools, prompt, template, project...">
+
+                </div>
+
+            </div>
+
+            <div class="topbar-right">
+
+                <button class="icon-button">
+
+                    🌙
+
+                </button>
+
+                <button class="icon-button">
+
+                    🔔
+
+                </button>
+
+                <button class="icon-button">
+
+                    💾
+
+                </button>
+
+                <button class="icon-button">
+
+                    👤
+
+                </button>
+
+            </div>
 
         </header>
 
-        <!-- ================================================= -->
+        <!-- ====================================== -->
         <!-- PAGE CONTENT -->
-        <!-- ================================================= -->
+        <!-- ====================================== -->
 
         <section id="page-content">
 
-            <!-- Dashboard akan dibuat pada PART berikutnya -->
+            <!-- =============================== -->
+            <!-- HERO -->
+            <!-- =============================== -->
+
+            <section class="hero">
+
+                <div class="hero-left">
+
+                    <span class="badge">
+
+                        🚀 Version 1.0 Alpha
+
+                    </span>
+
+                    <h2>
+
+                        Ultimate AI Creator Suite
+
+                    </h2>
+
+                    <p>
+
+                        Satu aplikasi untuk membuat prompt AI gambar,
+                        prompt AI video, storyboard, affiliate content,
+                        poster, banner, thumbnail, caption, narasi,
+                        hingga prompt profesional hanya dalam beberapa klik.
+
+                    </p>
+
+                    <div class="hero-buttons">
+
+                        <button class="primary-btn">
+
+                            ✨ Mulai Sekarang
+
+                        </button>
+
+                        <button class="secondary-btn">
+
+                            📚 Jelajahi Template
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <div class="hero-right">
+
+                    <div class="hero-card">
+
+                        <h3>
+
+                            AI Engine Status
+
+                        </h3>
+
+                        <ul>
+
+                            <li>🟢 Smart Prompt Engine</li>
+
+                            <li>🟢 Affiliate Studio</li>
+
+                            <li>🟢 Character Lock</li>
+
+                            <li>🟢 Product Lock</li>
+
+                            <li>🟢 Storyboard AI</li>
+
+                        </ul>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- =============================== -->
+            <!-- QUICK TOOLS -->
+            <!-- =============================== -->
+
+            <section class="quick-tools">
+
+                <h2>
+
+                    Quick Tools
+
+                </h2>
+
+                <div class="tool-grid">
+
+                                    <div class="tool-card">
+
+                    <div class="tool-icon">
+
+                        ✨
+
+                    </div>
+
+                    <h3>
+
+                        Smart Prompt
+
+                    </h3>
+
+                    <p>
+
+                        AI otomatis membuat prompt profesional hanya dari ide singkat.
+
+                    </p>
+
+                </div>
+
+                <div class="tool-card">
+
+                    <div class="tool-icon">
+
+                        🛒
+
+                    </div>
+
+                    <h3>
+
+                        Affiliate Studio
+
+                    </h3>
+
+                    <p>
+
+                        Upload foto produk dan model, lalu AI membuat prompt gambar, prompt video, storyboard, dan narasi.
+
+                    </p>
+
+                </div>
+
+                <div class="tool-card">
+
+                    <div class="tool-icon">
+
+                        🖼️
+
+                    </div>
+
+                    <h3>
+
+                        Image Studio
+
+                    </h3>
+
+                    <p>
+
+                        Prompt AI untuk menghasilkan gambar ultra realistis dengan kualitas profesional.
+
+                    </p>
+
+                </div>
+
+                <div class="tool-card">
+
+                    <div class="tool-icon">
+
+                        🎥
+
+                    </div>
+
+                    <h3>
+
+                        Image To Video
+
+                    </h3>
+
+                    <p>
+
+                        Generate prompt video lengkap per scene dengan durasi yang dapat diatur.
+
+                    </p>
+
+                </div>
+
+                <div class="tool-card">
+
+                    <div class="tool-icon">
+
+                        🎬
+
+                    </div>
+
+                    <h3>
+
+                        Storyboard AI
+
+                    </h3>
+
+                    <p>
+
+                        Susun storyboard otomatis lengkap dengan kamera, transisi, dan timeline.
+
+                    </p>
+
+                </div>
+
+                <div class="tool-card">
+
+                    <div class="tool-icon">
+
+                        🎙️
+
+                    </div>
+
+                    <h3>
+
+                        AI Narrator
+
+                    </h3>
+
+                    <p>
+
+                        Buat narasi Bahasa Indonesia dan berbagai bahasa dengan pilihan karakter suara.
+
+                    </p>
+
+                </div>
+
+                <div class="tool-card">
+
+                    <div class="tool-icon">
+
+                        📢
+
+                    </div>
+
+                    <h3>
+
+                        Poster Studio
+
+                    </h3>
+
+                    <p>
+
+                        Prompt khusus poster, banner, brosur, spanduk, dan konten promosi.
+
+                    </p>
+
+                </div>
+
+                <div class="tool-card">
+
+                    <div class="tool-icon">
+
+                        📚
+
+                    </div>
+
+                    <h3>
+
+                        Prompt Library
+
+                    </h3>
+
+                    <p>
+
+                        Ribuan template prompt siap pakai berdasarkan kategori.
+
+                    </p>
+
+                </div>
+
+            </div>
 
         </section>
 
-        <!-- ================================================= -->
+        <!-- ====================================== -->
+        <!-- DASHBOARD INFORMATION -->
+        <!-- ====================================== -->
+
+        <section class="dashboard-info">
+
+            <div class="info-card">
+
+                <h3>
+
+                    🚀 AI Modules
+
+                </h3>
+
+                <h1>
+
+                    40+
+
+                </h1>
+
+                <span>
+
+                    Siap Dikembangkan
+
+                </span>
+
+            </div>
+
+            <div class="info-card">
+
+                <h3>
+
+                    📦 Prompt Templates
+
+                </h3>
+
+                <h1>
+
+                    5000+
+
+                </h1>
+
+                <span>
+
+                    Multi Kategori
+
+                </span>
+
+            </div>
+
+            <div class="info-card">
+
+                <h3>
+
+                    🎥 Video Scene
+
+                </h3>
+
+                <h1>
+
+                    Unlimited
+
+                </h1>
+
+                <span>
+
+                    Character Lock Ready
+
+                </span>
+
+            </div>
+
+            <div class="info-card">
+
+                <h3>
+
+                    🌍 Language
+
+                </h3>
+
+                <h1>
+
+                    Multi
+
+                </h1>
+
+                <span>
+
+                    Indonesia, English, dll.
+
+                </span>
+
+            </div>
+
+        </section>
+
+                    <!-- ====================================== -->
+        <!-- RECENT PROJECT -->
+        <!-- ====================================== -->
+
+        <section class="recent-project">
+
+            <div class="section-header">
+
+                <h2>
+
+                    Recent Projects
+
+                </h2>
+
+                <button class="text-button">
+
+                    Lihat Semua
+
+                </button>
+
+            </div>
+
+            <div class="project-grid">
+
+                <div class="project-card">
+
+                    <div class="project-icon">
+
+                        🛒
+
+                    </div>
+
+                    <h3>
+
+                        Affiliate Hair Tonic
+
+                    </h3>
+
+                    <p>
+
+                        12 Scene • Character Lock • Draft
+
+                    </p>
+
+                </div>
+
+                <div class="project-card">
+
+                    <div class="project-icon">
+
+                        🍔
+
+                    </div>
+
+                    <h3>
+
+                        Poster Bakso Bakar
+
+                    </h3>
+
+                    <p>
+
+                        Food Poster • Ready
+
+                    </p>
+
+                </div>
+
+                <div class="project-card">
+
+                    <div class="project-icon">
+
+                        🏠
+
+                    </div>
+
+                    <h3>
+
+                        Banner Properti
+
+                    </h3>
+
+                    <p>
+
+                        Banner Promosi • Ready
+
+                    </p>
+
+                </div>
+
+                <div class="project-card">
+
+                    <div class="project-icon">
+
+                        🎥
+
+                    </div>
+
+                    <h3>
+
+                        Video TikTok Shop
+
+                    </h3>
+
+                    <p>
+
+                        8 Scene • Draft
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ====================================== -->
+        <!-- FEATURE ROADMAP -->
+        <!-- ====================================== -->
+
+        <section class="feature-roadmap">
+
+            <div class="section-header">
+
+                <h2>
+
+                    PowerTools Modules
+
+                </h2>
+
+            </div>
+
+            <div class="roadmap-grid">
+
+                <div class="roadmap-item">✅ Smart Prompt Generator</div>
+
+                <div class="roadmap-item">✅ Affiliate Studio</div>
+
+                <div class="roadmap-item">✅ Character Lock Engine</div>
+
+                <div class="roadmap-item">✅ Product Lock Engine</div>
+
+                <div class="roadmap-item">✅ Storyboard Generator</div>
+
+                <div class="roadmap-item">✅ Prompt Library</div>
+
+                <div class="roadmap-item">✅ Prompt Optimizer</div>
+
+                <div class="roadmap-item">✅ AI Narrator</div>
+
+                <div class="roadmap-item">✅ Image Studio</div>
+
+                <div class="roadmap-item">✅ Video Studio</div>
+
+                <div class="roadmap-item">🟡 Poster Studio</div>
+
+                <div class="roadmap-item">🟡 Banner Studio</div>
+
+                <div class="roadmap-item">🟡 Thumbnail Studio</div>
+
+                <div class="roadmap-item">🟡 Workspace</div>
+
+                <div class="roadmap-item">🟡 AI Detector</div>
+
+                <div class="roadmap-item">🟡 AI Templates</div>
+
+            </div>
+
+        </section>
+
+        <!-- ====================================== -->
+        <!-- PAGE CONTENT END -->
+        <!-- ====================================== -->
+
+        </section>
+
+        <!-- ====================================== -->
         <!-- STATUS BAR -->
-        <!-- ================================================= -->
+        <!-- ====================================== -->
 
         <footer id="status-bar">
 
-            <!-- Status Bar akan dibuat pada PART berikutnya -->
+            <div class="status-left">
+
+                <span>
+
+                    🟢 Ready
+
+                </span>
+
+                <span>
+
+                    AI Engine Active
+
+                </span>
+
+            </div>
+
+            <div class="status-center">
+
+                Character Lock Ready
+
+            </div>
+
+            <div class="status-right">
+
+                PowerTools v1.0 Alpha
+
+            </div>
 
         </footer>
 
@@ -182,30 +922,27 @@
 
 </div>
 
-<!-- ========================================================= -->
-<!-- GLOBAL MODAL -->
-<!-- ========================================================= -->
+<!-- ============================================== -->
+<!-- GLOBAL COMPONENT -->
+<!-- ============================================== -->
 
-<div id="modal-root">
+<div id="modal-root"></div>
 
-</div>
+<div id="toast-root"></div>
 
-<!-- ========================================================= -->
-<!-- TOAST -->
-<!-- ========================================================= -->
+<div id="drawer-root"></div>
 
-<div id="toast-container">
+<div id="context-menu-root"></div>
 
-</div>
+<div id="floating-panel-root"></div>
 
-<!-- ========================================================= -->
-<!-- SCRIPT -->
-<!-- ========================================================= -->
+<!-- ============================================== -->
+<!-- JAVASCRIPT -->
+<!-- ============================================== -->
 
 <script type="module"
         src="js/app.js"></script>
 
-<!-- ========================================================= -->
-<!-- INDEX.HTML PART 1 END -->
-<!-- LANJUT PART 2 -->
-<!-- ========================================================= -->
+</body>
+
+</html>
