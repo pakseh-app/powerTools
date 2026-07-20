@@ -1,0 +1,1070 @@
+/* ==========================================================
+   POWERTOOLS AI CREATOR SUITE
+   TOPBAR
+========================================================== */
+
+:root{
+
+    --topbar-height:72px;
+
+    --topbar-bg:#131b2f;
+
+    --topbar-border:#24324f;
+
+    --topbar-shadow:
+
+        0 8px 30px rgba(0,0,0,.18);
+
+}
+
+
+
+/* ==========================================================
+   TOPBAR
+========================================================== */
+
+.topbar{
+
+    position:fixed;
+
+    top:0;
+
+    left:260px;
+
+    right:0;
+
+    height:var(--topbar-height);
+
+    background:var(--topbar-bg);
+
+    border-bottom:1px solid var(--topbar-border);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:0 30px;
+
+    z-index:900;
+
+    box-shadow:var(--topbar-shadow);
+
+    transition:.25s;
+
+}
+
+
+
+/* ==========================================================
+   LEFT
+========================================================== */
+
+.topbar-left{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+}
+
+
+
+/* ==========================================================
+   BRAND
+========================================================== */
+
+.brand{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+
+}
+
+
+
+.brand-logo{
+
+    width:46px;
+
+    height:46px;
+
+    border-radius:14px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:22px;
+
+    color:white;
+
+    background:
+
+        linear-gradient(
+
+            135deg,
+
+            #2563eb,
+
+            #7c3aed
+
+        );
+
+}
+
+
+
+.brand-text{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+
+
+.brand-title{
+
+    font-size:18px;
+
+    font-weight:700;
+
+    color:#fff;
+
+}
+
+
+
+.brand-subtitle{
+
+    font-size:12px;
+
+    color:#94a3b8;
+
+    margin-top:2px;
+
+}
+
+
+
+/* ==========================================================
+   SEARCH
+========================================================== */
+
+.topbar-search{
+
+    width:420px;
+
+    position:relative;
+
+}
+
+
+
+.topbar-search input{
+
+    width:100%;
+
+    height:46px;
+
+    border:none;
+
+    outline:none;
+
+    border-radius:14px;
+
+    background:#1b2740;
+
+    color:white;
+
+    padding:0 20px;
+
+    font-size:14px;
+
+    transition:.25s;
+
+}
+
+
+
+.topbar-search input:focus{
+
+    background:#22304d;
+
+    box-shadow:
+
+        0 0 0 3px
+
+        rgba(59,130,246,.20);
+
+}
+/* ==========================================================
+   TOPBAR RIGHT
+========================================================== */
+
+.topbar-right{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+
+}
+
+
+
+/* ==========================================================
+   QUICK ACTION
+========================================================== */
+
+.topbar-actions{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+}
+
+
+
+.topbar-action{
+
+    width:44px;
+
+    height:44px;
+
+    border-radius:14px;
+
+    border:1px solid #2d3b59;
+
+    background:#1b2740;
+
+    color:#cbd5e1;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+
+
+.topbar-action:hover{
+
+    background:#2563eb;
+
+    border-color:#2563eb;
+
+    color:#fff;
+
+    transform:translateY(-2px);
+
+    box-shadow:
+
+        0 8px 20px
+
+        rgba(37,99,235,.35);
+
+}
+
+
+
+/* ==========================================================
+   AI STATUS
+========================================================== */
+
+.ai-status{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding:10px 18px;
+
+    border-radius:16px;
+
+    background:#162236;
+
+    border:1px solid #293853;
+
+}
+
+
+
+.ai-status-dot{
+
+    width:10px;
+
+    height:10px;
+
+    border-radius:50%;
+
+    background:#22c55e;
+
+    box-shadow:
+
+        0 0 12px
+
+        rgba(34,197,94,.75);
+
+    animation:aiPulse 1.8s infinite;
+
+}
+
+
+
+.ai-status span{
+
+    color:#dbeafe;
+
+    font-size:13px;
+
+    font-weight:600;
+
+}
+
+
+
+/* ==========================================================
+   WORKSPACE
+========================================================== */
+
+.workspace-indicator{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    padding:10px 16px;
+
+    border-radius:16px;
+
+    background:#1b2740;
+
+    border:1px solid #2d3b59;
+
+}
+
+
+
+.workspace-icon{
+
+    width:36px;
+
+    height:36px;
+
+    border-radius:12px;
+
+    background:
+
+        linear-gradient(
+
+            135deg,
+
+            #06b6d4,
+
+            #2563eb
+
+        );
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    color:#fff;
+
+    font-size:16px;
+
+}
+
+
+
+.workspace-info{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+
+
+.workspace-name{
+
+    color:#fff;
+
+    font-size:13px;
+
+    font-weight:700;
+
+}
+
+
+
+.workspace-path{
+
+    color:#94a3b8;
+
+    font-size:11px;
+
+}
+
+
+
+/* ==========================================================
+   USER
+========================================================== */
+
+.user-profile{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    padding:8px 12px;
+
+    border-radius:16px;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+
+
+.user-profile:hover{
+
+    background:#1b2740;
+
+}
+
+
+
+.user-avatar{
+
+    width:46px;
+
+    height:46px;
+
+    border-radius:50%;
+
+    background:
+
+        linear-gradient(
+
+            135deg,
+
+            #2563eb,
+
+            #7c3aed
+
+        );
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    color:#fff;
+
+    font-size:18px;
+
+    font-weight:700;
+
+}
+
+
+
+.user-info{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+
+
+.user-name{
+
+    color:#fff;
+
+    font-size:14px;
+
+    font-weight:700;
+
+}
+
+
+
+.user-role{
+
+    color:#94a3b8;
+
+    font-size:12px;
+
+}
+
+
+
+/* ==========================================================
+   THEME SWITCH
+========================================================== */
+
+.theme-switch{
+
+    width:62px;
+
+    height:34px;
+
+    background:#1b2740;
+
+    border-radius:30px;
+
+    position:relative;
+
+    cursor:pointer;
+
+    border:1px solid #2d3b59;
+
+}
+
+
+
+.theme-switch::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:3px;
+
+    left:3px;
+
+    width:26px;
+
+    height:26px;
+
+    border-radius:50%;
+
+    background:#fff;
+
+    transition:.25s;
+
+}
+
+
+
+.theme-switch.active{
+
+    background:#2563eb;
+
+}
+
+
+
+.theme-switch.active::before{
+
+    left:31px;
+
+}
+
+
+
+/* ==========================================================
+   NOTIFICATION BADGE
+========================================================== */
+
+.notification-badge{
+
+    position:absolute;
+
+    top:-4px;
+
+    right:-4px;
+
+    min-width:18px;
+
+    height:18px;
+
+    border-radius:50%;
+
+    background:#ef4444;
+
+    color:#fff;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:10px;
+
+    font-weight:700;
+
+}
+/* ==========================================================
+   GLASS EFFECT
+========================================================== */
+
+.topbar{
+
+    backdrop-filter:blur(18px);
+
+    -webkit-backdrop-filter:blur(18px);
+
+    background:
+
+        rgba(19,27,47,.92);
+
+}
+
+
+
+/* ==========================================================
+   SEARCH ICON
+========================================================== */
+
+.topbar-search{
+
+    position:relative;
+
+}
+
+
+
+.topbar-search::before{
+
+    content:"🔍";
+
+    position:absolute;
+
+    left:16px;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    font-size:15px;
+
+    opacity:.6;
+
+    pointer-events:none;
+
+}
+
+
+
+.topbar-search input{
+
+    padding-left:48px;
+
+}
+
+
+
+.topbar-search input::placeholder{
+
+    color:#94a3b8;
+
+}
+
+
+
+/* ==========================================================
+   SEARCH ANIMATION
+========================================================== */
+
+.topbar-search input:hover{
+
+    border:1px solid rgba(37,99,235,.35);
+
+}
+
+
+
+.topbar-search input:focus{
+
+    transform:translateY(-1px);
+
+}
+
+
+
+/* ==========================================================
+   AI GLOW
+========================================================== */
+
+@keyframes aiPulse{
+
+    0%{
+
+        transform:scale(1);
+
+        opacity:1;
+
+    }
+
+    50%{
+
+        transform:scale(1.35);
+
+        opacity:.45;
+
+    }
+
+    100%{
+
+        transform:scale(1);
+
+        opacity:1;
+
+    }
+
+}
+
+
+
+/* ==========================================================
+   TOPBAR SHADOW
+========================================================== */
+
+.topbar::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+
+    right:0;
+
+    bottom:-1px;
+
+    height:1px;
+
+    background:
+
+        linear-gradient(
+
+            90deg,
+
+            transparent,
+
+            rgba(59,130,246,.55),
+
+            transparent
+
+        );
+
+}
+
+
+
+/* ==========================================================
+   DROPDOWN
+========================================================== */
+
+.user-dropdown,
+
+.notification-dropdown{
+
+    position:absolute;
+
+    top:78px;
+
+    right:0;
+
+    width:280px;
+
+    background:#17233b;
+
+    border:1px solid #2b3b5a;
+
+    border-radius:18px;
+
+    padding:16px;
+
+    box-shadow:
+
+        0 20px 45px rgba(0,0,0,.35);
+
+    display:none;
+
+    animation:dropdownFade .25s ease;
+
+    z-index:999;
+
+}
+
+
+
+.user-profile:hover .user-dropdown{
+
+    display:block;
+
+}
+
+
+
+.notification-wrapper:hover .notification-dropdown{
+
+    display:block;
+
+}
+
+
+
+/* ==========================================================
+   DROPDOWN ITEM
+========================================================== */
+
+.dropdown-item{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    padding:12px 14px;
+
+    border-radius:12px;
+
+    color:#dbeafe;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+
+
+.dropdown-item:hover{
+
+    background:#24324f;
+
+}
+
+
+
+/* ==========================================================
+   DIVIDER
+========================================================== */
+
+.dropdown-divider{
+
+    height:1px;
+
+    background:#2b3b5a;
+
+    margin:12px 0;
+
+}
+
+
+
+/* ==========================================================
+   STICKY EFFECT
+========================================================== */
+
+.topbar.scrolled{
+
+    height:64px;
+
+    background:
+
+        rgba(15,23,42,.95);
+
+    box-shadow:
+
+        0 12px 28px rgba(0,0,0,.30);
+
+}
+
+
+
+/* ==========================================================
+   MOBILE
+========================================================== */
+
+@media(max-width:1200px){
+
+    .workspace-indicator{
+
+        display:none;
+
+    }
+
+}
+
+
+
+@media(max-width:992px){
+
+    .topbar{
+
+        left:0;
+
+        padding:0 18px;
+
+    }
+
+    .brand-subtitle{
+
+        display:none;
+
+    }
+
+    .topbar-search{
+
+        width:250px;
+
+    }
+
+}
+
+
+
+@media(max-width:768px){
+
+    .topbar-search{
+
+        display:none;
+
+    }
+
+    .user-info{
+
+        display:none;
+
+    }
+
+    .ai-status{
+
+        display:none;
+
+    }
+
+}
+
+
+
+@media(max-width:480px){
+
+    .topbar{
+
+        height:60px;
+
+        padding:0 12px;
+
+    }
+
+    .topbar-actions{
+
+        gap:6px;
+
+    }
+
+    .topbar-action{
+
+        width:38px;
+
+        height:38px;
+
+    }
+
+    .brand-title{
+
+        font-size:15px;
+
+    }
+
+}
+
+
+
+/* ==========================================================
+   ANIMATION
+========================================================== */
+
+@keyframes dropdownFade{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(-10px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+
+
+/* ==========================================================
+   FINAL POLISH
+========================================================== */
+
+.topbar *{
+
+    user-select:none;
+
+    box-sizing:border-box;
+
+}
+
+.topbar button,
+
+.topbar input{
+
+    font-family:inherit;
+
+}
+
+.topbar button{
+
+    border:none;
+
+    outline:none;
+
+}
