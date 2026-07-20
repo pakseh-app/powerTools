@@ -386,3 +386,273 @@ function showPage(page){
     }
 
 }
+
+/*==========================================================
+    ROUTER INTEGRATION
+==========================================================*/
+
+function bindRouter(){
+
+    if(typeof router === "undefined"){
+
+        console.warn(
+            "Router belum tersedia."
+        );
+
+        return;
+
+    }
+
+    log("Router Connected");
+
+    /*----------------------------------
+        Router Started
+    ----------------------------------*/
+
+    router.on("start",()=>{
+
+        log("Router Started");
+
+    });
+
+    /*----------------------------------
+        Before Navigate
+    ----------------------------------*/
+
+    router.on(
+
+        "before:navigate",
+
+        context=>{
+
+            log(
+
+                "Navigate =>",
+
+                context
+
+            );
+
+            showLoading();
+
+        }
+
+    );
+
+    /*----------------------------------
+        After Navigate
+    ----------------------------------*/
+
+    router.on(
+
+        "after:navigate",
+
+        context=>{
+
+            hideLoading();
+
+            let page = APP.defaultPage;
+
+            if(context){
+
+                if(context.name){
+
+                    page = context.name;
+
+                }
+                else if(context.route){
+
+                    if(context.route.name){
+
+                        page = context.route.name;
+                    }
+
+                }
+                else if(context.pathname){
+
+                    page = context.pathname
+                        .replace(/^\/+/,"")
+                        .trim();
+
+                    if(page===""){
+
+                        page = APP.defaultPage;
+
+                    }
+
+                }
+
+            }
+
+            showPage(page);
+
+            log(
+
+                "Current Page :",
+
+                page
+
+            );
+
+        }
+
+    );
+
+    /*----------------------------------
+        Not Found
+    ----------------------------------*/
+
+    router.on(
+
+        "notfound",
+
+        target=>{
+
+            console.warn(
+
+                "Route Not Found",
+
+                target
+
+            );
+
+            toast(
+
+                "Halaman tidak ditemukan",
+
+                "warning"
+
+            );
+
+        }
+
+    );
+
+    /*----------------------------------
+        Start Router
+    ----------------------------------*/
+
+    router.start();
+
+}
+
+/*==========================================================
+    SIDEBAR
+==========================================================*/
+
+function bindSidebar(){
+
+    document
+
+        .querySelectorAll(".menu-item")
+
+        .forEach(menu=>{
+
+            menu.addEventListener(
+
+                "click",
+
+                ()=>{
+
+                    const page =
+
+                        menu.dataset.page;
+
+                    if(
+
+                        typeof router !== "undefined"
+
+                        &&
+
+                        typeof router.navigate==="function"
+
+                    ){
+
+                        router.navigate(
+
+                            "/" + page
+
+                        );
+
+                    }
+
+                    else{
+
+                        showPage(page);
+
+                    }
+
+                }
+
+            );
+
+        });
+
+}
+
+/*==========================================================
+    MENU BUTTON
+==========================================================*/
+
+function toggleSidebar(){
+
+    State.sidebarCollapsed =
+
+        !State.sidebarCollapsed;
+
+    UI.sidebar.classList.toggle(
+
+        "collapsed",
+
+        State.sidebarCollapsed
+
+    );
+
+}
+
+function bindMenuToggle(){
+
+    const btn =
+
+        $("#menu-toggle");
+
+    if(!btn) return;
+
+    btn.addEventListener(
+
+        "click",
+
+        toggleSidebar
+
+    );
+
+}
+
+/*==========================================================
+    SEARCH
+==========================================================*/
+
+function bindSearch(){
+
+    const input =
+
+        $("#global-search");
+
+    if(!input) return;
+
+    input.addEventListener(
+
+        "input",
+
+        e=>{
+
+            State.search =
+
+                e.target.value;
+
+        }
+
+    );
+
+}
+
