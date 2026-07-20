@@ -1463,3 +1463,624 @@
 /* ==========================================================
    END PART 3
 ========================================================== */
+/* ==========================================================
+   ANIMATIONS.CSS
+   PowerTools AI Creator Suite
+   Part 4 - UI Interaction
+========================================================== */
+
+
+/* ==========================================================
+   SIDEBAR ANIMATION
+========================================================== */
+
+.sidebar-open{
+
+    animation:sidebarOpen .35s var(--ease-smooth);
+
+}
+
+
+.sidebar-close{
+
+    animation:sidebarClose .35s var(--ease-smooth);
+
+}
+
+
+@keyframes sidebarOpen{
+
+    from{
+
+        transform:translateX(-100%);
+
+        opacity:.5;
+
+    }
+
+    to{
+
+        transform:translateX(0);
+
+        opacity:1;
+
+    }
+
+}
+
+
+@keyframes sidebarClose{
+
+    from{
+
+        transform:translateX(0);
+
+    }
+
+    to{
+
+        transform:translateX(-100%);
+
+    }
+
+}
+
+
+/* ==========================================================
+   TOPBAR
+========================================================== */
+
+.topbar-enter{
+
+    animation:topbarEnter .45s var(--ease-smooth);
+
+}
+
+
+.topbar-hide{
+
+    animation:topbarHide .35s ease;
+
+}
+
+
+@keyframes topbarEnter{
+
+    from{
+
+        transform:translateY(-30px);
+
+        opacity:0;
+
+    }
+
+    to{
+
+        transform:translateY(0);
+
+        opacity:1;
+
+    }
+
+}
+
+
+@keyframes topbarHide{
+
+    from{
+
+        opacity:1;
+
+    }
+
+    to{
+
+        opacity:0;
+
+    }
+
+}
+
+
+/* ==========================================================
+   CARD ENTRANCE
+========================================================== */
+
+
+.card-enter{
+
+    animation:cardEnter .45s var(--ease-smooth);
+
+}
+
+
+.card-hover{
+
+    transition:.3s ease;
+
+}
+
+
+.card-hover:hover{
+
+    transform:
+
+        translateY(-8px)
+
+        scale(1.02);
+
+}
+
+
+/* stagger cards */
+
+.stagger-1{
+
+    animation-delay:.1s;
+
+}
+
+
+.stagger-2{
+
+    animation-delay:.2s;
+
+}
+
+
+.stagger-3{
+
+    animation-delay:.3s;
+
+}
+
+
+.stagger-4{
+
+    animation-delay:.4s;
+
+}
+
+
+.stagger-5{
+
+    animation-delay:.5s;
+
+}
+
+
+
+@keyframes cardEnter{
+
+    from{
+
+        opacity:0;
+
+        transform:
+
+            translateY(30px)
+
+            scale(.95);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:
+
+            translateY(0)
+
+            scale(1);
+
+    }
+
+}
+
+
+/* ==========================================================
+   MODAL
+========================================================== */
+
+
+.modal-show{
+
+    animation:modalShow .35s var(--ease-bounce);
+
+}
+
+
+.modal-hide{
+
+    animation:modalHide .25s ease;
+
+}
+
+
+
+@keyframes modalShow{
+
+    from{
+
+        opacity:0;
+
+        transform:
+
+            scale(.85)
+
+            translateY(40px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:
+
+            scale(1)
+
+            translateY(0);
+
+    }
+
+}
+
+
+
+@keyframes modalHide{
+
+    from{
+
+        opacity:1;
+
+    }
+
+    to{
+
+        opacity:0;
+
+        transform:scale(.9);
+
+    }
+
+}
+
+
+/* ==========================================================
+   MODAL BACKDROP
+========================================================== */
+
+
+.backdrop-show{
+
+    animation:backdropShow .3s ease;
+
+}
+
+
+@keyframes backdropShow{
+
+    from{
+
+        opacity:0;
+
+    }
+
+    to{
+
+        opacity:1;
+
+    }
+
+}
+
+
+/* ==========================================================
+   TOAST NOTIFICATION
+========================================================== */
+
+
+.toast-enter{
+
+    animation:toastEnter .4s var(--ease-bounce);
+
+}
+
+
+.toast-exit{
+
+    animation:toastExit .35s ease;
+
+}
+
+
+
+@keyframes toastEnter{
+
+    from{
+
+        opacity:0;
+
+        transform:
+
+            translateX(100%)
+
+            scale(.9);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:
+
+            translateX(0)
+
+            scale(1);
+
+    }
+
+}
+
+
+
+@keyframes toastExit{
+
+    from{
+
+        opacity:1;
+
+    }
+
+    to{
+
+        opacity:0;
+
+        transform:translateX(120%);
+
+    }
+
+}
+
+
+/* ==========================================================
+   DROPDOWN
+========================================================== */
+
+
+.dropdown-open{
+
+    animation:dropdownOpen .25s ease;
+
+}
+
+
+.dropdown-close{
+
+    animation:dropdownClose .2s ease;
+
+}
+
+
+
+@keyframes dropdownOpen{
+
+    from{
+
+        opacity:0;
+
+        transform:
+
+            translateY(-10px)
+
+            scale(.95);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:
+
+            translateY(0)
+
+            scale(1);
+
+    }
+
+}
+
+
+
+@keyframes dropdownClose{
+
+    from{
+
+        opacity:1;
+
+    }
+
+    to{
+
+        opacity:0;
+
+        transform:translateY(-10px);
+
+    }
+
+}
+
+
+/* ==========================================================
+   DASHBOARD WIDGET
+========================================================== */
+
+
+.widget-enter{
+
+    animation:widgetEnter .5s var(--ease-smooth);
+
+}
+
+
+.widget-pulse{
+
+    animation:widgetPulse 2s infinite;
+
+}
+
+
+
+@keyframes widgetEnter{
+
+    from{
+
+        opacity:0;
+
+        transform:
+
+            translateY(25px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:
+
+            translateY(0);
+
+    }
+
+}
+
+
+
+@keyframes widgetPulse{
+
+    0%,100%{
+
+        box-shadow:
+
+        0 0 0 rgba(37,99,235,0);
+
+    }
+
+    50%{
+
+        box-shadow:
+
+        0 0 30px rgba(37,99,235,.25);
+
+    }
+
+}
+
+
+/* ==========================================================
+   PAGE TRANSITION
+========================================================== */
+
+
+.page-enter{
+
+    animation:pageEnter .45s ease;
+
+}
+
+
+.page-exit{
+
+    animation:pageExit .3s ease;
+
+}
+
+
+
+@keyframes pageEnter{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(15px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+
+
+@keyframes pageExit{
+
+    from{
+
+        opacity:1;
+
+    }
+
+    to{
+
+        opacity:0;
+
+        transform:translateY(-15px);
+
+    }
+
+}
+
+
+/* ==========================================================
+   ROUTE LOADING
+========================================================== */
+
+
+.route-loading{
+
+    animation:
+
+        routeLoading 1.2s infinite;
+
+}
+
+
+
+@keyframes routeLoading{
+
+    0%{
+
+        opacity:.4;
+
+    }
+
+    50%{
+
+        opacity:1;
+
+    }
+
+    100%{
+
+        opacity:.4;
+
+    }
+
+}
+
+
+/* ==========================================================
+   END PART 4
+========================================================== */
