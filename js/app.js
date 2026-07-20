@@ -2941,3 +2941,1345 @@ PowerTools.log.info(
 
 );
 
+/* ============================================================
+   PART 5A
+   LOADING MANAGER
+============================================================ */
+
+PowerTools.loading = {
+
+    element: null,
+
+    spinner: null,
+
+    text: null,
+
+    progress: null,
+
+    value: 0,
+
+    visible: false,
+
+    initialized: false,
+
+    init() {
+
+        this.element = PowerTools.dom.loading;
+
+        if (!this.element) {
+
+            this.create();
+
+        } else {
+
+            this.prepare();
+
+        }
+
+        this.initialized = true;
+
+        PowerTools.log.info(
+
+            "Loading Manager Ready"
+
+        );
+
+    },
+
+    create() {
+
+        this.element = document.createElement("div");
+
+        this.element.id = "loading-screen";
+
+        this.element.className = "pt-loading";
+
+        this.element.innerHTML = `
+
+            <div class="pt-loading-box">
+
+                <div class="pt-loading-spinner"></div>
+
+                <div class="pt-loading-text">
+
+                    Loading...
+
+                </div>
+
+                <div class="pt-loading-progress">
+
+                    <div class="pt-loading-bar"></div>
+
+                </div>
+
+            </div>
+
+        `;
+
+        document.body.appendChild(
+
+            this.element
+
+        );
+
+        this.prepare();
+
+    },
+
+    prepare() {
+
+        this.spinner =
+
+            this.element.querySelector(
+
+                ".pt-loading-spinner"
+
+            );
+
+        this.text =
+
+            this.element.querySelector(
+
+                ".pt-loading-text"
+
+            );
+
+        this.progress =
+
+            this.element.querySelector(
+
+                ".pt-loading-bar"
+
+            );
+
+        this.hide(true);
+
+    },
+
+    show(message = "Loading...") {
+
+        this.visible = true;
+
+        this.value = 0;
+
+        PowerTools.state.loading = true;
+
+        this.text.textContent = message;
+
+        this.progress.style.width = "0%";
+
+        this.element.style.display = "flex";
+
+        requestAnimationFrame(() => {
+
+            this.element.classList.add(
+
+                "show"
+
+            );
+
+        });
+
+        PowerTools.events.emit(
+
+            "loading:show",
+
+            message
+
+        );
+
+    },
+
+    hide(immediate = false) {
+
+        this.visible = false;
+
+        PowerTools.state.loading = false;
+
+        this.progress.style.width = "100%";
+
+        if (immediate) {
+
+            this.element.classList.remove(
+
+                "show"
+
+            );
+
+            this.element.style.display = "none";
+
+            return;
+
+        }
+
+        this.element.classList.remove(
+
+            "show"
+
+        );
+
+        setTimeout(() => {
+
+            this.element.style.display =
+
+                "none";
+
+        }, 250);
+
+        PowerTools.events.emit(
+
+            "loading:hide"
+
+        );
+
+    },
+
+    set(value) {
+
+        this.value =
+
+            Math.max(
+
+                0,
+
+                Math.min(
+
+                    100,
+
+                    value
+
+                )
+
+            );
+
+        this.progress.style.width =
+
+            this.value + "%";
+
+        PowerTools.events.emit(
+
+            "loading:progress",
+
+            this.value
+
+        );
+
+    },
+
+    increase(step = 10) {
+
+        this.set(
+
+            this.value + step
+
+        );
+
+    },
+
+    message(text) {
+
+        this.text.textContent = text;
+
+    },
+
+    async run(
+
+        task,
+
+        message = "Loading..."
+
+    ) {
+
+        this.show(message);
+
+        try {
+
+            const result =
+
+                await task();
+
+            this.set(100);
+
+            await PowerTools.utils.delay(
+
+                150
+
+            );
+
+            return result;
+
+        }
+
+        catch (error) {
+
+            PowerTools.log.error(error);
+
+            throw error;
+
+        }
+
+        finally {
+
+            this.hide();
+
+        }
+
+    },
+
+    async fake(
+
+        duration = 1000,
+
+        message = "Loading..."
+
+    ) {
+
+        this.show(message);
+
+        const step = 100 / 20;
+
+        for (
+
+            let i = 0;
+
+            i <= 20;
+
+            i++
+
+        ) {
+
+            this.set(
+
+                Math.round(
+
+                    i * step
+
+                )
+
+            );
+
+            await PowerTools.utils.delay(
+
+                duration / 20
+
+            );
+
+        }
+
+        this.hide();
+
+    }
+
+};
+
+/* ============================================================
+   GLOBAL API
+============================================================ */
+
+PowerTools.showLoading = function (
+
+    message
+
+) {
+
+    PowerTools.loading.show(
+
+        message
+
+    );
+
+};
+
+PowerTools.hideLoading = function () {
+
+    PowerTools.loading.hide();
+
+};
+
+PowerTools.withLoading = async function (
+
+    task,
+
+    message
+
+) {
+
+    return PowerTools.loading.run(
+
+        task,
+
+        message
+
+    );
+
+};
+
+/* ============================================================
+   BOOT
+============================================================ */
+
+PowerTools.lifecycle.boot(
+
+    async () => {
+
+        PowerTools.loading.init();
+
+    }
+
+);
+
+PowerTools.log.info(
+
+    "Loading Manager Loaded"
+
+);
+
+/* ============================================================
+   PART 5B
+   THEME MANAGER
+============================================================ */
+
+PowerTools.theme = {
+
+    current: PowerTools.state.currentTheme || "dark",
+
+    available: [
+
+        "dark",
+
+        "light",
+
+        "system"
+
+    ],
+
+    initialized: false,
+
+    mediaQuery: null,
+
+    init() {
+
+        this.mediaQuery = window.matchMedia(
+
+            "(prefers-color-scheme: dark)"
+
+        );
+
+        this.restore();
+
+        this.bind();
+
+        this.initialized = true;
+
+        PowerTools.log.info(
+
+            "Theme Manager Ready"
+
+        );
+
+    },
+
+    bind() {
+
+        this.mediaQuery.addEventListener(
+
+            "change",
+
+            () => {
+
+                if (
+
+                    this.current ===
+
+                    "system"
+
+                ) {
+
+                    this.apply(
+
+                        "system",
+
+                        false
+
+                    );
+
+                }
+
+            }
+
+        );
+
+    },
+
+    restore() {
+
+        const saved =
+
+            localStorage.getItem(
+
+                PowerTools.config
+
+                    .storagePrefix +
+
+                "theme"
+
+            );
+
+        if (
+
+            saved &&
+
+            this.available.includes(
+
+                saved
+
+            )
+
+        ) {
+
+            this.apply(
+
+                saved,
+
+                false
+
+            );
+
+        }
+
+        else {
+
+            this.apply(
+
+                PowerTools.config.theme,
+
+                false
+
+            );
+
+        }
+
+    },
+
+    apply(
+
+        theme,
+
+        save = true
+
+    ) {
+
+        if (
+
+            !this.available.includes(
+
+                theme
+
+            )
+
+        ) {
+
+            theme = "dark";
+
+        }
+
+        this.current = theme;
+
+        let active = theme;
+
+        if (
+
+            theme ===
+
+            "system"
+
+        ) {
+
+            active =
+
+                this.mediaQuery.matches
+
+                    ? "dark"
+
+                    : "light";
+
+        }
+
+        document.documentElement
+
+            .setAttribute(
+
+                "data-theme",
+
+                active
+
+            );
+
+        document.body
+
+            .setAttribute(
+
+                "data-theme",
+
+                active
+
+            );
+
+        document.body.classList.remove(
+
+            "theme-dark",
+
+            "theme-light"
+
+        );
+
+        document.body.classList.add(
+
+            "theme-" + active
+
+        );
+
+        PowerTools.state.currentTheme =
+
+            theme;
+
+        if (save) {
+
+            localStorage.setItem(
+
+                PowerTools.config
+
+                    .storagePrefix +
+
+                    "theme",
+
+                theme
+
+            );
+
+        }
+
+        PowerTools.events.emit(
+
+            "theme:change",
+
+            {
+
+                theme,
+
+                active
+
+            }
+
+        );
+
+    },
+
+    set(theme) {
+
+        this.apply(
+
+            theme,
+
+            true
+
+        );
+
+    },
+
+    toggle() {
+
+        const next =
+
+            this.getActive()
+
+            === "dark"
+
+                ? "light"
+
+                : "dark";
+
+        this.set(next);
+
+    },
+
+    useSystem() {
+
+        this.set("system");
+
+    },
+
+    dark() {
+
+        this.set("dark");
+
+    },
+
+    light() {
+
+        this.set("light");
+
+    },
+
+    get() {
+
+        return this.current;
+
+    },
+
+    getActive() {
+
+        if (
+
+            this.current ===
+
+            "system"
+
+        ) {
+
+            return this.mediaQuery.matches
+
+                ? "dark"
+
+                : "light";
+
+        }
+
+        return this.current;
+
+    },
+
+    isDark() {
+
+        return (
+
+            this.getActive() ===
+
+            "dark"
+
+        );
+
+    },
+
+    isLight() {
+
+        return (
+
+            this.getActive() ===
+
+            "light"
+
+        );
+
+    }
+
+};
+
+/* ============================================================
+   QUICK API
+============================================================ */
+
+PowerTools.darkMode = function () {
+
+    PowerTools.theme.dark();
+
+};
+
+PowerTools.lightMode = function () {
+
+    PowerTools.theme.light();
+
+};
+
+PowerTools.systemTheme = function () {
+
+    PowerTools.theme.useSystem();
+
+};
+
+PowerTools.toggleTheme = function () {
+
+    PowerTools.theme.toggle();
+
+};
+
+/* ============================================================
+   EVENTS
+============================================================ */
+
+PowerTools.events.on(
+
+    "theme:change",
+
+    data => {
+
+        PowerTools.log.info(
+
+            "Theme Changed:",
+
+            data.active
+
+        );
+
+    }
+
+);
+
+/* ============================================================
+   BOOT
+============================================================ */
+
+PowerTools.lifecycle.boot(
+
+    async () => {
+
+        PowerTools.theme.init();
+
+    }
+
+);
+
+PowerTools.log.info(
+
+    "Theme Manager Loaded"
+
+);
+
+/* ============================================================
+   PART 5C
+   STORAGE MANAGER
+============================================================ */
+
+PowerTools.storage = {
+
+    prefix: PowerTools.config.storagePrefix,
+
+    initialized: false,
+
+    init() {
+
+        this.prefix =
+
+            PowerTools.config.storagePrefix;
+
+        this.restoreState();
+
+        this.autoSave();
+
+        this.initialized = true;
+
+        PowerTools.log.info(
+
+            "Storage Manager Ready"
+
+        );
+
+    },
+
+    /* ========================================================
+       KEY
+    ======================================================== */
+
+    key(name) {
+
+        return this.prefix + name;
+
+    },
+
+    /* ========================================================
+       LOCAL STORAGE
+    ======================================================== */
+
+    set(name, value) {
+
+        try {
+
+            localStorage.setItem(
+
+                this.key(name),
+
+                JSON.stringify(value)
+
+            );
+
+            return true;
+
+        }
+
+        catch (error) {
+
+            PowerTools.log.error(error);
+
+            return false;
+
+        }
+
+    },
+
+    get(name, fallback = null) {
+
+        try {
+
+            const value =
+
+                localStorage.getItem(
+
+                    this.key(name)
+
+                );
+
+            if (value === null) {
+
+                return fallback;
+
+            }
+
+            return JSON.parse(value);
+
+        }
+
+        catch (error) {
+
+            PowerTools.log.error(error);
+
+            return fallback;
+
+        }
+
+    },
+
+    remove(name) {
+
+        localStorage.removeItem(
+
+            this.key(name)
+
+        );
+
+    },
+
+    has(name) {
+
+        return (
+
+            localStorage.getItem(
+
+                this.key(name)
+
+            ) !== null
+
+        );
+
+    },
+
+    /* ========================================================
+       SESSION STORAGE
+    ======================================================== */
+
+    sessionSet(name, value) {
+
+        sessionStorage.setItem(
+
+            this.key(name),
+
+            JSON.stringify(value)
+
+        );
+
+    },
+
+    sessionGet(name, fallback = null) {
+
+        const value =
+
+            sessionStorage.getItem(
+
+                this.key(name)
+
+            );
+
+        if (value === null) {
+
+            return fallback;
+
+        }
+
+        try {
+
+            return JSON.parse(value);
+
+        }
+
+        catch {
+
+            return fallback;
+
+        }
+
+    },
+
+    sessionRemove(name) {
+
+        sessionStorage.removeItem(
+
+            this.key(name)
+
+        );
+
+    },
+
+    /* ========================================================
+       CACHE
+    ======================================================== */
+
+    cache(name, value) {
+
+        PowerTools.store.cache[name] = value;
+
+        return value;
+
+    },
+
+    cacheGet(name) {
+
+        return PowerTools.store.cache[name];
+
+    },
+
+    cacheRemove(name) {
+
+        delete PowerTools.store.cache[name];
+
+    },
+
+    cacheClear() {
+
+        PowerTools.store.cache = {};
+
+    },
+
+    /* ========================================================
+       APPLICATION STATE
+    ======================================================== */
+
+    saveState() {
+
+        this.set(
+
+            "state",
+
+            PowerTools.state
+
+        );
+
+    },
+
+    restoreState() {
+
+        const state =
+
+            this.get("state");
+
+        if (!state) return;
+
+        Object.assign(
+
+            PowerTools.state,
+
+            state
+
+        );
+
+    },
+
+    saveSettings() {
+
+        this.set(
+
+            "settings",
+
+            PowerTools.store.settings
+
+        );
+
+    },
+
+    restoreSettings() {
+
+        const settings =
+
+            this.get(
+
+                "settings",
+
+                {}
+
+            );
+
+        PowerTools.store.settings =
+
+            settings;
+
+    },
+
+    saveNotifications() {
+
+        this.set(
+
+            "notifications",
+
+            PowerTools.notifications.list
+
+        );
+
+    },
+
+    restoreNotifications() {
+
+        const notifications =
+
+            this.get(
+
+                "notifications",
+
+                []
+
+            );
+
+        PowerTools.notifications.list =
+
+            notifications;
+
+    },
+
+    /* ========================================================
+       BACKUP
+    ======================================================== */
+
+    export() {
+
+        return {
+
+            version:
+
+                PowerTools.info.version,
+
+            date:
+
+                new Date()
+
+                .toISOString(),
+
+            state:
+
+                structuredClone(
+
+                    PowerTools.state
+
+                ),
+
+            store:
+
+                structuredClone(
+
+                    PowerTools.store
+
+                )
+
+        };
+
+    },
+
+    import(data) {
+
+        if (!data) return;
+
+        if (data.state) {
+
+            Object.assign(
+
+                PowerTools.state,
+
+                data.state
+
+            );
+
+        }
+
+        if (data.store) {
+
+            Object.assign(
+
+                PowerTools.store,
+
+                data.store
+
+            );
+
+        }
+
+        this.saveState();
+
+        this.saveSettings();
+
+    },
+
+    clear() {
+
+        Object.keys(localStorage)
+
+            .forEach(key => {
+
+                if (
+
+                    key.startsWith(
+
+                        this.prefix
+
+                    )
+
+                ) {
+
+                    localStorage.removeItem(
+
+                        key
+
+                    );
+
+                }
+
+            });
+
+    },
+
+    /* ========================================================
+       AUTO SAVE
+    ======================================================== */
+
+    autoSave() {
+
+        if (
+
+            !PowerTools.config.autosave
+
+        ) {
+
+            return;
+
+        }
+
+        setInterval(() => {
+
+            this.saveState();
+
+            this.saveSettings();
+
+            this.saveNotifications();
+
+        }, 5000);
+
+    }
+
+};
+
+/* ============================================================
+   STORAGE EVENTS
+============================================================ */
+
+PowerTools.events.on(
+
+    "workspace:change",
+
+    () => {
+
+        PowerTools.storage.saveState();
+
+    }
+
+);
+
+PowerTools.events.on(
+
+    "theme:change",
+
+    () => {
+
+        PowerTools.storage.saveState();
+
+    }
+
+);
+
+PowerTools.events.on(
+
+    "notification:add",
+
+    () => {
+
+        PowerTools.storage.saveNotifications();
+
+    }
+
+);
+
+/* ============================================================
+   QUICK API
+============================================================ */
+
+PowerTools.save = function () {
+
+    PowerTools.storage.saveState();
+
+    PowerTools.storage.saveSettings();
+
+    PowerTools.storage.saveNotifications();
+
+};
+
+PowerTools.restore = function () {
+
+    PowerTools.storage.restoreState();
+
+    PowerTools.storage.restoreSettings();
+
+    PowerTools.storage.restoreNotifications();
+
+};
+
+PowerTools.backup = function () {
+
+    return PowerTools.storage.export();
+
+};
+
+PowerTools.resetStorage = function () {
+
+    PowerTools.storage.clear();
+
+};
+
+/* ============================================================
+   BOOT
+============================================================ */
+
+PowerTools.lifecycle.boot(
+
+    async () => {
+
+        PowerTools.storage.init();
+
+        PowerTools.storage.restoreSettings();
+
+        PowerTools.storage.restoreNotifications();
+
+    }
+
+);
+
+PowerTools.log.info(
+
+    "Storage Manager Loaded"
+
+);
+
+
