@@ -2084,3 +2084,368 @@
 /* ==========================================================
    END PART 4
 ========================================================== */
+/* ==========================================================
+   ANIMATIONS.CSS
+   PowerTools AI Creator Suite
+   Part 5 - Final Utilities
+========================================================== */
+
+/* ==========================================================
+   SUCCESS
+========================================================== */
+
+.success-pop{
+
+    animation:successPop .55s var(--ease-bounce);
+
+}
+
+@keyframes successPop{
+
+    0%{
+
+        transform:scale(.75);
+
+        opacity:0;
+
+    }
+
+    70%{
+
+        transform:scale(1.08);
+
+        opacity:1;
+
+    }
+
+    100%{
+
+        transform:scale(1);
+
+    }
+
+}
+
+/* ==========================================================
+   ERROR
+========================================================== */
+
+.error-shake{
+
+    animation:errorShake .45s ease;
+
+}
+
+@keyframes errorShake{
+
+    0%,100%{
+
+        transform:translateX(0);
+
+    }
+
+    20%{
+
+        transform:translateX(-8px);
+
+    }
+
+    40%{
+
+        transform:translateX(8px);
+
+    }
+
+    60%{
+
+        transform:translateX(-6px);
+
+    }
+
+    80%{
+
+        transform:translateX(6px);
+
+    }
+
+}
+
+/* ==========================================================
+   WARNING
+========================================================== */
+
+.warning-pulse{
+
+    animation:warningPulse 1.2s infinite;
+
+}
+
+@keyframes warningPulse{
+
+    0%,100%{
+
+        filter:brightness(1);
+
+    }
+
+    50%{
+
+        filter:brightness(1.18);
+
+    }
+
+}
+
+/* ==========================================================
+   EXPORT
+========================================================== */
+
+.export-running{
+
+    animation:exportRunning 2s linear infinite;
+
+}
+
+@keyframes exportRunning{
+
+    from{
+
+        background-position:-250px 0;
+
+    }
+
+    to{
+
+        background-position:250px 0;
+
+    }
+
+}
+
+/* ==========================================================
+   STAGGER DELAY
+========================================================== */
+
+.delay-0{animation-delay:0s;}
+.delay-1{animation-delay:.1s;}
+.delay-2{animation-delay:.2s;}
+.delay-3{animation-delay:.3s;}
+.delay-4{animation-delay:.4s;}
+.delay-5{animation-delay:.5s;}
+.delay-6{animation-delay:.6s;}
+.delay-7{animation-delay:.7s;}
+.delay-8{animation-delay:.8s;}
+.delay-9{animation-delay:.9s;}
+.delay-10{animation-delay:1s;}
+
+/* ==========================================================
+   DURATION
+========================================================== */
+
+.duration-fast{
+
+    animation-duration:.2s;
+
+}
+
+.duration-normal{
+
+    animation-duration:.35s;
+
+}
+
+.duration-slow{
+
+    animation-duration:.6s;
+
+}
+
+.duration-extra{
+
+    animation-duration:1s;
+
+}
+
+/* ==========================================================
+   ITERATION
+========================================================== */
+
+.anim-once{
+
+    animation-iteration-count:1;
+
+}
+
+.anim-twice{
+
+    animation-iteration-count:2;
+
+}
+
+.anim-infinite{
+
+    animation-iteration-count:infinite;
+
+}
+
+/* ==========================================================
+   PLAY STATE
+========================================================== */
+
+.anim-paused{
+
+    animation-play-state:paused;
+
+}
+
+.anim-running{
+
+    animation-play-state:running;
+
+}
+
+/* ==========================================================
+   HOVER HELPERS
+========================================================== */
+
+.hover-scale:hover{
+
+    transform:scale(1.04);
+
+}
+
+.hover-up:hover{
+
+    transform:translateY(-5px);
+
+}
+
+.hover-down:hover{
+
+    transform:translateY(5px);
+
+}
+
+.hover-left:hover{
+
+    transform:translateX(-5px);
+
+}
+
+.hover-right:hover{
+
+    transform:translateX(5px);
+
+}
+
+/* ==========================================================
+   FADE HELPERS
+========================================================== */
+
+.fade-hover{
+
+    transition:opacity .3s ease;
+
+}
+
+.fade-hover:hover{
+
+    opacity:.75;
+
+}
+
+/* ==========================================================
+   ROTATION HELPERS
+========================================================== */
+
+.rotate-hover:hover{
+
+    transform:rotate(5deg);
+
+}
+
+.rotate-hover-left:hover{
+
+    transform:rotate(-5deg);
+
+}
+
+/* ==========================================================
+   GPU ACCELERATION
+========================================================== */
+
+.anim,
+
+.fade-in,
+
+.fade-out,
+
+.slide-up,
+
+.slide-down,
+
+.slide-left,
+
+.slide-right,
+
+.zoom-in,
+
+.zoom-out,
+
+.card-enter,
+
+.widget-enter,
+
+.modal-show,
+
+.toast-enter{
+
+    will-change:
+
+        transform,
+
+        opacity;
+
+    transform:translateZ(0);
+
+    backface-visibility:hidden;
+
+}
+
+/* ==========================================================
+   ACCESSIBILITY
+========================================================== */
+
+@media (prefers-reduced-motion:reduce){
+
+    *{
+
+        animation:none !important;
+
+        transition:none !important;
+
+        scroll-behavior:auto !important;
+
+    }
+
+}
+
+/* ==========================================================
+   PRINT
+========================================================== */
+
+@media print{
+
+    *{
+
+        animation:none !important;
+
+        transition:none !important;
+
+    }
+
+}
+
+/* ==========================================================
+   END OF FILE
+========================================================== */
