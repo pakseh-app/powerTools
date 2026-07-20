@@ -1,0 +1,2087 @@
+/* ==========================================================
+   POWERTOOLS AI CREATOR SUITE
+   CARDS
+========================================================== */
+
+:root{
+
+    --card-bg:#182235;
+
+    --card-bg-hover:#1d2b43;
+
+    --card-border:#2c3d5e;
+
+    --card-radius:22px;
+
+    --card-shadow:
+
+        0 15px 40px rgba(0,0,0,.22);
+
+    --card-shadow-hover:
+
+        0 25px 60px rgba(37,99,235,.22);
+
+}
+
+
+
+/* ==========================================================
+   BASE CARD
+========================================================== */
+
+.card{
+
+    position:relative;
+
+    background:var(--card-bg);
+
+    border:1px solid var(--card-border);
+
+    border-radius:var(--card-radius);
+
+    overflow:hidden;
+
+    transition:.30s ease;
+
+    box-shadow:var(--card-shadow);
+
+}
+
+
+
+.card:hover{
+
+    background:var(--card-bg-hover);
+
+    transform:translateY(-6px);
+
+    box-shadow:var(--card-shadow-hover);
+
+}
+
+
+
+/* ==========================================================
+   CARD HEADER
+========================================================== */
+
+.card-header{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:22px 24px;
+
+    border-bottom:1px solid rgba(255,255,255,.05);
+
+}
+
+
+
+.card-title{
+
+    font-size:18px;
+
+    font-weight:700;
+
+    color:#fff;
+
+}
+
+
+
+.card-subtitle{
+
+    font-size:13px;
+
+    color:#94a3b8;
+
+    margin-top:4px;
+
+}
+
+
+
+/* ==========================================================
+   CARD BODY
+========================================================== */
+
+.card-body{
+
+    padding:24px;
+
+}
+
+
+
+/* ==========================================================
+   CARD FOOTER
+========================================================== */
+
+.card-footer{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:18px 24px;
+
+    border-top:1px solid rgba(255,255,255,.05);
+
+}
+
+
+
+/* ==========================================================
+   HERO CARD
+========================================================== */
+
+.hero-card{
+
+    position:relative;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:40px;
+
+    min-height:260px;
+
+    padding:42px;
+
+    overflow:hidden;
+
+    border-radius:28px;
+
+    background:
+
+        linear-gradient(
+
+            135deg,
+
+            #2563eb,
+
+            #7c3aed,
+
+            #0f172a
+
+        );
+
+}
+
+
+
+/* ==========================================================
+   HERO CONTENT
+========================================================== */
+
+.hero-content{
+
+    position:relative;
+
+    z-index:2;
+
+    max-width:650px;
+
+}
+
+
+
+.hero-title{
+
+    font-size:42px;
+
+    font-weight:800;
+
+    color:#fff;
+
+    line-height:1.2;
+
+}
+
+
+
+.hero-description{
+
+    margin-top:18px;
+
+    color:#dbeafe;
+
+    font-size:16px;
+
+    line-height:1.8;
+
+}
+
+
+
+/* ==========================================================
+   HERO IMAGE
+========================================================== */
+
+.hero-image{
+
+    position:relative;
+
+    z-index:2;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+}
+
+
+
+.hero-image img{
+
+    width:280px;
+
+    max-width:100%;
+
+    animation:heroFloat 5s ease-in-out infinite;
+
+}
+
+
+
+/* ==========================================================
+   HERO BACKGROUND GLOW
+========================================================== */
+
+.hero-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:420px;
+
+    height:420px;
+
+    border-radius:50%;
+
+    background:
+
+        radial-gradient(
+
+            rgba(255,255,255,.18),
+
+            transparent 70%
+
+        );
+
+    right:-120px;
+
+    top:-120px;
+
+}
+
+
+
+/* ==========================================================
+   HERO BADGE
+========================================================== */
+
+.hero-badge{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding:8px 18px;
+
+    border-radius:999px;
+
+    background:rgba(255,255,255,.14);
+
+    color:#fff;
+
+    font-size:13px;
+
+    font-weight:700;
+
+    backdrop-filter:blur(12px);
+
+    margin-bottom:18px;
+
+}
+/* ==========================================================
+   TOOL CARD
+========================================================== */
+
+.tool-card{
+
+    position:relative;
+
+    background:var(--card-bg);
+
+    border:1px solid var(--card-border);
+
+    border-radius:22px;
+
+    padding:28px;
+
+    transition:.30s ease;
+
+    overflow:hidden;
+
+}
+
+
+
+.tool-card:hover{
+
+    transform:translateY(-8px);
+
+    background:var(--card-bg-hover);
+
+    border-color:#3b82f6;
+
+    box-shadow:
+
+        0 20px 50px rgba(37,99,235,.25);
+
+}
+
+
+
+/* ==========================================================
+   TOOL ICON
+========================================================== */
+
+.tool-icon{
+
+    width:72px;
+
+    height:72px;
+
+    border-radius:20px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:32px;
+
+    color:#fff;
+
+    margin-bottom:22px;
+
+    background:
+
+        linear-gradient(
+
+            135deg,
+
+            #2563eb,
+
+            #7c3aed
+
+        );
+
+}
+
+
+
+/* ==========================================================
+   TOOL TITLE
+========================================================== */
+
+.tool-title{
+
+    color:#fff;
+
+    font-size:20px;
+
+    font-weight:700;
+
+    margin-bottom:10px;
+
+}
+
+
+
+.tool-description{
+
+    color:#94a3b8;
+
+    line-height:1.7;
+
+    font-size:14px;
+
+    margin-bottom:24px;
+
+}
+
+
+
+/* ==========================================================
+   TOOL FOOTER
+========================================================== */
+
+.tool-footer{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+}
+
+
+
+.tool-status{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    color:#22c55e;
+
+    font-size:13px;
+
+    font-weight:600;
+
+}
+
+
+
+.tool-status::before{
+
+    content:"";
+
+    width:8px;
+
+    height:8px;
+
+    border-radius:50%;
+
+    background:#22c55e;
+
+}
+
+
+
+/* ==========================================================
+   FEATURE CARD
+========================================================== */
+
+.feature-card{
+
+    display:flex;
+
+    gap:20px;
+
+    padding:24px;
+
+    border-radius:22px;
+
+    background:#1b2740;
+
+    border:1px solid var(--card-border);
+
+    transition:.3s;
+
+}
+
+
+
+.feature-card:hover{
+
+    transform:translateY(-5px);
+
+    border-color:#2563eb;
+
+}
+
+
+
+/* ==========================================================
+   FEATURE ICON
+========================================================== */
+
+.feature-icon{
+
+    width:60px;
+
+    height:60px;
+
+    border-radius:18px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:
+
+        linear-gradient(
+
+            135deg,
+
+            #06b6d4,
+
+            #2563eb
+
+        );
+
+    color:#fff;
+
+    font-size:26px;
+
+    flex-shrink:0;
+
+}
+
+
+
+.feature-content{
+
+    flex:1;
+
+}
+
+
+
+.feature-title{
+
+    color:#fff;
+
+    font-size:18px;
+
+    font-weight:700;
+
+    margin-bottom:8px;
+
+}
+
+
+
+.feature-description{
+
+    color:#94a3b8;
+
+    line-height:1.7;
+
+    font-size:14px;
+
+}
+
+
+
+/* ==========================================================
+   AI MODULE CARD
+========================================================== */
+
+.module-card{
+
+    position:relative;
+
+    padding:24px;
+
+    border-radius:20px;
+
+    background:#162236;
+
+    border:1px solid #2c3d5e;
+
+    transition:.3s;
+
+}
+
+
+
+.module-card:hover{
+
+    border-color:#3b82f6;
+
+    box-shadow:
+
+        0 18px 45px rgba(37,99,235,.20);
+
+}
+
+
+
+.module-name{
+
+    color:#fff;
+
+    font-size:18px;
+
+    font-weight:700;
+
+    margin-bottom:10px;
+
+}
+
+
+
+.module-version{
+
+    color:#60a5fa;
+
+    font-size:13px;
+
+    margin-bottom:16px;
+
+}
+
+
+
+.module-description{
+
+    color:#94a3b8;
+
+    line-height:1.7;
+
+    font-size:14px;
+
+}
+
+
+
+/* ==========================================================
+   MODULE BADGE
+========================================================== */
+
+.module-badge{
+
+    position:absolute;
+
+    top:18px;
+
+    right:18px;
+
+    padding:6px 12px;
+
+    border-radius:999px;
+
+    background:#22c55e;
+
+    color:#fff;
+
+    font-size:11px;
+
+    font-weight:700;
+
+}
+
+
+
+/* ==========================================================
+   MODULE ICON
+========================================================== */
+
+.module-icon{
+
+    width:64px;
+
+    height:64px;
+
+    border-radius:18px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    margin-bottom:20px;
+
+    font-size:28px;
+
+    color:#fff;
+
+    background:
+
+        linear-gradient(
+
+            135deg,
+
+            #2563eb,
+
+            #7c3aed
+
+        );
+
+}
+/* ==========================================================
+   STATISTICS CARD
+========================================================== */
+
+.stats-card{
+
+    position:relative;
+
+    background:var(--card-bg);
+
+    border:1px solid var(--card-border);
+
+    border-radius:22px;
+
+    padding:26px;
+
+    overflow:hidden;
+
+    transition:.30s;
+
+}
+
+.stats-card:hover{
+
+    transform:translateY(-6px);
+
+    border-color:#3b82f6;
+
+    box-shadow:0 20px 50px rgba(37,99,235,.22);
+
+}
+
+.stats-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:18px;
+
+}
+
+.stats-title{
+
+    color:#94a3b8;
+
+    font-size:14px;
+
+    font-weight:600;
+
+}
+
+.stats-icon{
+
+    width:52px;
+
+    height:52px;
+
+    border-radius:16px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    color:#fff;
+
+    font-size:22px;
+
+    background:linear-gradient(135deg,#2563eb,#7c3aed);
+
+}
+
+.stats-value{
+
+    color:#fff;
+
+    font-size:34px;
+
+    font-weight:800;
+
+    margin-bottom:8px;
+
+}
+
+.stats-change{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    font-size:13px;
+
+    color:#22c55e;
+
+    font-weight:700;
+
+}
+
+.stats-change.down{
+
+    color:#ef4444;
+
+}
+
+
+
+/* ==========================================================
+   PROGRESS CARD
+========================================================== */
+
+.progress-card{
+
+    background:#162236;
+
+    border:1px solid var(--card-border);
+
+    border-radius:22px;
+
+    padding:24px;
+
+}
+
+.progress-title{
+
+    color:#fff;
+
+    font-size:17px;
+
+    font-weight:700;
+
+    margin-bottom:18px;
+
+}
+
+.progress-track{
+
+    width:100%;
+
+    height:10px;
+
+    border-radius:999px;
+
+    overflow:hidden;
+
+    background:#24324f;
+
+}
+
+.progress-fill{
+
+    height:100%;
+
+    width:0;
+
+    border-radius:999px;
+
+    background:linear-gradient(90deg,#06b6d4,#2563eb,#7c3aed);
+
+    transition:width .8s ease;
+
+}
+
+.progress-label{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin-top:12px;
+
+    color:#94a3b8;
+
+    font-size:13px;
+
+}
+
+
+
+/* ==========================================================
+   ANALYTICS CARD
+========================================================== */
+
+.analytics-card{
+
+    background:var(--card-bg);
+
+    border-radius:22px;
+
+    border:1px solid var(--card-border);
+
+    padding:24px;
+
+}
+
+.analytics-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:22px;
+
+}
+
+.analytics-title{
+
+    color:#fff;
+
+    font-size:18px;
+
+    font-weight:700;
+
+}
+
+.analytics-chart{
+
+    height:240px;
+
+    border-radius:16px;
+
+    background:
+
+        linear-gradient(
+
+            180deg,
+
+            rgba(37,99,235,.15),
+
+            rgba(37,99,235,.02)
+
+        );
+
+}
+
+
+
+/* ==========================================================
+   PROJECT CARD
+========================================================== */
+
+.project-card{
+
+    background:#182235;
+
+    border:1px solid var(--card-border);
+
+    border-radius:22px;
+
+    padding:24px;
+
+    transition:.30s;
+
+}
+
+.project-card:hover{
+
+    transform:translateY(-6px);
+
+    border-color:#3b82f6;
+
+}
+
+.project-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:18px;
+
+}
+
+.project-title{
+
+    color:#fff;
+
+    font-size:18px;
+
+    font-weight:700;
+
+}
+
+.project-status{
+
+    padding:6px 12px;
+
+    border-radius:999px;
+
+    background:#22c55e;
+
+    color:#fff;
+
+    font-size:11px;
+
+    font-weight:700;
+
+}
+
+.project-description{
+
+    color:#94a3b8;
+
+    line-height:1.8;
+
+    font-size:14px;
+
+    margin-bottom:20px;
+
+}
+
+.project-footer{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+
+
+/* ==========================================================
+   MEMBER AVATAR
+========================================================== */
+
+.member-group{
+
+    display:flex;
+
+}
+
+.member-avatar{
+
+    width:36px;
+
+    height:36px;
+
+    border-radius:50%;
+
+    border:2px solid #182235;
+
+    margin-left:-10px;
+
+    overflow:hidden;
+
+}
+
+.member-avatar:first-child{
+
+    margin-left:0;
+
+}
+
+.member-avatar img{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+
+}
+
+
+
+/* ==========================================================
+   PROJECT PROGRESS
+========================================================== */
+
+.project-progress{
+
+    margin-top:18px;
+
+}
+
+.project-progress .progress-track{
+
+    height:8px;
+
+}
+/* ==========================================================
+   ACTIVITY CARD
+========================================================== */
+
+.activity-card{
+
+    background:var(--card-bg);
+
+    border:1px solid var(--card-border);
+
+    border-radius:22px;
+
+    padding:24px;
+
+    transition:.30s;
+
+}
+
+.activity-card:hover{
+
+    transform:translateY(-5px);
+
+    border-color:#3b82f6;
+
+}
+
+
+
+.activity-title{
+
+    color:#fff;
+
+    font-size:18px;
+
+    font-weight:700;
+
+    margin-bottom:22px;
+
+}
+
+
+
+/* ==========================================================
+   ACTIVITY ITEM
+========================================================== */
+
+.activity-item{
+
+    display:flex;
+
+    align-items:flex-start;
+
+    gap:16px;
+
+    padding:16px 0;
+
+    border-bottom:1px solid rgba(255,255,255,.05);
+
+}
+
+.activity-item:last-child{
+
+    border-bottom:none;
+
+}
+
+
+
+.activity-icon{
+
+    width:48px;
+
+    height:48px;
+
+    border-radius:16px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    flex-shrink:0;
+
+    color:#fff;
+
+    font-size:20px;
+
+    background:
+
+        linear-gradient(
+
+            135deg,
+
+            #2563eb,
+
+            #7c3aed
+
+        );
+
+}
+
+
+
+.activity-content{
+
+    flex:1;
+
+}
+
+
+
+.activity-name{
+
+    color:#fff;
+
+    font-size:15px;
+
+    font-weight:700;
+
+}
+
+
+
+.activity-description{
+
+    color:#94a3b8;
+
+    font-size:13px;
+
+    line-height:1.7;
+
+    margin-top:4px;
+
+}
+
+
+
+.activity-time{
+
+    color:#64748b;
+
+    font-size:12px;
+
+    margin-top:8px;
+
+}
+
+
+
+/* ==========================================================
+   TIMELINE CARD
+========================================================== */
+
+.timeline-card{
+
+    background:#182235;
+
+    border:1px solid var(--card-border);
+
+    border-radius:22px;
+
+    padding:24px;
+
+}
+
+
+
+.timeline{
+
+    position:relative;
+
+    padding-left:28px;
+
+}
+
+
+
+.timeline::before{
+
+    content:"";
+
+    position:absolute;
+
+    left:8px;
+
+    top:0;
+
+    bottom:0;
+
+    width:2px;
+
+    background:#2c3d5e;
+
+}
+
+
+
+.timeline-item{
+
+    position:relative;
+
+    padding-bottom:28px;
+
+}
+
+
+
+.timeline-item:last-child{
+
+    padding-bottom:0;
+
+}
+
+
+
+.timeline-dot{
+
+    position:absolute;
+
+    left:-24px;
+
+    top:4px;
+
+    width:16px;
+
+    height:16px;
+
+    border-radius:50%;
+
+    background:#3b82f6;
+
+    border:3px solid #182235;
+
+    box-shadow:
+
+        0 0 15px
+
+        rgba(59,130,246,.5);
+
+}
+
+
+
+.timeline-title{
+
+    color:#fff;
+
+    font-size:15px;
+
+    font-weight:700;
+
+}
+
+
+
+.timeline-text{
+
+    color:#94a3b8;
+
+    font-size:13px;
+
+    line-height:1.7;
+
+    margin-top:6px;
+
+}
+
+
+
+/* ==========================================================
+   AI STATUS CARD
+========================================================== */
+
+.ai-card{
+
+    position:relative;
+
+    background:
+
+        linear-gradient(
+
+            145deg,
+
+            #182235,
+
+            #101827
+
+        );
+
+    border:1px solid var(--card-border);
+
+    border-radius:24px;
+
+    padding:28px;
+
+    overflow:hidden;
+
+}
+
+
+
+.ai-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:240px;
+
+    height:240px;
+
+    border-radius:50%;
+
+    top:-120px;
+
+    right:-120px;
+
+    background:
+
+        radial-gradient(
+
+            rgba(59,130,246,.20),
+
+            transparent 70%
+
+        );
+
+}
+
+
+
+.ai-card-header{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    margin-bottom:20px;
+
+}
+
+
+
+.ai-card-title{
+
+    color:#fff;
+
+    font-size:18px;
+
+    font-weight:700;
+
+}
+
+
+
+.ai-status-chip{
+
+    padding:7px 14px;
+
+    border-radius:999px;
+
+    background:#22c55e;
+
+    color:#fff;
+
+    font-size:12px;
+
+    font-weight:700;
+
+}
+
+
+
+/* ==========================================================
+   GLASS CARD
+========================================================== */
+
+.glass-card{
+
+    background:
+
+        rgba(255,255,255,.04);
+
+    backdrop-filter:blur(20px);
+
+    -webkit-backdrop-filter:blur(20px);
+
+    border:1px solid
+
+        rgba(255,255,255,.08);
+
+    border-radius:24px;
+
+    padding:26px;
+
+    transition:.3s;
+
+}
+
+
+
+.glass-card:hover{
+
+    transform:translateY(-6px);
+
+    border-color:
+
+        rgba(59,130,246,.35);
+
+}
+
+
+
+/* ==========================================================
+   PREMIUM BORDER
+========================================================== */
+
+.gradient-border{
+
+    position:relative;
+
+}
+
+
+
+.gradient-border::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:-1px;
+
+    border-radius:inherit;
+
+    padding:1px;
+
+    background:
+
+        linear-gradient(
+
+            135deg,
+
+            #2563eb,
+
+            #7c3aed,
+
+            #06b6d4
+
+        );
+
+    -webkit-mask:
+
+        linear-gradient(#fff 0 0) content-box,
+
+        linear-gradient(#fff 0 0);
+
+    -webkit-mask-composite:xor;
+
+            mask-composite:exclude;
+
+    opacity:0;
+
+    transition:.3s;
+
+}
+
+
+
+.gradient-border:hover::before{
+
+    opacity:1;
+
+}
+
+
+
+/* ==========================================================
+   GLOW EFFECT
+========================================================== */
+
+.card-glow:hover{
+
+    box-shadow:
+
+        0 0 20px rgba(37,99,235,.25),
+
+        0 0 50px rgba(124,58,237,.15);
+
+}
+/* ==========================================================
+   EMPTY STATE CARD
+========================================================== */
+
+.empty-card{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    text-align:center;
+
+    min-height:280px;
+
+    padding:40px;
+
+    background:var(--card-bg);
+
+    border:2px dashed rgba(148,163,184,.25);
+
+    border-radius:24px;
+
+}
+
+.empty-icon{
+
+    width:90px;
+
+    height:90px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:42px;
+
+    color:#60a5fa;
+
+    background:rgba(37,99,235,.12);
+
+    margin-bottom:24px;
+
+}
+
+.empty-title{
+
+    font-size:24px;
+
+    font-weight:700;
+
+    color:#fff;
+
+    margin-bottom:10px;
+
+}
+
+.empty-text{
+
+    color:#94a3b8;
+
+    font-size:15px;
+
+    line-height:1.8;
+
+    max-width:420px;
+
+}
+
+
+
+/* ==========================================================
+   RECENT FILE CARD
+========================================================== */
+
+.file-card{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+    padding:18px;
+
+    background:#162236;
+
+    border:1px solid var(--card-border);
+
+    border-radius:18px;
+
+    transition:.25s;
+
+}
+
+.file-card:hover{
+
+    transform:translateY(-3px);
+
+    border-color:#3b82f6;
+
+}
+
+.file-icon{
+
+    width:54px;
+
+    height:54px;
+
+    border-radius:16px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:linear-gradient(135deg,#2563eb,#7c3aed);
+
+    color:#fff;
+
+    font-size:24px;
+
+}
+
+.file-info{
+
+    flex:1;
+
+}
+
+.file-name{
+
+    color:#fff;
+
+    font-size:15px;
+
+    font-weight:700;
+
+}
+
+.file-meta{
+
+    margin-top:4px;
+
+    color:#94a3b8;
+
+    font-size:12px;
+
+}
+
+
+
+/* ==========================================================
+   UPLOAD CARD
+========================================================== */
+
+.upload-card{
+
+    border:2px dashed #3b82f6;
+
+    border-radius:24px;
+
+    padding:48px;
+
+    text-align:center;
+
+    background:rgba(37,99,235,.05);
+
+    transition:.30s;
+
+}
+
+.upload-card:hover{
+
+    background:rgba(37,99,235,.10);
+
+    transform:translateY(-4px);
+
+}
+
+.upload-icon{
+
+    font-size:54px;
+
+    color:#60a5fa;
+
+    margin-bottom:18px;
+
+}
+
+
+
+/* ==========================================================
+   DRAG AREA
+========================================================== */
+
+.drag-area{
+
+    transition:.25s;
+
+}
+
+.drag-area.dragover{
+
+    border-color:#22c55e;
+
+    background:rgba(34,197,94,.10);
+
+}
+
+
+
+/* ==========================================================
+   NOTIFICATION CARD
+========================================================== */
+
+.notice-card{
+
+    display:flex;
+
+    gap:16px;
+
+    align-items:flex-start;
+
+    padding:18px;
+
+    border-left:5px solid #3b82f6;
+
+    background:#162236;
+
+    border-radius:18px;
+
+}
+
+.notice-icon{
+
+    color:#60a5fa;
+
+    font-size:24px;
+
+}
+
+.notice-title{
+
+    color:#fff;
+
+    font-size:15px;
+
+    font-weight:700;
+
+    margin-bottom:6px;
+
+}
+
+.notice-text{
+
+    color:#94a3b8;
+
+    font-size:13px;
+
+    line-height:1.7;
+
+}
+
+
+
+/* ==========================================================
+   SKELETON LOADING
+========================================================== */
+
+.skeleton{
+
+    position:relative;
+
+    overflow:hidden;
+
+    background:#1e293b;
+
+    border-radius:12px;
+
+}
+
+.skeleton::after{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    transform:translateX(-100%);
+
+    background:linear-gradient(
+
+        90deg,
+
+        transparent,
+
+        rgba(255,255,255,.10),
+
+        transparent
+
+    );
+
+    animation:skeletonLoading 1.5s infinite;
+
+}
+
+.skeleton-title{
+
+    width:60%;
+
+    height:20px;
+
+    margin-bottom:16px;
+
+}
+
+.skeleton-text{
+
+    width:100%;
+
+    height:14px;
+
+    margin-bottom:10px;
+
+}
+
+.skeleton-avatar{
+
+    width:56px;
+
+    height:56px;
+
+    border-radius:50%;
+
+}
+
+
+
+/* ==========================================================
+   CARD ANIMATIONS
+========================================================== */
+
+@keyframes skeletonLoading{
+
+    from{
+
+        transform:translateX(-100%);
+
+    }
+
+    to{
+
+        transform:translateX(100%);
+
+    }
+
+}
+
+@keyframes heroFloat{
+
+    0%{
+
+        transform:translateY(0);
+
+    }
+
+    50%{
+
+        transform:translateY(-10px);
+
+    }
+
+    100%{
+
+        transform:translateY(0);
+
+    }
+
+}
+
+@keyframes cardFade{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(20px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+
+
+/* ==========================================================
+   UTILITIES
+========================================================== */
+
+.card-animate{
+
+    animation:cardFade .5s ease both;
+
+}
+
+.card-scroll{
+
+    overflow-y:auto;
+
+}
+
+.card-scroll::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+.card-scroll::-webkit-scrollbar-thumb{
+
+    background:#334155;
+
+    border-radius:999px;
+
+}
+
+.card-scroll::-webkit-scrollbar-thumb:hover{
+
+    background:#475569;
+
+}
+
+
+
+/* ==========================================================
+   FINAL POLISH
+========================================================== */
+
+.card,
+.hero-card,
+.tool-card,
+.feature-card,
+.module-card,
+.stats-card,
+.progress-card,
+.analytics-card,
+.project-card,
+.activity-card,
+.timeline-card,
+.ai-card,
+.glass-card,
+.file-card,
+.notice-card,
+.upload-card{
+
+    box-sizing:border-box;
+
+    will-change:transform;
+
+}
