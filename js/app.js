@@ -444,8 +444,8 @@ function bindRouter(){
     ----------------------------------*/
 
     router.on(
-
-        "after:navigate",
+        
+    "navigate",
 
         context=>{
 
@@ -656,3 +656,208 @@ function bindSearch(){
 
 }
 
+/*==========================================================
+    ROUTE REGISTER
+==========================================================*/
+
+function registerRoutes(){
+
+    if(typeof router === "undefined"){
+
+        return;
+
+    }
+
+    router
+
+        .add(
+
+            "/dashboard",
+
+            ()=>showPage("dashboard"),
+
+            {
+
+                name:"dashboard"
+
+            }
+
+        )
+
+        .add(
+
+            "/prompt",
+
+            ()=>showPage("prompt"),
+
+            {
+
+                name:"prompt"
+
+            }
+
+        )
+
+        .add(
+
+            "/affiliate",
+
+            ()=>showPage("affiliate"),
+
+            {
+
+                name:"affiliate"
+
+            }
+
+        )
+
+        .add(
+
+            "/image",
+
+            ()=>showPage("image"),
+
+            {
+
+                name:"image"
+
+            }
+
+        )
+
+        .add(
+
+            "/video",
+
+            ()=>showPage("video"),
+
+            {
+
+                name:"video"
+
+            }
+
+        )
+
+        .add(
+
+            "/storyboard",
+
+            ()=>showPage("storyboard"),
+
+            {
+
+                name:"storyboard"
+
+            }
+
+        )
+
+        .add(
+
+            "/narrator",
+
+            ()=>showPage("narrator"),
+
+            {
+
+                name:"narrator"
+
+            }
+
+        )
+
+        .add(
+
+            "/library",
+
+            ()=>showPage("library"),
+
+            {
+
+                name:"library"
+
+            }
+
+        )
+
+        .add(
+
+            "/optimizer",
+
+            ()=>showPage("optimizer"),
+
+            {
+
+                name:"optimizer"
+
+            }
+
+        )
+
+        .add(
+
+            "/workspace",
+
+            ()=>showPage("workspace"),
+
+            {
+
+                name:"workspace"
+
+            }
+
+        )
+
+        .add(
+
+            "/settings",
+
+            ()=>showPage("settings"),
+
+            {
+
+                name:"settings"
+
+            }
+
+        );
+
+}
+
+/*==========================================================
+    INIT
+==========================================================*/
+
+function init(){
+
+    log(
+
+        "Starting PowerTools..."
+
+    );
+
+    cacheElement();
+
+    registerPages();
+
+    bindSidebar();
+
+    bindMenuToggle();
+
+    bindSearch();
+
+    registerRoutes();
+
+    bindRouter();
+
+    State.initialized = true;
+
+    log(
+
+        "Application Ready"
+
+    );
+
+}
