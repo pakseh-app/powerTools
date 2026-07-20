@@ -1,51 +1,49 @@
-/*=========================================================
+/*==========================================================
     PowerTools Ultimate AI Suite
     app.js
-=========================================================*/
+==========================================================*/
 
 "use strict";
 
-/*=========================================================
+/*==========================================================
     CONFIG
-=========================================================*/
+==========================================================*/
 
 const APP = {
 
     name: "PowerTools",
 
-    version: "2.0 Alpha",
+    version: "2.0.0",
+
+    author: "PowerTools",
 
     defaultPage: "dashboard",
 
-    animation: 250
+    debug: true
 
 };
 
-/*=========================================================
-    STATE
-=========================================================*/
+/*==========================================================
+    GLOBAL STATE
+==========================================================*/
 
 const State = {
 
-    page: APP.defaultPage,
+    currentPage: APP.defaultPage,
 
-    theme: "dark",
+    sidebarCollapsed: false,
+
+    darkMode: true,
 
     loading: false,
 
-    sidebar: true,
-
-    drawer: false,
-
-    modal: false,
-
-    search: ""
+    initialized: false
 
 };
 
-/*=========================================================
-    ELEMENT
-=========================================================*/
+/*==========================================================
+    ELEMENT CACHE
+==========================================================*/
 
 const UI = {
 
@@ -61,7 +59,7 @@ const UI = {
 
     pageSubtitle: null,
 
-    loading: null,
+    loadingScreen: null,
 
     toastRoot: null,
 
@@ -69,37 +67,23 @@ const UI = {
 
     drawerRoot: null,
 
-    contextMenuRoot: null,
+    contextRoot: null,
 
     floatingRoot: null
 
 };
 
-/*=========================================================
-    PAGE
-=========================================================*/
+/*==========================================================
+    QUERY
+==========================================================*/
 
-const Pages = {};
+const $ = selector => document.querySelector(selector);
 
-/*=========================================================
-    SELECTOR
-=========================================================*/
+const $$ = selector => document.querySelectorAll(selector);
 
-function $(selector){
-
-    return document.querySelector(selector);
-
-}
-
-function $$(selector){
-
-    return document.querySelectorAll(selector);
-
-}
-
-/*=========================================================
+/*==========================================================
     CACHE ELEMENT
-=========================================================*/
+==========================================================*/
 
 function cacheElement(){
 
@@ -115,7 +99,7 @@ function cacheElement(){
 
     UI.pageSubtitle = $("#page-subtitle");
 
-    UI.loading = $("#loading-screen");
+    UI.loadingScreen = $("#loading-screen");
 
     UI.toastRoot = $("#toast-root");
 
@@ -123,247 +107,433 @@ function cacheElement(){
 
     UI.drawerRoot = $("#drawer-root");
 
-    UI.contextMenuRoot = $("#context-menu-root");
+    UI.contextRoot = $("#context-menu-root");
 
     UI.floatingRoot = $("#floating-panel-root");
 
 }
 
-/*=========================================================
-    REGISTER PAGE
-=========================================================*/
+/*==========================================================
+    LOG
+==========================================================*/
 
-function registerPage(id){
+function log(...msg){
 
-    const page = document.getElementById(id);
+    if(APP.debug){
 
-    if(page){
+        console.log(
 
-        Pages[id] = page;
+            "[PowerTools]",
+
+            ...msg
+
+        );
 
     }
 
 }
 
-/*=========================================================
-    REGISTER ALL PAGE
-=========================================================*/
+/*==========================================================
+    PAGE
+==========================================================*/
+
+const Pages = new Map();
+
+/*==========================================================
+    REGISTER PAGE
+==========================================================*/
 
 function registerPages(){
 
-    registerPage("dashboard-page");
+    document
 
-    registerPage("prompt-page");
+        .querySelectorAll(".page")
 
-    registerPage("affiliate-page");
+        .forEach(page=>{
 
-    registerPage("image-page");
+            Pages.set(
 
-    registerPage("video-page");
+                page.id,
 
-    registerPage("storyboard-page");
+                page
 
-    registerPage("narrator-page");
+            );
 
-    registerPage("library-page");
+        });
 
-    registerPage("optimizer-page");
+    log(
 
-    registerPage("workspace-page");
+        "Page Registered :",
 
-    registerPage("settings-page");
+        Pages.size
+
+    );
 
 }
 
-/*=========================================================
-    PAGE MANAGER
-=========================================================*/
+/*==========================================================
+    TITLE
+==========================================================*/
 
-function hideAllPages(){
+const PageTitle = {
 
-    Object.values(Pages).forEach(page=>{
+    dashboard : {
 
-        page.hidden = true;
+        title : "Dashboard",
 
-        page.classList.remove("active");
+        subtitle : "Welcome to PowerTools"
+
+    },
+
+    prompt : {
+
+        title : "Smart Prompt",
+
+        subtitle : "AI Prompt Generator"
+
+    },
+
+    affiliate : {
+
+        title : "Affiliate Studio",
+
+        subtitle : "Affiliate Content Generator"
+
+    },
+
+    image : {
+
+        title : "Image Studio",
+
+        subtitle : "AI Image Generator"
+
+    },
+
+    video : {
+
+        title : "Video Studio",
+
+        subtitle : "AI Video Generator"
+
+    },
+
+    storyboard : {
+
+        title : "Storyboard",
+
+        subtitle : "Storyboard Builder"
+
+    },
+
+    narrator : {
+
+        title : "AI Narrator",
+
+        subtitle : "Voice & Narration"
+
+    },
+
+    library : {
+
+        title : "Prompt Library",
+
+        subtitle : "Prompt Collection"
+
+    },
+
+    optimizer : {
+
+        title : "Prompt Optimizer",
+
+        subtitle : "Improve Prompt"
+
+    },
+
+    workspace : {
+
+        title : "Workspace",
+
+        subtitle : "Project Workspace"
+
+    },
+
+    settings : {
+
+        title : "Settings",
+
+        subtitle : "Application Settings"
+
+    }
+
+};
+
+/*==========================================================
+    CHANGE TITLE
+==========================================================*/
+
+function setPageTitle(page){
+
+    if(!UI.pageTitle) return;
+
+    const data =
+
+        PageTitle[page];
+
+    if(!data) return;
+
+    UI.pageTitle.textContent =
+
+        data.title;
+
+    if(UI.pageSubtitle){
+
+        UI.pageSubtitle.textContent =
+
+            data.subtitle;
+
+    }
+
+}
+
+/*==========================================================
+    SIDEBAR
+==========================================================*/
+
+function clearActiveMenu(){
+
+    document
+
+        .querySelectorAll(".menu-item")
+
+        .forEach(menu=>{
+
+            menu.classList.remove(
+
+                "active"
+
+            );
+
+        });
+
+}
+
+function activateMenu(page){
+
+    clearActiveMenu();
+
+    const menu =
+
+        document.querySelector(
+
+            `.menu-item[data-page="${page}"]`
+
+        );
+
+    if(menu){
+
+        menu.classList.add(
+
+            "active"
+
+        );
+
+    }
+
+}
+
+/*==========================================================
+    SHOW PAGE
+==========================================================*/
+
+function showPage(page){
+
+    Pages.forEach(item=>{
+
+        item.hidden = true;
+
+        item.classList.remove(
+
+            "active"
+
+        );
 
     });
 
+    const current =
+
+        document.getElementById(
+
+            page + "-page"
+
+        );
+
+    if(current){
+
+        current.hidden = false;
+
+        current.classList.add(
+
+            "active"
+
+        );
+
+        State.currentPage = page;
+
+        activateMenu(page);
+
+        setPageTitle(page);
+
+    }
+
 }
 
-function getPageId(name){
+/*==========================================================
+    ROUTER BINDING
+==========================================================*/
 
-    return `${name}-page`;
+function bindRouter(){
 
-}
+    if(typeof router === "undefined"){
 
-function pageExists(name){
+        console.warn(
 
-    return Pages.hasOwnProperty(getPageId(name));
+            "router.js belum dimuat."
 
-}
-
-function showPage(name){
-
-    const id = getPageId(name);
-
-    if(!Pages[id]){
-
-        console.warn(`Page "${name}" tidak ditemukan`);
+        );
 
         return;
 
     }
 
-    hideAllPages();
+    log(
 
-    Pages[id].hidden = false;
-
-    Pages[id].classList.add("active");
-
-    State.page = name;
-
-    updateTitle(name);
-
-    updateSidebar(name);
-
-}
-
-function updateTitle(name){
-
-    const title={
-
-        dashboard:"Dashboard",
-
-        prompt:"Smart Prompt",
-
-        affiliate:"Affiliate Studio",
-
-        image:"Image Studio",
-
-        video:"Video Studio",
-
-        storyboard:"Storyboard AI",
-
-        narrator:"AI Narrator",
-
-        library:"Prompt Library",
-
-        optimizer:"Prompt Optimizer",
-
-        workspace:"Workspace",
-
-        settings:"Settings"
-
-    };
-
-    const subtitle={
-
-        dashboard:"Welcome to PowerTools",
-
-        prompt:"Generate AI Prompt",
-
-        affiliate:"Create Affiliate Content",
-
-        image:"AI Image Generator",
-
-        video:"AI Video Generator",
-
-        storyboard:"Storyboard Generator",
-
-        narrator:"Narrator Studio",
-
-        library:"Prompt Collection",
-
-        optimizer:"Improve Your Prompt",
-
-        workspace:"Project Workspace",
-
-        settings:"Application Settings"
-
-    };
-
-    if(UI.pageTitle){
-
-        UI.pageTitle.textContent=
-
-            title[name] || "PowerTools";
-
-    }
-
-    if(UI.pageSubtitle){
-
-        UI.pageSubtitle.textContent=
-
-            subtitle[name] || "";
-
-    }
-
-}
-
-/*=========================================================
-    SIDEBAR
-=========================================================*/
-
-function clearActiveMenu(){
-
-    $$(".menu-item").forEach(item=>{
-
-        item.classList.remove("active");
-
-    });
-
-}
-
-function updateSidebar(page){
-
-    clearActiveMenu();
-
-    const btn=document.querySelector(
-
-        `.menu-item[data-page="${page}"]`
+        "Router ditemukan."
 
     );
 
-    if(btn){
+    if(typeof router.on === "function"){
 
-        btn.classList.add("active");
+        router.on(
+
+            "change",
+
+            route=>{
+
+                const page =
+
+                    route.name ||
+
+                    route.path ||
+
+                    APP.defaultPage;
+
+                showPage(page);
+
+            }
+
+        );
+
+    }
+
+    if(typeof router.start === "function"){
+
+        router.start();
 
     }
 
 }
 
+/*==========================================================
+    SIDEBAR EVENT
+==========================================================*/
+
 function bindSidebar(){
 
-    $$(".menu-item").forEach(button=>{
+    document
 
-        button.addEventListener("click",()=>{
+        .querySelectorAll(".menu-item")
 
-            const page=
+        .forEach(menu=>{
 
-                button.dataset.page;
+            menu.addEventListener(
 
-            showPage(page);
+                "click",
+
+                ()=>{
+
+                    const page =
+
+                        menu.dataset.page;
+
+                    if(
+
+                        typeof router !== "undefined" &&
+
+                        typeof router.navigate === "function"
+
+                    ){
+
+                        router.navigate(page);
+
+                    }
+
+                    else{
+
+                        showPage(page);
+
+                    }
+
+                }
+
+            );
 
         });
 
-    });
+}
+
+/*==========================================================
+    SEARCH
+==========================================================*/
+
+function bindSearch(){
+
+    const input =
+
+        $("#global-search");
+
+    if(!input) return;
+
+    input.addEventListener(
+
+        "input",
+
+        e=>{
+
+            State.search =
+
+                e.target.value;
+
+        }
+
+    );
 
 }
 
-/*=========================================================
-    MENU TOGGLE
-=========================================================*/
+/*==========================================================
+    SIDEBAR COLLAPSE
+==========================================================*/
 
 function toggleSidebar(){
 
-    State.sidebar=!State.sidebar;
+    State.sidebarCollapsed =
+
+        !State.sidebarCollapsed;
 
     UI.sidebar.classList.toggle(
 
         "collapsed",
 
-        !State.sidebar
+        State.sidebarCollapsed
 
     );
 
@@ -371,7 +541,9 @@ function toggleSidebar(){
 
 function bindMenuToggle(){
 
-    const btn=$("#menu-toggle");
+    const btn =
+
+        $("#menu-toggle");
 
     if(!btn) return;
 
@@ -385,440 +557,3 @@ function bindMenuToggle(){
 
 }
 
-/*=========================================================
-    TOAST
-=========================================================*/
-
-function toast(message = "", type = "success") {
-
-    if (!UI.toastRoot) return;
-
-    const toast = document.createElement("div");
-
-    toast.className = `toast toast-${type}`;
-
-    toast.innerHTML = `
-        <div class="toast-icon">
-            ${type === "success" ? "✅" :
-              type === "error" ? "❌" :
-              type === "warning" ? "⚠️" : "ℹ️"}
-        </div>
-
-        <div class="toast-text">
-
-            ${message}
-
-        </div>
-    `;
-
-    UI.toastRoot.appendChild(toast);
-
-    requestAnimationFrame(() => {
-
-        toast.classList.add("show");
-
-    });
-
-    setTimeout(() => {
-
-        toast.classList.remove("show");
-
-        setTimeout(() => {
-
-            toast.remove();
-
-        },300);
-
-    },3000);
-
-}
-
-/*=========================================================
-    LOADING
-=========================================================*/
-
-function showLoading(){
-
-    if(!UI.loading) return;
-
-    State.loading = true;
-
-    UI.loading.style.display = "flex";
-
-    requestAnimationFrame(()=>{
-
-        UI.loading.style.opacity = "1";
-
-    });
-
-}
-
-function hideLoading(){
-
-    if(!UI.loading) return;
-
-    State.loading = false;
-
-    UI.loading.style.opacity = "0";
-
-    setTimeout(()=>{
-
-        UI.loading.style.display = "none";
-
-    },300);
-
-}
-
-/*=========================================================
-    THEME
-=========================================================*/
-
-function applyTheme(){
-
-    document.documentElement.setAttribute(
-
-        "data-theme",
-
-        State.theme
-
-    );
-
-}
-
-function toggleTheme(){
-
-    State.theme =
-
-        State.theme === "dark"
-
-        ? "light"
-
-        : "dark";
-
-    applyTheme();
-
-    localStorage.setItem(
-
-        "powertools-theme",
-
-        State.theme
-
-    );
-
-}
-
-function loadTheme(){
-
-    const saved =
-
-        localStorage.getItem(
-
-            "powertools-theme"
-
-        );
-
-    if(saved){
-
-        State.theme = saved;
-
-    }
-
-    applyTheme();
-
-}
-
-/*=========================================================
-    SEARCH
-=========================================================*/
-
-function bindSearch(){
-
-    const input = $("#global-search");
-
-    if(!input) return;
-
-    input.addEventListener("input",(e)=>{
-
-        State.search =
-
-            e.target.value.toLowerCase();
-
-    });
-
-}
-
-/*=========================================================
-    EVENT
-=========================================================*/
-
-function bindThemeButton(){
-
-    const buttons =
-
-        document.querySelectorAll(".icon-button");
-
-    if(buttons.length > 1){
-
-        buttons[1].addEventListener(
-
-            "click",
-
-            toggleTheme
-
-        );
-
-    }
-
-}
-
-function bindKeyboard(){
-
-    document.addEventListener(
-
-        "keydown",
-
-        e=>{
-
-            if(e.key==="Escape"){
-
-                console.log(
-
-                    "Escape pressed"
-
-                );
-
-            }
-
-        }
-
-    );
-
-}
-
-/*=========================================================
-    STARTUP
-=========================================================*/
-
-function startup(){
-
-    showLoading();
-
-    setTimeout(()=>{
-
-        hideLoading();
-
-        toast(
-
-            "PowerTools berhasil dimuat."
-
-        );
-
-    },600);
-
-}
-
-/*=========================================================
-    ROUTER
-=========================================================*/
-
-function navigate(page){
-
-    if(!page){
-
-        page = APP.defaultPage;
-
-    }
-
-    if(!pageExists(page)){
-
-        console.warn(
-
-            `Halaman "${page}" tidak tersedia.`
-
-        );
-
-        page = APP.defaultPage;
-
-    }
-
-    showPage(page);
-
-    location.hash = page;
-
-}
-
-function handleHashChange(){
-
-    const hash =
-
-        location.hash.replace("#","");
-
-    if(hash===""){
-
-        navigate(APP.defaultPage);
-
-        return;
-
-    }
-
-    navigate(hash);
-
-}
-
-/*=========================================================
-    MODULE
-=========================================================*/
-
-function registerModule(name, init){
-
-    if(typeof init !== "function"){
-
-        return;
-
-    }
-
-    try{
-
-        init();
-
-        console.log(
-
-            `✔ Module : ${name}`
-
-        );
-
-    }
-
-    catch(error){
-
-        console.error(
-
-            `✖ Module : ${name}`,
-
-            error
-
-        );
-
-    }
-
-}
-
-/*=========================================================
-    GLOBAL EVENT
-=========================================================*/
-
-function bindGlobalEvent(){
-
-    window.addEventListener(
-
-        "hashchange",
-
-        handleHashChange
-
-    );
-
-    window.addEventListener(
-
-        "resize",
-
-        ()=>{
-
-            console.log(
-
-                "Resize",
-
-                window.innerWidth,
-
-                window.innerHeight
-
-            );
-
-        }
-
-    );
-
-}
-
-/*=========================================================
-    INIT
-=========================================================*/
-
-function init(){
-
-    console.log(
-
-        `${APP.name} ${APP.version}`
-
-    );
-
-    cacheElement();
-
-    registerPages();
-
-    loadTheme();
-
-    bindSidebar();
-
-    bindMenuToggle();
-
-    bindThemeButton();
-
-    bindSearch();
-
-    bindKeyboard();
-
-    bindGlobalEvent();
-
-    startup();
-
-    if(location.hash){
-
-        handleHashChange();
-
-    }else{
-
-        navigate(APP.defaultPage);
-
-    }
-
-}
-
-/*=========================================================
-    PUBLIC API
-=========================================================*/
-
-window.PowerTools = {
-
-    APP,
-
-    State,
-
-    UI,
-
-    Pages,
-
-    navigate,
-
-    showPage,
-
-    toast,
-
-    showLoading,
-
-    hideLoading,
-
-    toggleTheme
-
-};
-
-/*=========================================================
-    AUTO START
-=========================================================*/
-
-document.addEventListener(
-
-    "DOMContentLoaded",
-
-    init
-
-);
