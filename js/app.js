@@ -999,7 +999,8 @@ function initializePromptEngine(){
 
             ]
 
-        };
+        }
+        ];
 
     PromptEngine.styles=[
 
