@@ -3064,9 +3064,13 @@ PowerTools.loading = {
 
         PowerTools.state.loading = true;
 
-        this.text.textContent = message;
+      if (this.text) {
+    this.text.textContent = message;
+}
 
-        this.progress.style.width = "0%";
+if (this.progress) {
+    this.progress.style.width = "0%";
+}
 
         this.element.style.display = "flex";
 
