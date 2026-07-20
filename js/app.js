@@ -128,6 +128,93 @@ function bootPowerTools(){
 }
 
 /*==========================================================
+    INITIALIZE MODULES
+==========================================================*/
+
+function initializeModules(){
+
+    console.log(
+
+        "%cInitializing Modules...",
+
+        "color:#facc15;font-weight:bold;"
+
+    );
+
+    // Prompt Engine
+    if(window.promptEngine?.init){
+
+        window.promptEngine.init();
+
+    }
+
+    // Character Lock
+    if(window.characterLock?.init){
+
+        window.characterLock.init();
+
+    }
+
+    // Product Lock
+    if(window.productLock?.init){
+
+        window.productLock.init();
+
+    }
+
+    // Scene Engine
+    if(window.sceneEngine?.init){
+
+        window.sceneEngine.init();
+
+    }
+
+    // Story Engine
+    if(window.storyEngine?.init){
+
+        window.storyEngine.init();
+
+    }
+
+    // Voice Engine
+    if(window.voiceEngine?.init){
+
+        window.voiceEngine.init();
+
+    }
+
+    // Video Engine
+    if(window.videoEngine?.init){
+
+        window.videoEngine.init();
+
+    }
+
+    // Integration Engine
+    if(window.integrationEngine?.init){
+
+        window.integrationEngine.init();
+
+    }
+
+    // Export Engine
+    if(window.exportEngine?.init){
+
+        window.exportEngine.init();
+
+    }
+
+    console.log(
+
+        "%cModules Ready",
+
+        "color:#22c55e;font-weight:bold;"
+
+    );
+
+}
+
+/*==========================================================
     INITIALIZE
 ==========================================================*/
 
