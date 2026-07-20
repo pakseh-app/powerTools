@@ -3090,81 +3090,50 @@ PowerTools.loading = {
 
     },
 
-    hide(immediate = false) {
+ hide(immediate = false) {
 
-        this.visible = false;
+    this.visible = false;
+    PowerTools.state.loading = false;
 
-        PowerTools.state.loading = false;
-
+    if (this.progress) {
         this.progress.style.width = "100%";
+    }
 
-        if (immediate) {
+    if (!this.element) return;
 
-            this.element.classList.remove(
+    if (immediate) {
+        this.element.classList.remove("show");
+        this.element.style.display = "none";
+        return;
+    }
 
-                "show"
+    this.element.classList.remove("show");
 
-            );
-
+    setTimeout(() => {
+        if (this.element) {
             this.element.style.display = "none";
-
-            return;
-
         }
+    }, 250);
 
-        this.element.classList.remove(
-
-            "show"
-
-        );
-
-        setTimeout(() => {
-
-            this.element.style.display =
-
-                "none";
-
-        }, 250);
-
-        PowerTools.events.emit(
-
-            "loading:hide"
-
-        );
-
-    },
+    PowerTools.events.emit("loading:hide");
+},
 
     set(value) {
 
-        this.value =
+    this.value = Math.max(
+        0,
+        Math.min(100, value)
+    );
 
-            Math.max(
+    if (this.progress) {
+        this.progress.style.width = this.value + "%";
+    }
 
-                0,
-
-                Math.min(
-
-                    100,
-
-                    value
-
-                )
-
-            );
-
-        this.progress.style.width =
-
-            this.value + "%";
-
-        PowerTools.events.emit(
-
-            "loading:progress",
-
-            this.value
-
-        );
-
-    },
+    PowerTools.events.emit(
+        "loading:progress",
+        this.value
+    );
+},
 
     increase(step = 10) {
 
