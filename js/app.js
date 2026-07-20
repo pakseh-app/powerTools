@@ -1,340 +1,1273 @@
-/*==========================================================
-    POWERTOOLS
-    Ultimate AI Creator Suite
-
-    app.js
-
-    Version : 1.0 Alpha
-==========================================================*/
+/* ============================================================
+   PowerTools AI Creator Suite
+   APP.JS REBUILD V2
+   PART 1
+   CORE FOUNDATION
+============================================================ */
 
 "use strict";
 
-/*==========================================================
-    APP
-==========================================================*/
+/* ============================================================
+   ROOT NAMESPACE
+============================================================ */
 
-const PowerTools = {
+const PowerTools = (() => {
 
-    version: "1.0.0",
+    /* ========================================================
+       INTERNAL OBJECT
+    ======================================================== */
 
-    name: "PowerTools",
+    const App = {};
 
-    author: "PowerTools Team",
+    /* ========================================================
+       APPLICATION INFO
+    ======================================================== */
 
-    started: false,
+    App.info = {
 
-    loading: true,
+        name: "PowerTools AI Creator Suite",
 
-    darkMode: true,
+        version: "2.0.0",
 
-    currentPage: "dashboard",
+        build: "REBUILD",
 
-    currentModule: "",
+        author: "OpenAI"
 
-    language: "id",
+    };
 
-    projects: [],
+    /* ========================================================
+       CONFIG
+    ======================================================== */
 
-    templates: [],
+    App.config = {
 
-    history: [],
+        debug: true,
 
-    favorites: [],
+        autosave: true,
 
-    notifications: [],
+        animation: true,
 
-    clipboard: [],
+        theme: "dark",
 
-    engines: {},
+        storagePrefix: "PowerTools.",
 
-    modules: {},
+        toastDuration: 3000,
 
-    cache: {},
+        notificationDuration: 5000,
 
-    ui: {},
+        mobileBreakpoint: 992
 
-    data: {}
+    };
 
-};
+    /* ========================================================
+       GLOBAL STATE
+    ======================================================== */
 
-/*==========================================================
-    SELECTOR
-==========================================================*/
+    App.state = {
 
-const $ = (selector)=>{
+        initialized: false,
 
-    return document.querySelector(selector);
+        booted: false,
 
-};
+        loading: false,
 
-const $$ = (selector)=>{
+        currentPage: "dashboard",
 
-    return document.querySelectorAll(selector);
+        currentWorkspace: "default",
 
-};
+        currentTheme: "dark",
 
-/*==========================================================
-    READY
-==========================================================*/
+        currentModal: null,
 
-document.addEventListener(
+        sidebarCollapsed: false,
 
-    "DOMContentLoaded",
+        activeTool: null,
 
-    ()=>{
+        searchKeyword: "",
 
-        bootPowerTools();
+        debug: true
 
-    }
+    };
 
-);
+    /* ========================================================
+       STORE
+    ======================================================== */
 
-/*==========================================================
-    BOOT
-==========================================================*/
+    App.store = {
 
-function bootPowerTools(){
+        modules: {},
+
+        cache: {},
+
+        settings: {},
+
+        history: [],
+
+        notifications: [],
+
+        performance: {},
+
+        shortcuts: {}
+
+    };
+
+    /* ========================================================
+       DOM CACHE
+    ======================================================== */
+
+    App.dom = {};
+
+    /* ========================================================
+       COMPONENT REGISTRY
+    ======================================================== */
+
+    App.registry = {
+
+        components: {},
+
+        register(name, object) {
+
+            this.components[name] = object;
+
+        },
+
+        get(name) {
+
+            return this.components[name] || null;
+
+        },
+
+        exists(name) {
+
+            return name in this.components;
+
+        }
+
+    };
+
+    /* ========================================================
+       UTILITIES
+    ======================================================== */
+
+    App.utils = {
+
+        $(selector, root = document) {
+
+            return root.querySelector(selector);
+
+        },
+
+        $$(selector, root = document) {
+
+            return [...root.querySelectorAll(selector)];
+
+        },
+
+        id(id) {
+
+            return document.getElementById(id);
+
+        },
+
+        create(tag) {
+
+            return document.createElement(tag);
+
+        },
+
+        text(text) {
+
+            return document.createTextNode(text);
+
+        },
+
+        random(min, max) {
+
+            return Math.floor(
+
+                Math.random() * (max - min + 1)
+
+            ) + min;
+
+        },
+
+        uuid() {
+
+            return (
+
+                "PT-" +
+
+                Date.now().toString(36) +
+
+                "-" +
+
+                Math.random()
+
+                .toString(36)
+
+                .substring(2, 10)
+
+            );
+
+        },
+
+        clone(obj) {
+
+            return structuredClone(obj);
+
+        },
+
+        delay(ms) {
+
+            return new Promise(resolve => {
+
+                setTimeout(resolve, ms);
+
+            });
+
+        },
+
+        capitalize(text = "") {
+
+            if (!text.length) return "";
+
+            return text.charAt(0).toUpperCase()
+
+                + text.slice(1);
+
+        },
+
+        now() {
+
+            return performance.now();
+
+        }
+
+    };
+
+    /* ========================================================
+       LOGGER
+    ======================================================== */
+
+    App.log = {
+
+        info(...msg) {
+
+            console.log(
+
+                "%cPowerTools",
+
+                "background:#2563eb;color:#fff;padding:3px 8px;border-radius:4px",
+
+                ...msg
+
+            );
+
+        },
+
+        warn(...msg) {
+
+            console.warn(
+
+                "%cPowerTools",
+
+                "background:#f59e0b;color:#000;padding:3px 8px;border-radius:4px",
+
+                ...msg
+
+            );
+
+        },
+
+        error(...msg) {
+
+            console.error(
+
+                "%cPowerTools",
+
+                "background:#dc2626;color:#fff;padding:3px 8px;border-radius:4px",
+
+                ...msg
+
+            );
+
+        }
+
+    };
+
+    /* ========================================================
+       EVENT BUS
+    ======================================================== */
+
+    App.events = (() => {
+
+        const listeners = new Map();
+
+        return {
+
+            on(event, callback) {
+
+                if (!listeners.has(event)) {
+
+                    listeners.set(event, []);
+
+                }
+
+                listeners.get(event).push(callback);
+
+            },
+
+            off(event, callback) {
+
+                if (!listeners.has(event)) return;
+
+                listeners.set(
+
+                    event,
+
+                    listeners
+
+                    .get(event)
+
+                    .filter(fn => fn !== callback)
+
+                );
+
+            },
+
+            emit(event, payload = null) {
+
+                if (!listeners.has(event)) return;
+
+                listeners
+
+                    .get(event)
+
+                    .forEach(fn => {
+
+                        try {
+
+                            fn(payload);
+
+                        }
+
+                        catch (err) {
+
+                            console.error(err);
+
+                        }
+
+                    });
+
+            },
+
+            clear() {
+
+                listeners.clear();
+
+            }
+
+        };
+
+    })();
+
+    /* ========================================================
+       PERFORMANCE TIMER
+    ======================================================== */
+
+    App.performance = {
+
+        bootStart: performance.now(),
+
+        bootEnd: 0,
+
+        total: 0
+
+    };
+
+    /* ========================================================
+       CONSOLE HEADER
+    ======================================================== */
 
     console.clear();
 
     console.log(
 
-        "%c⚡ PowerTools",
+        "%c==============================================",
 
-        "color:#38bdf8;font-size:20px;font-weight:bold;"
-
-    );
-
-    console.log(
-
-        "%cUltimate AI Creator Suite",
-
-        "color:#22c55e;font-size:14px;"
+        "color:#38bdf8"
 
     );
 
     console.log(
 
-        "Version",
+        "%cPowerTools AI Creator Suite",
 
-        PowerTools.version
+        "background:#0f172a;color:#22c55e;font-size:16px;font-weight:bold;padding:8px"
 
     );
-
-    PowerTools.started=true;
-
-    initialize();
-
-}
-
-/*==========================================================
-    INITIALIZE MODULES
-==========================================================*/
-
-function initializeModules(){
 
     console.log(
 
-        "%cInitializing Modules...",
+        "%cAPP.JS REBUILD V2 INITIALIZED",
 
-        "color:#facc15;font-weight:bold;"
+        "color:#60a5fa;font-weight:bold"
 
     );
-
-    // Prompt Engine
-    if(window.promptEngine?.init){
-
-        window.promptEngine.init();
-
-    }
-
-    // Character Lock
-    if(window.characterLock?.init){
-
-        window.characterLock.init();
-
-    }
-
-    // Product Lock
-    if(window.productLock?.init){
-
-        window.productLock.init();
-
-    }
-
-    // Scene Engine
-    if(window.sceneEngine?.init){
-
-        window.sceneEngine.init();
-
-    }
-
-    // Story Engine
-    if(window.storyEngine?.init){
-
-        window.storyEngine.init();
-
-    }
-
-    // Voice Engine
-    if(window.voiceEngine?.init){
-
-        window.voiceEngine.init();
-
-    }
-
-    // Video Engine
-    if(window.videoEngine?.init){
-
-        window.videoEngine.init();
-
-    }
-
-    // Integration Engine
-    if(window.integrationEngine?.init){
-
-        window.integrationEngine.init();
-
-    }
-
-    // Export Engine
-    if(window.exportEngine?.init){
-
-        window.exportEngine.init();
-
-    }
 
     console.log(
 
-        "%cModules Ready",
+        "%cVersion : " + App.info.version,
 
-        "color:#22c55e;font-weight:bold;"
-
-    );
-
-}
-
-/*==========================================================
-    INITIALIZE
-==========================================================*/
-
-function initialize(){
-
-    cacheElements();
-
-    registerEvents();
-
-    initializeModules();
-
-    initializeWorkspace();
-
-    initializeHistory();
-
-    initializeTemplates();
-
-    initializeSettings();
-
-    hideLoading();
-
-}
-
-/*==========================================================
-    CACHE
-==========================================================*/
-
-function cacheElements(){
-
-    PowerTools.ui.app=$("#app");
-
-    PowerTools.ui.sidebar=$("#sidebar");
-
-    PowerTools.ui.main=$("#main");
-
-    PowerTools.ui.page=$("#page-content");
-
-    PowerTools.ui.loading=$("#loading-screen");
-
-    PowerTools.ui.toast=$("#toast-root");
-
-    PowerTools.ui.modal=$("#modal-root");
-
-}
-
-/*==========================================================
-    EVENT
-==========================================================*/
-
-function registerEvents(){
-
-    window.addEventListener(
-
-        "resize",
-
-        handleResize
+        "color:#a3e635"
 
     );
 
-}
+    console.log(
 
-/*==========================================================
-    LOADING
-==========================================================*/
+        "%c==============================================",
 
-function hideLoading(){
+        "color:#38bdf8"
 
-    if(!PowerTools.ui.loading)return;
+    );
 
-    setTimeout(()=>{
+    return App;
 
-        PowerTools.ui.loading.style.opacity="0";
+})();
 
-        setTimeout(()=>{
+/* ============================================================
+   EXPORT
+============================================================ */
 
-            PowerTools.ui.loading.style.display="none";
+window.PowerTools = PowerTools;
 
-        },500);
+/* ============================================================
+   PART 2
+   DOM MANAGER
+   COMPONENT MANAGER
+   MODULE LOADER
+   BOOT SYSTEM
+============================================================ */
 
-    },1200);
+/* ============================================================
+   DOM MANAGER
+============================================================ */
 
-}
+PowerTools.domManager = {
 
-/*==========================================================
-    ROUTER
-==========================================================*/
+    selectors: {
 
-function navigate(page){
+        app: "#app",
 
-    if(!page) return;
+        body: "body",
 
-    PowerTools.currentPage = page;
+        sidebar: "#sidebar",
 
-    updatePageTitle(page);
+        topbar: "#topbar",
 
-    activateMenu(page);
+        pageContent: "#page-content",
 
-    loadModule(page);
+        statusBar: "#status-bar",
 
-}
+        loading: "#loading-screen",
 
-function updatePageTitle(page){
+        modalRoot: "#modal-root",
 
-    const title = document.querySelector("#topbar h1");
+        toastRoot: "#toast-root",
 
-    if(!title) return;
+        drawerRoot: "#drawer-root",
 
-    title.textContent = capitalize(page);
+        contextRoot: "#context-menu-root",
 
-}
+        floatingRoot: "#floating-panel-root"
 
-function activateMenu(page){
+    },
 
-    document
-        .querySelectorAll(".menu-item")
-        .forEach(item=>{
+    scan() {
+
+        Object.entries(this.selectors).forEach(
+
+            ([key, selector]) => {
+
+                PowerTools.dom[key] =
+
+                    document.querySelector(selector);
+
+            }
+
+        );
+
+    },
+
+    find(selector, root = document) {
+
+        return root.querySelector(selector);
+
+    },
+
+    findAll(selector, root = document) {
+
+        return [...root.querySelectorAll(selector)];
+
+    }
+
+};
+
+/* ============================================================
+   COMPONENT MANAGER
+============================================================ */
+
+PowerTools.components = {
+
+    scan() {
+
+        this.sidebarItems =
+
+            PowerTools.domManager.findAll(
+
+                ".menu-item"
+
+            );
+
+        this.buttons =
+
+            PowerTools.domManager.findAll(
+
+                "button"
+
+            );
+
+        this.inputs =
+
+            PowerTools.domManager.findAll(
+
+                "input"
+
+            );
+
+        this.cards =
+
+            PowerTools.domManager.findAll(
+
+                ".tool-card"
+
+            );
+
+        this.heroButtons =
+
+            PowerTools.domManager.findAll(
+
+                ".primary-btn,.secondary-btn"
+
+            );
+
+        this.forms =
+
+            PowerTools.domManager.findAll(
+
+                "form"
+
+            );
+
+    }
+
+};
+
+/* ============================================================
+   MODULE LOADER
+============================================================ */
+
+PowerTools.modules = {
+
+    list: {
+
+        PromptEngine: null,
+
+        CharacterLock: null,
+
+        ProductLock: null,
+
+        SceneEngine: null,
+
+        StoryEngine: null,
+
+        VoiceEngine: null,
+
+        VideoEngine: null,
+
+        IntegrationEngine: null,
+
+        ExportEngine: null,
+
+        UIEngine: null
+
+    },
+
+    discover() {
+
+        Object.keys(this.list).forEach(
+
+            module => {
+
+                if (window[module]) {
+
+                    this.list[module] =
+
+                        window[module];
+
+                    PowerTools.log.info(
+
+                        module,
+
+                        "connected"
+
+                    );
+
+                }
+
+                else {
+
+                    PowerTools.log.warn(
+
+                        module,
+
+                        "not found"
+
+                    );
+
+                }
+
+            }
+
+        );
+
+    },
+
+    initialize() {
+
+        Object.values(this.list)
+
+            .forEach(module => {
+
+                if (
+
+                    module &&
+
+                    typeof module.init ===
+
+                    "function"
+
+                ) {
+
+                    try {
+
+                        module.init();
+
+                    }
+
+                    catch (err) {
+
+                        PowerTools.log.error(
+
+                            err
+
+                        );
+
+                    }
+
+                }
+
+            });
+
+    }
+
+};
+
+/* ============================================================
+   LIFE CYCLE
+============================================================ */
+
+PowerTools.lifecycle = {
+
+    bootTasks: [],
+
+    readyTasks: [],
+
+    destroyTasks: [],
+
+    boot(fn) {
+
+        this.bootTasks.push(fn);
+
+    },
+
+    ready(fn) {
+
+        this.readyTasks.push(fn);
+
+    },
+
+    destroy(fn) {
+
+        this.destroyTasks.push(fn);
+
+    }
+
+};
+
+/* ============================================================
+   BOOT LOADER
+============================================================ */
+
+PowerTools.boot = async function () {
+
+    if (PowerTools.state.booted)
+
+        return;
+
+    PowerTools.log.info(
+
+        "Boot started"
+
+    );
+
+    PowerTools.domManager.scan();
+
+    PowerTools.components.scan();
+
+    PowerTools.modules.discover();
+
+    for (
+
+        const task of
+
+        PowerTools.lifecycle.bootTasks
+
+    ) {
+
+        await task();
+
+    }
+
+    PowerTools.modules.initialize();
+
+    for (
+
+        const task of
+
+        PowerTools.lifecycle.readyTasks
+
+    ) {
+
+        await task();
+
+    }
+
+    PowerTools.state.booted = true;
+
+    PowerTools.state.initialized = true;
+
+    PowerTools.performance.bootEnd =
+
+        performance.now();
+
+    PowerTools.performance.total =
+
+        PowerTools.performance.bootEnd -
+
+        PowerTools.performance.bootStart;
+
+    PowerTools.events.emit(
+
+        "app:ready"
+
+    );
+
+    PowerTools.log.info(
+
+        "Boot finished",
+
+        PowerTools.performance.total.toFixed(2),
+
+        "ms"
+
+    );
+
+};
+
+/* ============================================================
+   EVENT DELEGATION
+============================================================ */
+
+PowerTools.delegate = function (
+
+    selector,
+
+    event,
+
+    handler
+
+) {
+
+    document.addEventListener(
+
+        event,
+
+        e => {
+
+            const target =
+
+                e.target.closest(selector);
+
+            if (!target)
+
+                return;
+
+            handler(e, target);
+
+        }
+
+    );
+
+};
+
+/* ============================================================
+   APP READY
+============================================================ */
+
+document.addEventListener(
+
+    "DOMContentLoaded",
+
+    () => {
+
+        PowerTools.boot();
+
+    }
+
+);
+
+PowerTools.log.info(
+
+    "DOM Manager Ready"
+
+);
+
+PowerTools.log.info(
+
+    "Component Manager Ready"
+
+);
+
+PowerTools.log.info(
+
+    "Module Loader Ready"
+
+);
+
+PowerTools.log.info(
+
+    "Boot System Ready"
+
+);
+
+/* ============================================================
+   PART 3A
+   ROUTER ENGINE
+   PAGE REGISTRY
+============================================================ */
+
+PowerTools.router = {
+
+    routes: new Map(),
+
+    current: null,
+
+    previous: null,
+
+    defaultPage: "dashboard",
+
+    initialized: false,
+
+    init() {
+
+        this.scan();
+
+        this.initialized = true;
+
+        PowerTools.log.info("Router Ready");
+
+    },
+
+    scan() {
+
+        const pages = document.querySelectorAll("[data-page]");
+
+        pages.forEach(page => {
+
+            const id = page.dataset.page;
+
+            if (!id) return;
+
+            this.routes.set(id, page);
+
+        });
+
+    },
+
+    register(name, element) {
+
+        if (!name || !element) return;
+
+        this.routes.set(name, element);
+
+    },
+
+    exists(name) {
+
+        return this.routes.has(name);
+
+    },
+
+    get(name) {
+
+        return this.routes.get(name);
+
+    },
+
+    show(name) {
+
+        if (!this.exists(name)) {
+
+            PowerTools.log.warn(
+
+                "Page not found:",
+
+                name
+
+            );
+
+            return false;
+
+        }
+
+        this.routes.forEach(page => {
+
+            page.hidden = true;
+
+            page.classList.remove("active");
+
+        });
+
+        const target = this.get(name);
+
+        target.hidden = false;
+
+        target.classList.add("active");
+
+        this.previous = this.current;
+
+        this.current = name;
+
+        PowerTools.state.currentPage = name;
+
+        PowerTools.events.emit(
+
+            "page:change",
+
+            {
+
+                page: name,
+
+                previous: this.previous
+
+            }
+
+        );
+
+        return true;
+
+    },
+
+    go(name) {
+
+        return this.show(name);
+
+    },
+
+    back() {
+
+        if (!this.previous) return;
+
+        this.show(this.previous);
+
+    }
+
+};
+
+/* ============================================================
+   PAGE MANAGER
+============================================================ */
+
+PowerTools.pages = {
+
+    title: "",
+
+    subtitle: "",
+
+    titles: {
+
+        dashboard: "Dashboard",
+
+        prompt: "Smart Prompt",
+
+        affiliate: "Affiliate Studio",
+
+        image: "Image Studio",
+
+        video: "Video Studio",
+
+        storyboard: "Storyboard",
+
+        narrator: "AI Narrator",
+
+        workspace: "Workspace",
+
+        library: "Prompt Library",
+
+        settings: "Settings"
+
+    },
+
+    update(page) {
+
+        const title =
+
+            this.titles[page] ||
+
+            PowerTools.utils.capitalize(page);
+
+        const h1 =
+
+            document.querySelector(
+
+                ".page-title h1"
+
+            );
+
+        const span =
+
+            document.querySelector(
+
+                ".page-title span"
+
+            );
+
+        if (h1)
+
+            h1.textContent = title;
+
+        if (span)
+
+            span.textContent =
+
+                "PowerTools AI Creator Suite";
+
+    }
+
+};
+
+/* ============================================================
+   ROUTE API
+============================================================ */
+
+PowerTools.route = function(name){
+
+    return PowerTools.router.go(name);
+
+};
+
+/* ============================================================
+   PAGE EVENT
+============================================================ */
+
+PowerTools.events.on(
+
+    "page:change",
+
+    data=>{
+
+        PowerTools.pages.update(
+
+            data.page
+
+        );
+
+    }
+
+);
+
+/* ============================================================
+   ROUTER BOOT
+============================================================ */
+
+PowerTools.lifecycle.boot(
+
+    async()=>{
+
+        PowerTools.router.init();
+
+    }
+
+);
+
+PowerTools.lifecycle.ready(
+
+    async()=>{
+
+        PowerTools.router.go(
+
+            PowerTools.router.defaultPage
+
+        );
+
+    }
+
+);
+
+PowerTools.log.info(
+
+    "Dynamic Router Engine Loaded"
+
+);
+
+/* ============================================================
+   PART 3B
+   SIDEBAR ENGINE
+   NAVIGATION ENGINE
+============================================================ */
+
+/* ============================================================
+   SIDEBAR ENGINE
+============================================================ */
+
+PowerTools.sidebar = {
+
+    element: null,
+
+    items: [],
+
+    toggleButton: null,
+
+    collapsed: false,
+
+    init() {
+
+        this.element = PowerTools.dom.sidebar;
+
+        this.toggleButton = PowerTools.utils.id("menu-toggle");
+
+        this.refresh();
+
+        this.bind();
+
+        PowerTools.log.info("Sidebar Ready");
+
+    },
+
+    refresh() {
+
+        this.items = [
+
+            ...document.querySelectorAll(
+
+                ".menu-item"
+
+            )
+
+        ];
+
+    },
+
+    bind() {
+
+        if (this.toggleButton) {
+
+            this.toggleButton.addEventListener(
+
+                "click",
+
+                () => this.toggle()
+
+            );
+
+        }
+
+    },
+
+    collapse() {
+
+        this.collapsed = true;
+
+        PowerTools.state.sidebarCollapsed = true;
+
+        document.body.classList.add(
+
+            "sidebar-collapsed"
+
+        );
+
+        PowerTools.events.emit(
+
+            "sidebar:collapse"
+
+        );
+
+    },
+
+    expand() {
+
+        this.collapsed = false;
+
+        PowerTools.state.sidebarCollapsed = false;
+
+        document.body.classList.remove(
+
+            "sidebar-collapsed"
+
+        );
+
+        PowerTools.events.emit(
+
+            "sidebar:expand"
+
+        );
+
+    },
+
+    toggle() {
+
+        this.collapsed ?
+
+            this.expand()
+
+            :
+
+            this.collapse();
+
+    },
+
+    activate(route) {
+
+        this.items.forEach(item => {
 
             item.classList.remove("active");
 
-            if(item.dataset.page===page){
+            if (
+
+                item.dataset.route === route
+
+            ) {
 
                 item.classList.add("active");
 
@@ -342,1291 +1275,1669 @@ function activateMenu(page){
 
         });
 
-}
-
-function capitalize(text){
-
-    return text.charAt(0).toUpperCase()+text.slice(1);
-
-}
-
-/*==========================================================
-    MODULE LOADER
-==========================================================*/
-
-function loadModule(name){
-
-    console.log(
-
-        "Loading Module :",
-
-        name
-
-    );
-
-    if(
-
-        PowerTools.modules[name]
-
-    ){
-
-        PowerTools.modules[name]();
-
-        return;
-
     }
 
-    console.warn(
+};
 
-        "Module belum tersedia."
+/* ============================================================
+   NAVIGATION ENGINE
+============================================================ */
 
-    );
+PowerTools.navigation = {
 
-}
+    navigate(route) {
 
-/*==========================================================
-    MODULE REGISTER
-==========================================================*/
+        if (!route) return;
 
-function registerModule(
+        PowerTools.router.go(route);
 
-    name,
+        PowerTools.sidebar.activate(route);
 
-    callback
+        PowerTools.events.emit(
 
-){
+            "navigation",
 
-    PowerTools.modules[name]=callback;
-
-}
-
-/*==========================================================
-    STORAGE
-==========================================================*/
-
-const Storage={
-
-    save(key,value){
-
-        localStorage.setItem(
-
-            key,
-
-            JSON.stringify(value)
+            route
 
         );
-
-    },
-
-    load(key,defaultValue=[]){
-
-        const data=
-
-            localStorage.getItem(key);
-
-        if(!data)
-
-            return defaultValue;
-
-        try{
-
-            return JSON.parse(data);
-
-        }
-
-        catch(e){
-
-            return defaultValue;
-
-        }
-
-    },
-
-    remove(key){
-
-        localStorage.removeItem(key);
-
-    },
-
-    clear(){
-
-        localStorage.clear();
 
     }
 
 };
 
-/*==========================================================
-    SETTINGS
-==========================================================*/
+/* ============================================================
+   GLOBAL ACTION DISPATCHER
+============================================================ */
 
-function initializeSettings(){
+PowerTools.actions = {
 
-    PowerTools.darkMode=
+    list: new Map(),
 
-        Storage.load(
+    register(name, handler) {
 
-            "darkMode",
+        this.list.set(
 
-            true
+            name,
 
-        );
-
-}
-
-/*==========================================================
-    WORKSPACE
-==========================================================*/
-
-function initializeWorkspace(){
-
-    PowerTools.projects=
-
-        Storage.load(
-
-            "projects",
-
-            []
+            handler
 
         );
 
-}
+    },
 
-function saveWorkspace(){
+    execute(name, payload = null) {
 
-    Storage.save(
+        if (
 
-        "projects",
+            !this.list.has(name)
 
-        PowerTools.projects
+        ) {
 
-    );
+            PowerTools.log.warn(
 
-}
+                "Unknown action:",
 
-/*==========================================================
-    TEMPLATE
-==========================================================*/
+                name
 
-function initializeTemplates(){
+            );
 
-    PowerTools.templates=[];
-
-}
-
-/*==========================================================
-    HISTORY
-==========================================================*/
-
-function initializeHistory(){
-
-    PowerTools.history=
-
-        Storage.load(
-
-            "history",
-
-            []
-
-        );
-
-}
-
-function addHistory(data){
-
-    PowerTools.history.unshift(data);
-
-    if(
-
-        PowerTools.history.length>100
-
-    ){
-
-        PowerTools.history.pop();
-
-    }
-
-    Storage.save(
-
-        "history",
-
-        PowerTools.history
-
-    );
-
-}
-
-/*==========================================================
-    RESIZE
-==========================================================*/
-
-function handleResize(){
-
-    console.log(
-
-        "Window :",
-
-        window.innerWidth,
-
-        "x",
-
-        window.innerHeight
-
-    );
-
-}
-
-/*==========================================================
-    TOAST ENGINE
-==========================================================*/
-
-function showToast(
-
-    message,
-
-    type="info",
-
-    duration=3000
-
-){
-
-    if(!PowerTools.ui.toast) return;
-
-    const toast=document.createElement("div");
-
-    toast.className=`toast toast-${type}`;
-
-    toast.innerHTML=`
-
-        <div class="toast-icon">
-
-            ${getToastIcon(type)}
-
-        </div>
-
-        <div class="toast-message">
-
-            ${message}
-
-        </div>
-
-    `;
-
-    PowerTools.ui.toast.appendChild(toast);
-
-    requestAnimationFrame(()=>{
-
-        toast.classList.add("show");
-
-    });
-
-    setTimeout(()=>{
-
-        toast.classList.remove("show");
-
-        setTimeout(()=>{
-
-            toast.remove();
-
-        },300);
-
-    },duration);
-
-}
-
-function getToastIcon(type){
-
-    switch(type){
-
-        case "success":
-
-            return "✅";
-
-        case "error":
-
-            return "❌";
-
-        case "warning":
-
-            return "⚠️";
-
-        default:
-
-            return "ℹ️";
-
-    }
-
-}
-
-/*==========================================================
-    MODAL ENGINE
-==========================================================*/
-
-function openModal(
-
-    title,
-
-    content
-
-){
-
-    if(!PowerTools.ui.modal) return;
-
-    PowerTools.ui.modal.innerHTML=`
-
-        <div class="modal-overlay">
-
-            <div class="modal-window">
-
-                <div class="modal-header">
-
-                    <h2>${title}</h2>
-
-                    <button id="modal-close">
-
-                        ✕
-
-                    </button>
-
-                </div>
-
-                <div class="modal-body">
-
-                    ${content}
-
-                </div>
-
-            </div>
-
-        </div>
-
-    `;
-
-    document
-
-        .querySelector("#modal-close")
-
-        .onclick=closeModal;
-
-}
-
-function closeModal(){
-
-    if(!PowerTools.ui.modal) return;
-
-    PowerTools.ui.modal.innerHTML="";
-
-}
-
-/*==========================================================
-    CLIPBOARD
-==========================================================*/
-
-async function copyText(text){
-
-    try{
-
-        await navigator.clipboard.writeText(text);
-
-        PowerTools.clipboard.push(text);
-
-        showToast(
-
-            "Prompt berhasil disalin",
-
-            "success"
-
-        );
-
-    }
-
-    catch(error){
-
-        console.error(error);
-
-        showToast(
-
-            "Gagal menyalin",
-
-            "error"
-
-        );
-
-    }
-
-}
-
-/*==========================================================
-    EXPORT TXT
-==========================================================*/
-
-function exportTXT(
-
-    filename,
-
-    content
-
-){
-
-    const blob=new Blob(
-
-        [content],
-
-        {
-
-            type:"text/plain"
+            return;
 
         }
 
-    );
+        try {
 
-    const url=URL.createObjectURL(blob);
+            this.list
 
-    const a=document.createElement("a");
+                .get(name)
 
-    a.href=url;
+                (payload);
 
-    a.download=filename+".txt";
+        }
 
-    a.click();
+        catch (err) {
 
-    URL.revokeObjectURL(url);
+            PowerTools.log.error(err);
 
-}
+        }
 
-/*==========================================================
-    EXPORT JSON
-==========================================================*/
+    }
 
-function exportJSON(
+};
 
-    filename,
+/* ============================================================
+   DEFAULT ACTIONS
+============================================================ */
 
-    data
+PowerTools.actions.register(
 
-){
+    "dashboard",
 
-    const blob=new Blob(
+    () =>
 
-        [
+        PowerTools.navigation.navigate(
 
-            JSON.stringify(
+            "dashboard"
 
-                data,
+        )
 
-                null,
+);
 
-                2
+PowerTools.actions.register(
+
+    "prompt",
+
+    () =>
+
+        PowerTools.navigation.navigate(
+
+            "prompt"
+
+        )
+
+);
+
+PowerTools.actions.register(
+
+    "affiliate",
+
+    () =>
+
+        PowerTools.navigation.navigate(
+
+            "affiliate"
+
+        )
+
+);
+
+PowerTools.actions.register(
+
+    "image",
+
+    () =>
+
+        PowerTools.navigation.navigate(
+
+            "image"
+
+        )
+
+);
+
+PowerTools.actions.register(
+
+    "video",
+
+    () =>
+
+        PowerTools.navigation.navigate(
+
+            "video"
+
+        )
+
+);
+
+PowerTools.actions.register(
+
+    "storyboard",
+
+    () =>
+
+        PowerTools.navigation.navigate(
+
+            "storyboard"
+
+        )
+
+);
+
+PowerTools.actions.register(
+
+    "narrator",
+
+    () =>
+
+        PowerTools.navigation.navigate(
+
+            "narrator"
+
+        )
+
+);
+
+PowerTools.actions.register(
+
+    "library",
+
+    () =>
+
+        PowerTools.navigation.navigate(
+
+            "library"
+
+        )
+
+);
+
+PowerTools.actions.register(
+
+    "workspace",
+
+    () =>
+
+        PowerTools.navigation.navigate(
+
+            "workspace"
+
+        )
+
+);
+
+PowerTools.actions.register(
+
+    "settings",
+
+    () =>
+
+        PowerTools.navigation.navigate(
+
+            "settings"
+
+        )
+
+);
+
+/* ============================================================
+   EVENT DELEGATION
+============================================================ */
+
+PowerTools.delegate(
+
+    ".menu-item",
+
+    "click",
+
+    (event, element) => {
+
+        const route =
+
+            element.dataset.route;
+
+        if (route) {
+
+            PowerTools.navigation.navigate(
+
+                route
+
+            );
+
+            return;
+
+        }
+
+        const label =
+
+            element
+
+            .textContent
+
+            .trim()
+
+            .toLowerCase();
+
+        if (
+
+            label.includes("dashboard")
+
+        )
+
+            return PowerTools.actions.execute(
+
+                "dashboard"
+
+            );
+
+        if (
+
+            label.includes("smart")
+
+        )
+
+            return PowerTools.actions.execute(
+
+                "prompt"
+
+            );
+
+        if (
+
+            label.includes("affiliate")
+
+        )
+
+            return PowerTools.actions.execute(
+
+                "affiliate"
+
+            );
+
+        if (
+
+            label.includes("image")
+
+        )
+
+            return PowerTools.actions.execute(
+
+                "image"
+
+            );
+
+        if (
+
+            label.includes("video")
+
+        )
+
+            return PowerTools.actions.execute(
+
+                "video"
+
+            );
+
+        if (
+
+            label.includes("story")
+
+        )
+
+            return PowerTools.actions.execute(
+
+                "storyboard"
+
+            );
+
+        if (
+
+            label.includes("narrator")
+
+        )
+
+            return PowerTools.actions.execute(
+
+                "narrator"
+
+            );
+
+        if (
+
+            label.includes("library")
+
+        )
+
+            return PowerTools.actions.execute(
+
+                "library"
+
+            );
+
+        if (
+
+            label.includes("workspace")
+
+        )
+
+            return PowerTools.actions.execute(
+
+                "workspace"
+
+            );
+
+        if (
+
+            label.includes("setting")
+
+        )
+
+            return PowerTools.actions.execute(
+
+                "settings"
+
+            );
+
+    }
+
+);
+
+/* ============================================================
+   ROUTER SYNC
+============================================================ */
+
+PowerTools.events.on(
+
+    "page:change",
+
+    data => {
+
+        PowerTools.sidebar.activate(
+
+            data.page
+
+        );
+
+    }
+
+);
+
+/* ============================================================
+   BOOT
+============================================================ */
+
+PowerTools.lifecycle.boot(
+
+    async () => {
+
+        PowerTools.sidebar.init();
+
+    }
+
+);
+
+PowerTools.log.info(
+
+    "Navigation Engine Loaded"
+
+);
+
+/* ============================================================
+   PART 3C
+   DASHBOARD ENGINE
+   HERO ENGINE
+   TOOL CARD ENGINE
+   WORKSPACE MANAGER
+============================================================ */
+
+/* ============================================================
+   DASHBOARD ENGINE
+============================================================ */
+
+PowerTools.dashboard = {
+
+    heroButtons: [],
+
+    toolCards: [],
+
+    searchInput: null,
+
+    initialized: false,
+
+    init() {
+
+        this.heroButtons = [
+
+            ...document.querySelectorAll(
+
+                ".primary-btn,.secondary-btn"
 
             )
 
-        ],
-
-        {
-
-            type:"application/json"
-
-        }
-
-    );
-
-    const url=URL.createObjectURL(blob);
-
-    const a=document.createElement("a");
-
-    a.href=url;
-
-    a.download=filename+".json";
-
-    a.click();
-
-    URL.revokeObjectURL(url);
-
-}
-
-/*==========================================================
-    IMPORT JSON
-==========================================================*/
-
-function importJSON(file){
-
-    return new Promise(
-
-        (resolve,reject)=>{
-
-            const reader=new FileReader();
-
-            reader.onload=()=>{
-
-                try{
-
-                    resolve(
-
-                        JSON.parse(
-
-                            reader.result
-
-                        )
-
-                    );
-
-                }
-
-                catch(error){
-
-                    reject(error);
-
-                }
-
-            };
-
-            reader.onerror=reject;
-
-            reader.readAsText(file);
-
-        }
-
-    );
-
-}
-
-/*==========================================================
-    EVENT BUS
-==========================================================*/
-
-const EventBus={
-
-    events:{},
-
-    on(event,callback){
-
-        if(!this.events[event]){
-
-            this.events[event]=[];
-
-        }
-
-        this.events[event].push(callback);
-
-    },
-
-    emit(event,data){
-
-        if(!this.events[event]) return;
-
-        this.events[event].forEach(callback=>{
-
-            callback(data);
-
-        });
-
-    },
-
-    off(event){
-
-        delete this.events[event];
-
-    }
-
-};
-
-/*==========================================================
-    STARTUP MESSAGE
-==========================================================*/
-
-console.log(
-
-    "%cPowerTools Engine Ready",
-
-    "color:#22c55e;font-weight:bold;font-size:15px"
-
-);
-
-/*==========================================================
-    PROMPT ENGINE CORE
-==========================================================*/
-
-const PromptEngine={
-
-    version:"1.0",
-
-    categories:[],
-
-    styles:[],
-
-    cameras:[],
-
-    lightings:[],
-
-    ratios:[],
-
-    platforms:[],
-
-    initialized:false
-
-};
-
-/*==========================================================
-    INITIALIZE PROMPT ENGINE
-==========================================================*/
-
-function initializePromptEngine(){
-
-    PromptEngine.categories=[
-
-        {
-
-            id:"food",
-
-            keywords:[
-
-                "bakso",
-
-                "mie",
-
-                "ayam",
-
-                "sate",
-
-                "es",
-
-                "kopi",
-
-                "minuman",
-
-                "jus",
-
-                "burger",
-
-                "pizza",
-
-                "warung",
-
-                "cafe"
-
-            ]
-
-        },
-
-        {
-
-            id:"fashion",
-
-            keywords:[
-
-                "baju",
-
-                "kaos",
-
-                "hoodie",
-
-                "sepatu",
-
-                "tas",
-
-                "fashion"
-
-            ]
-
-        },
-
-        {
-
-            id:"property",
-
-            keywords:[
-
-                "rumah",
-
-                "tanah",
-
-                "villa",
-
-                "kost",
-
-                "apartemen"
-
-            ]
-
-        },
-
-        {
-
-            id:"barbershop",
-
-            keywords:[
-
-                "barber",
-
-                "haircut",
-
-                "pomade",
-
-                "hair tonic"
-
-            ]
-
-        },
-
-        {
-
-            id:"automotive",
-
-            keywords:[
-
-                "motor",
-
-                "mobil",
-
-                "helm",
-
-                "oli",
-
-                "ban"
-
-            ]
-
-        }
         ];
 
-    PromptEngine.styles=[
+        this.toolCards = [
 
-        "Ultra Realistic",
+            ...document.querySelectorAll(
 
-        "Commercial Advertising",
+                ".tool-card"
 
-        "Luxury",
+            )
 
-        "Cinematic",
+        ];
 
-        "Professional Photography",
+        this.searchInput =
 
-        "Studio Lighting",
+            document.querySelector(
 
-        "Premium Branding",
+                "#global-search"
 
-        "HDR",
+            );
 
-        "8K",
+        this.bind();
 
-        "Hyper Detail"
+        this.initialized = true;
 
-    ];
+        PowerTools.log.info(
 
-    PromptEngine.cameras=[
+            "Dashboard Ready"
 
-        "Canon EOS R5",
+        );
 
-        "Sony A7R V",
+    },
 
-        "Nikon Z9",
+    bind() {
 
-        "RED Komodo",
+        this.bindHero();
 
-        "ARRI Alexa Mini"
+        this.bindCards();
 
-    ];
+        this.bindSearch();
 
-    PromptEngine.lightings=[
+    },
 
-        "Soft Lighting",
+/* ============================================================
+   HERO BUTTON
+============================================================ */
 
-        "Golden Hour",
+    bindHero() {
 
-        "Studio Lighting",
+        this.heroButtons.forEach(
 
-        "Natural Light",
+            button => {
 
-        "Volumetric Lighting"
+                button.addEventListener(
 
-    ];
+                    "click",
 
-    PromptEngine.ratios=[
+                    () => {
 
-        "1:1",
+                        const text =
 
-        "4:5",
+                            button.innerText
 
-        "16:9",
+                            .toLowerCase();
 
-        "9:16",
+                        if (
 
-        "A4",
+                            text.includes("mulai")
 
-        "Banner"
+                        ) {
 
-    ];
+                            PowerTools.navigation.navigate(
 
-    PromptEngine.platforms=[
+                                "prompt"
 
-        "ChatGPT",
+                            );
 
-        "Gemini",
+                            return;
 
-        "Leonardo",
+                        }
 
-        "Midjourney",
+                        if (
 
-        "Flux",
+                            text.includes("template")
 
-        "Imagen",
+                        ) {
 
-        "Ideogram",
+                            PowerTools.navigation.navigate(
 
-        "Firefly",
+                                "library"
 
-        "Kling",
+                            );
 
-        "Veo",
+                            return;
 
-        "Runway"
+                        }
 
-    ];
+                        PowerTools.events.emit(
 
-    PromptEngine.initialized=true;
+                            "hero:click",
 
-}
+                            button
 
-/*==========================================================
-    DETECT CATEGORY
-==========================================================*/
+                        );
 
-function detectCategory(text){
+                    }
 
-    text=text.toLowerCase();
-
-    for(const category of PromptEngine.categories){
-
-        for(const keyword of category.keywords){
-
-            if(text.includes(keyword)){
-
-                return category.id;
+                );
 
             }
 
+        );
+
+    },
+
+/* ============================================================
+   TOOL CARD
+============================================================ */
+
+    bindCards() {
+
+        this.toolCards.forEach(
+
+            card => {
+
+                card.addEventListener(
+
+                    "click",
+
+                    () => {
+
+                        const title =
+
+                            card.querySelector("h3")
+
+                            ?.textContent
+
+                            .trim()
+
+                            .toLowerCase();
+
+                        if (!title) return;
+
+                        if (
+
+                            title.includes("smart")
+
+                        ) {
+
+                            return PowerTools.navigation.navigate(
+
+                                "prompt"
+
+                            );
+
+                        }
+
+                        if (
+
+                            title.includes("affiliate")
+
+                        ) {
+
+                            return PowerTools.navigation.navigate(
+
+                                "affiliate"
+
+                            );
+
+                        }
+
+                        if (
+
+                            title.includes("image")
+
+                        ) {
+
+                            return PowerTools.navigation.navigate(
+
+                                "image"
+
+                            );
+
+                        }
+
+                        if (
+
+                            title.includes("video")
+
+                        ) {
+
+                            return PowerTools.navigation.navigate(
+
+                                "video"
+
+                            );
+
+                        }
+
+                        if (
+
+                            title.includes("story")
+
+                        ) {
+
+                            return PowerTools.navigation.navigate(
+
+                                "storyboard"
+
+                            );
+
+                        }
+
+                        if (
+
+                            title.includes("narrator")
+
+                        ) {
+
+                            return PowerTools.navigation.navigate(
+
+                                "narrator"
+
+                            );
+
+                        }
+
+                        if (
+
+                            title.includes("library")
+
+                        ) {
+
+                            return PowerTools.navigation.navigate(
+
+                                "library"
+
+                            );
+
+                        }
+
+                        PowerTools.events.emit(
+
+                            "tool:open",
+
+                            title
+
+                        );
+
+                    }
+
+                );
+
+            }
+
+        );
+
+    },
+
+/* ============================================================
+   SEARCH ENGINE
+============================================================ */
+
+    bindSearch() {
+
+        if (!this.searchInput)
+
+            return;
+
+        this.searchInput.addEventListener(
+
+            "input",
+
+            event => {
+
+                this.filter(
+
+                    event.target.value
+
+                );
+
+            }
+
+        );
+
+    },
+
+    filter(keyword = "") {
+
+        keyword =
+
+            keyword
+
+            .trim()
+
+            .toLowerCase();
+
+        PowerTools.state.searchKeyword =
+
+            keyword;
+
+        this.toolCards.forEach(
+
+            card => {
+
+                const text =
+
+                    card.innerText
+
+                    .toLowerCase();
+
+                card.style.display =
+
+                    text.includes(keyword)
+
+                        ? ""
+
+                        : "none";
+
+            }
+
+        );
+
+    }
+
+};
+
+/* ============================================================
+   WORKSPACE MANAGER
+============================================================ */
+
+PowerTools.workspace = {
+
+    current: "default",
+
+    set(name) {
+
+        this.current = name;
+
+        PowerTools.state.currentWorkspace =
+
+            name;
+
+        document.body.dataset.workspace =
+
+            name;
+
+        PowerTools.events.emit(
+
+            "workspace:change",
+
+            name
+
+        );
+
+    },
+
+    get() {
+
+        return this.current;
+
+    }
+
+};
+
+/* ============================================================
+   STATUS BAR
+============================================================ */
+
+PowerTools.status = {
+
+    center: null,
+
+    init() {
+
+        this.center =
+
+            document.querySelector(
+
+                ".status-center"
+
+            );
+
+    },
+
+    update(text) {
+
+        if (!this.center)
+
+            return;
+
+        this.center.textContent = text;
+
+    }
+
+};
+
+/* ============================================================
+   EVENTS
+============================================================ */
+
+PowerTools.events.on(
+
+    "page:change",
+
+    data => {
+
+        PowerTools.status.update(
+
+            "Current Page : " +
+
+            data.page
+
+        );
+
+    }
+
+);
+
+PowerTools.events.on(
+
+    "workspace:change",
+
+    workspace => {
+
+        PowerTools.status.update(
+
+            "Workspace : " +
+
+            workspace
+
+        );
+
+    }
+
+);
+
+/* ============================================================
+   READY
+============================================================ */
+
+PowerTools.lifecycle.boot(
+
+    async () => {
+
+        PowerTools.dashboard.init();
+
+        PowerTools.status.init();
+
+    }
+
+);
+
+PowerTools.lifecycle.ready(
+
+    async () => {
+
+        PowerTools.workspace.set(
+
+            "default"
+
+        );
+
+    }
+
+);
+
+PowerTools.log.info(
+
+    "Dashboard Engine Loaded"
+
+);
+
+PowerTools.log.info(
+
+    "Workspace Manager Loaded"
+
+);
+
+/* ============================================================
+   PART 4A
+   MODAL ENGINE
+   DRAWER ENGINE
+============================================================ */
+
+/* ============================================================
+   MODAL ENGINE
+============================================================ */
+
+PowerTools.modal = {
+
+    root: null,
+
+    overlay: null,
+
+    container: null,
+
+    opened: false,
+
+    init() {
+
+        this.root = PowerTools.dom.modalRoot;
+
+        if (!this.root) {
+
+            this.root = document.createElement("div");
+
+            this.root.id = "modal-root";
+
+            document.body.appendChild(this.root);
+
+        }
+
+        this.build();
+
+        PowerTools.log.info("Modal Engine Ready");
+
+    },
+
+    build() {
+
+        this.root.innerHTML = "";
+
+        this.overlay = document.createElement("div");
+
+        this.overlay.className = "pt-modal-overlay";
+
+        this.container = document.createElement("div");
+
+        this.container.className = "pt-modal";
+
+        this.overlay.appendChild(this.container);
+
+        this.root.appendChild(this.overlay);
+
+        this.overlay.style.display = "none";
+
+        this.overlay.addEventListener(
+
+            "click",
+
+            e => {
+
+                if (e.target === this.overlay) {
+
+                    this.close();
+
+                }
+
+            }
+
+        );
+
+    },
+
+    open(options = {}) {
+
+        this.container.innerHTML = "";
+
+        if (options.title) {
+
+            const title = document.createElement("h2");
+
+            title.className = "pt-modal-title";
+
+            title.textContent = options.title;
+
+            this.container.appendChild(title);
+
+        }
+
+        if (options.content instanceof HTMLElement) {
+
+            this.container.appendChild(
+
+                options.content
+
+            );
+
+        }
+
+        else {
+
+            const body = document.createElement("div");
+
+            body.className = "pt-modal-body";
+
+            body.innerHTML =
+
+                options.content || "";
+
+            this.container.appendChild(body);
+
+        }
+
+        this.overlay.style.display = "flex";
+
+        this.opened = true;
+
+        PowerTools.state.currentModal = options.title || "";
+
+        PowerTools.events.emit(
+
+            "modal:open",
+
+            options
+
+        );
+
+    },
+
+    close() {
+
+        this.overlay.style.display = "none";
+
+        this.container.innerHTML = "";
+
+        this.opened = false;
+
+        PowerTools.state.currentModal = null;
+
+        PowerTools.events.emit(
+
+            "modal:close"
+
+        );
+
+    },
+
+    isOpen() {
+
+        return this.opened;
+
+    }
+
+};
+
+/* ============================================================
+   DRAWER ENGINE
+============================================================ */
+
+PowerTools.drawer = {
+
+    root: null,
+
+    panel: null,
+
+    opened: false,
+
+    init() {
+
+        this.root = PowerTools.dom.drawerRoot;
+
+        if (!this.root) {
+
+            this.root = document.createElement("div");
+
+            this.root.id = "drawer-root";
+
+            document.body.appendChild(
+
+                this.root
+
+            );
+
+        }
+
+        this.build();
+
+        PowerTools.log.info(
+
+            "Drawer Engine Ready"
+
+        );
+
+    },
+
+    build() {
+
+        this.panel =
+
+            document.createElement("div");
+
+        this.panel.className =
+
+            "pt-drawer";
+
+        this.root.appendChild(
+
+            this.panel
+
+        );
+
+    },
+
+    open(content = "") {
+
+        this.panel.innerHTML =
+
+            content;
+
+        this.panel.classList.add(
+
+            "open"
+
+        );
+
+        this.opened = true;
+
+        PowerTools.events.emit(
+
+            "drawer:open"
+
+        );
+
+    },
+
+    close() {
+
+        this.panel.classList.remove(
+
+            "open"
+
+        );
+
+        this.panel.innerHTML = "";
+
+        this.opened = false;
+
+        PowerTools.events.emit(
+
+            "drawer:close"
+
+        );
+
+    },
+
+    toggle(content = "") {
+
+        if (this.opened) {
+
+            this.close();
+
+        }
+
+        else {
+
+            this.open(content);
+
         }
 
     }
 
-    return "general";
+};
 
-}
+/* ============================================================
+   BOOT
+============================================================ */
 
-/*==========================================================
-    CATEGORY PROFILE
-==========================================================*/
+PowerTools.lifecycle.boot(
 
-function getCategoryProfile(category){
+    async () => {
 
-    const profile={
+        PowerTools.modal.init();
 
-        style:"Commercial Advertising",
-
-        camera:"Canon EOS R5",
-
-        lighting:"Studio Lighting",
-
-        ratio:"4:5"
-
-    };
-
-    switch(category){
-
-        case "food":
-
-            profile.style="Food Photography";
-
-            profile.camera="Canon EOS R5";
-
-            profile.lighting="Warm Restaurant Lighting";
-
-            profile.ratio="4:5";
-
-            break;
-
-        case "fashion":
-
-            profile.style="Luxury Fashion";
-
-            profile.camera="Sony A7R V";
-
-            profile.lighting="Soft Lighting";
-
-            profile.ratio="4:5";
-
-            break;
-
-        case "property":
-
-            profile.style="Luxury Real Estate";
-
-            profile.camera="Canon EOS R5";
-
-            profile.lighting="Golden Hour";
-
-            profile.ratio="16:9";
-
-            break;
-
-        case "barbershop":
-
-            profile.style="Barbershop Commercial";
-
-            profile.camera="Sony A7R V";
-
-            profile.lighting="Studio Lighting";
-
-            profile.ratio="4:5";
-
-            break;
+        PowerTools.drawer.init();
 
     }
 
-    return profile;
+);
 
-}
+PowerTools.log.info(
 
-/*==========================================================
-    START PROMPT ENGINE
-==========================================================*/
-
-initializePromptEngine();
-
-console.log(
-
-    "%cPrompt Engine Loaded",
-
-    "color:#38bdf8;font-weight:bold"
+    "UI Layer Part 1 Loaded"
 
 );
 
-/*==========================================================
-    SMART PROMPT BUILDER
-==========================================================*/
+/* ============================================================
+   PART 4B
+   TOAST ENGINE
+   NOTIFICATION CENTER
+============================================================ */
 
-function generatePrompt(userInput){
+/* ============================================================
+   TOAST ENGINE
+============================================================ */
 
-    const category = detectCategory(userInput);
+PowerTools.toast = {
 
-    const profile = getCategoryProfile(category);
+    root: null,
 
-    const result = {
+    stack: [],
 
-        input:userInput,
+    init() {
 
-        category,
+        this.root = PowerTools.dom.toastRoot;
 
-        profile,
+        if (!this.root) {
 
-        prompt:"",
+            this.root = document.createElement("div");
 
-        negativePrompt:"",
+            this.root.id = "toast-root";
 
-        cameraPrompt:"",
+            document.body.appendChild(this.root);
 
-        lightingPrompt:"",
+        }
 
-        stylePrompt:"",
+        this.root.classList.add("pt-toast-root");
 
-        platforms:{}
+        PowerTools.log.info("Toast Engine Ready");
 
-    };
+    },
 
-    result.stylePrompt = buildStylePrompt(profile);
+    show(options = {}) {
 
-    result.cameraPrompt = buildCameraPrompt(profile);
+        const toast = document.createElement("div");
 
-    result.lightingPrompt = buildLightingPrompt(profile);
+        toast.className = "pt-toast";
 
-    result.negativePrompt = buildNegativePrompt(category);
+        toast.classList.add(
 
-    result.prompt = buildMasterPrompt(
+            options.type || "info"
 
-        userInput,
+        );
 
-        result
+        const icon = document.createElement("div");
 
-    );
+        icon.className = "pt-toast-icon";
 
-    buildPlatformPrompts(result);
+        icon.textContent =
 
-    addHistory(result);
+            options.icon ||
 
-    return result;
+            this.icon(options.type);
 
-}
+        const body = document.createElement("div");
 
-/*==========================================================
-    STYLE
-==========================================================*/
+        body.className = "pt-toast-body";
 
-function buildStylePrompt(profile){
+        const title = document.createElement("div");
 
-    return [
+        title.className = "pt-toast-title";
 
-        profile.style,
+        title.textContent =
 
-        "Ultra Realistic",
+            options.title ||
 
-        "Professional Advertising",
+            "Notification";
 
-        "Highly Detailed",
+        const message = document.createElement("div");
 
-        "8K",
+        message.className = "pt-toast-message";
 
-        "Commercial Quality"
+        message.textContent =
 
-    ].join(", ");
+            options.message ||
 
-}
+            "";
 
-/*==========================================================
-    CAMERA
-==========================================================*/
+        body.appendChild(title);
 
-function buildCameraPrompt(profile){
+        body.appendChild(message);
 
-    return [
+        toast.appendChild(icon);
 
-        profile.camera,
+        toast.appendChild(body);
 
-        "85mm Lens",
+        this.root.appendChild(toast);
 
-        "HDR",
+        this.stack.push(toast);
 
-        "RAW",
+        requestAnimationFrame(() => {
 
-        "Sharp Focus",
+            toast.classList.add("show");
 
-        "Depth of Field"
+        });
 
-    ].join(", ");
+        const duration =
 
-}
+            options.duration ||
 
-/*==========================================================
-    LIGHTING
-==========================================================*/
+            PowerTools.config.toastDuration;
 
-function buildLightingPrompt(profile){
+        setTimeout(() => {
 
-    return [
+            this.remove(toast);
 
-        profile.lighting,
+        }, duration);
 
-        "Soft Shadow",
+        PowerTools.events.emit(
 
-        "Natural Reflection",
+            "toast:show",
 
-        "Balanced Exposure"
+            options
 
-    ].join(", ");
+        );
 
-}
+    },
 
-/*==========================================================
-    NEGATIVE
-==========================================================*/
+    remove(toast) {
 
-function buildNegativePrompt(category){
+        if (!toast) return;
 
-    return [
+        toast.classList.remove("show");
 
-        "low quality",
+        setTimeout(() => {
 
-        "blurry",
+            toast.remove();
 
-        "pixelated",
+            this.stack =
 
-        "noise",
+                this.stack.filter(
 
-        "watermark",
+                    item => item !== toast
 
-        "logo",
+                );
 
-        "text",
+        }, 250);
 
-        "cropped",
+    },
 
-        "duplicate",
+    clear() {
 
-        "deformed",
+        this.stack.forEach(
 
-        "bad anatomy",
+            toast => toast.remove()
 
-        "bad hands",
+        );
 
-        "extra fingers",
+        this.stack = [];
 
-        "mutation",
+    },
 
-        "oversaturated"
+    icon(type) {
 
-    ].join(", ");
+        switch (type) {
 
-}
+            case "success":
 
-/*==========================================================
-    MASTER PROMPT
-==========================================================*/
+                return "✅";
 
-function buildMasterPrompt(
+            case "error":
 
-    userInput,
+                return "❌";
 
-    result
+            case "warning":
 
-){
+                return "⚠️";
 
-    return `
+            default:
 
-${userInput},
+                return "ℹ️";
 
-${result.stylePrompt},
+        }
 
-${result.cameraPrompt},
+    }
 
-${result.lightingPrompt},
+};
 
-commercial composition,
+/* ============================================================
+   NOTIFICATION CENTER
+============================================================ */
 
-premium branding,
+PowerTools.notifications = {
 
-award winning photography,
+    list: [],
 
-ultra realistic,
+    add(type, title, message) {
 
-cinematic,
+        const notification = {
 
-extremely detailed,
+            id: PowerTools.utils.uuid(),
 
-professional color grading
+            type,
 
-`.trim();
+            title,
 
-}
+            message,
 
-/*==========================================================
-    PLATFORM PROMPT
-==========================================================*/
+            time: Date.now(),
 
-function buildPlatformPrompts(result){
+            read: false
 
-    const prompt = result.prompt;
+        };
 
-    result.platforms.ChatGPT = prompt;
+        this.list.unshift(notification);
 
-    result.platforms.Leonardo = prompt;
+        PowerTools.store.notifications =
 
-    result.platforms.Gemini = prompt;
+            this.list;
 
-    result.platforms.Midjourney = prompt;
+        PowerTools.toast.show({
 
-    result.platforms.Flux = prompt;
+            type,
 
-    result.platforms.Imagen = prompt;
+            title,
 
-    result.platforms.Ideogram = prompt;
+            message
 
-    result.platforms.Firefly = prompt;
+        });
 
-    result.platforms.Kling = prompt;
+        PowerTools.events.emit(
 
-    result.platforms.Veo = prompt;
+            "notification:add",
 
-    result.platforms.Runway = prompt;
+            notification
 
-}
+        );
 
-/*==========================================================
-    COPY
-==========================================================*/
+        return notification;
 
-function copyPlatformPrompt(platform,result){
+    },
 
-    if(
+    success(title, message) {
 
-        !result.platforms[platform]
+        return this.add(
 
-    ) return;
+            "success",
 
-    copyText(
+            title,
 
-        result.platforms[platform]
+            message
 
-    );
+        );
 
-}
+    },
 
-/*==========================================================
-    TEST
-==========================================================*/
+    error(title, message) {
 
-console.log(
+        return this.add(
 
-    "%cSmart Prompt Builder Ready",
+            "error",
 
-    "color:#22c55e;font-size:14px;font-weight:bold;"
+            title,
+
+            message
+
+        );
+
+    },
+
+    warning(title, message) {
+
+        return this.add(
+
+            "warning",
+
+            title,
+
+            message
+
+        );
+
+    },
+
+    info(title, message) {
+
+        return this.add(
+
+            "info",
+
+            title,
+
+            message
+
+        );
+
+    },
+
+    remove(id) {
+
+        this.list =
+
+            this.list.filter(
+
+                item => item.id !== id
+
+            );
+
+    },
+
+    clear() {
+
+        this.list = [];
+
+    },
+
+    unread() {
+
+        return this.list.filter(
+
+            item => !item.read
+
+        );
+
+    },
+
+    markRead(id) {
+
+        const item =
+
+            this.list.find(
+
+                n => n.id === id
+
+            );
+
+        if (item) {
+
+            item.read = true;
+
+        }
+
+    }
+
+};
+
+/* ============================================================
+   QUICK API
+============================================================ */
+
+PowerTools.notify = {
+
+    success(message) {
+
+        return PowerTools.notifications.success(
+
+            "Success",
+
+            message
+
+        );
+
+    },
+
+    error(message) {
+
+        return PowerTools.notifications.error(
+
+            "Error",
+
+            message
+
+        );
+
+    },
+
+    warning(message) {
+
+        return PowerTools.notifications.warning(
+
+            "Warning",
+
+            message
+
+        );
+
+    },
+
+    info(message) {
+
+        return PowerTools.notifications.info(
+
+            "Information",
+
+            message
+
+        );
+
+    }
+
+};
+
+/* ============================================================
+   BOOT
+============================================================ */
+
+PowerTools.lifecycle.boot(
+
+    async () => {
+
+        PowerTools.toast.init();
+
+    }
 
 );
 
-/*==========================================================
-    AUTO START
-==========================================================*/
+PowerTools.log.info(
 
-(function(){
+    "Toast Engine Loaded"
 
-    console.log(
+);
 
-        "%c==========================================",
+PowerTools.log.info(
 
-        "color:#38bdf8"
+    "Notification Center Loaded"
 
-    );
-
-    console.log(
-
-        "%c PowerTools AI Creator Suite ",
-
-        "color:#22c55e;font-size:18px;font-weight:bold"
-
-    );
-
-    console.log(
-
-        "%c Version : " + PowerTools.version,
-
-        "color:#facc15"
-
-    );
-
-    console.log(
-
-        "%c Status  : Ready",
-
-        "color:#22c55e"
-
-    );
-
-    console.log(
-
-        "%c==========================================",
-
-        "color:#38bdf8"
-
-    );
-
-})();
-
-/*==========================================================
-    END OF FILE
-
-    PowerTools
-    Ultimate AI Creator Suite
-
-    app.js
-    Version : 1.0 Alpha
-
-==========================================================*/
+);
 
