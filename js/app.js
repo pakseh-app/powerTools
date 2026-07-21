@@ -2122,17 +2122,13 @@ PowerTools.executeReadyCallbacks = async function () {
 PowerTools.start = async function () {
 
     if (
-
         PowerTools.state.loading
-
     ) return;
 
     PowerTools.state.loading = true;
 
     PowerTools.logger.info(
-
         "Starting PowerTools..."
-
     );
 
     PowerTools.configManager.load();
@@ -2156,13 +2152,10 @@ PowerTools.start = async function () {
     PowerTools.state.initialized = true;
 
     PowerTools.events.emit(
-
         "application:started"
-
     );
 
 };
-
 
 
 /* ============================================================
