@@ -2121,15 +2121,11 @@ PowerTools.executeReadyCallbacks = async function () {
 
 PowerTools.start = async function () {
 
-    if (
-        PowerTools.state.loading
-    ) return;
+    if (PowerTools.state.loading) return;
 
     PowerTools.state.loading = true;
 
-    PowerTools.logger.info(
-        "Starting PowerTools..."
-    );
+    PowerTools.logger.info("Starting PowerTools...");
 
     PowerTools.configManager.load();
 
@@ -2139,24 +2135,33 @@ PowerTools.start = async function () {
 
     PowerTools.domCache.scan();
 
+    console.log("STEP 1");
+
     await PowerTools.core.runStartupQueue();
+
+    console.log("STEP 2");
 
     await PowerTools.core.initializeAllModules();
 
+    console.log("STEP 3");
+
     await PowerTools.executeReadyCallbacks();
 
+    console.log("STEP 4");
+
     PowerTools.autoSave.start();
+
+    console.log("STEP 5");
 
     PowerTools.state.loading = false;
 
     PowerTools.state.initialized = true;
 
-    PowerTools.events.emit(
-        "application:started"
-    );
+    PowerTools.events.emit("application:started");
+
+    console.log("STEP 6");
 
 };
-
 
 /* ============================================================
    APPLICATION SHUTDOWN
