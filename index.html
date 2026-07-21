@@ -3,6 +3,10 @@
 
 <head>
 
+    <!-- =====================================================
+         BASIC META
+    ====================================================== -->
+
     <meta charset="UTF-8">
 
     <meta http-equiv="X-UA-Compatible"
@@ -15,7 +19,7 @@
           content="PowerTools Ultimate AI Creator Suite">
 
     <meta name="keywords"
-          content="AI, Prompt, Image, Video, Affiliate">
+          content="AI, Prompt, Image, Video, Affiliate, Storyboard, Narrator">
 
     <meta name="author"
           content="PowerTools">
@@ -23,9 +27,25 @@
     <meta name="theme-color"
           content="#111827">
 
-    <title>PowerTools Ultimate AI Suite</title>
+    <meta name="color-scheme"
+          content="dark">
 
-    <!-- GOOGLE FONT -->
+    <title>
+
+        PowerTools AI Creator Suite
+
+    </title>
+
+    <!-- =====================================================
+         FAVICON
+    ====================================================== -->
+
+    <link rel="icon"
+          href="data:,">
+
+    <!-- =====================================================
+         GOOGLE FONT
+    ====================================================== -->
 
     <link rel="preconnect"
           href="https://fonts.googleapis.com">
@@ -37,7 +57,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
           rel="stylesheet">
 
-    <!-- CSS -->
+    <!-- =====================================================
+         CSS CORE
+    ====================================================== -->
 
     <link rel="stylesheet"
           href="css/main.css">
@@ -70,9 +92,9 @@
 
 <body>
 
-<!-- ================================================= -->
-<!-- LOADING -->
-<!-- ================================================= -->
+<!-- =====================================================
+     LOADING SCREEN
+====================================================== -->
 
 <div id="loading-screen">
 
@@ -92,7 +114,7 @@
 
         <p>
 
-            Ultimate AI Creator Suite
+            AI Creator Suite
 
         </p>
 
@@ -106,1164 +128,980 @@
 
 </div>
 
-<!-- ================================================= -->
-<!-- APP -->
-<!-- ================================================= -->
+<!-- =====================================================
+     ROOT APPLICATION
+====================================================== -->
 
 <div id="app">
 
-    <!-- ============================================= -->
-    <!-- SIDEBAR -->
-    <!-- ============================================= -->
+<!-- =====================================================
+     SIDEBAR
+====================================================== -->
 
-    <aside id="sidebar">
+<aside id="sidebar"
+       class="sidebar">
 
-        <div class="sidebar-header">
+    <!-- ==========================
+         BRAND
+    =========================== -->
 
-            <div class="logo">
+    <div class="sidebar-brand">
 
-                <div class="logo-icon">
+        <div class="brand-icon">
 
-                    ⚡
-
-                </div>
-
-                <div class="logo-text">
-
-                    <h2>
-
-                        PowerTools
-
-                    </h2>
-
-                    <span>
-
-                        Ultimate AI Suite
-
-                    </span>
-
-                </div>
-
-            </div>
+            ⚡
 
         </div>
 
-        <!-- SEARCH -->
+        <div class="brand-text">
 
-        <div class="sidebar-search">
+            <h2>
 
-            <input
-                type="text"
-                id="menu-search"
-                placeholder="Cari menu...">
+                PowerTools
 
-        </div>
+            </h2>
 
-        <!-- MAIN MENU -->
+            <span>
 
-        <nav class="sidebar-menu">
+                AI Creator Suite
 
-            <button class="menu-item active"
-                    data-page="dashboard">
-
-                <span>
-
-                    🏠
-
-                </span>
-
-                <label>
-
-                    Dashboard
-
-                </label>
-
-            </button>
-
-            <button class="menu-item"
-                    data-page="prompt">
-
-                <span>
-
-                    ✨
-
-                </span>
-
-                <label>
-
-                    Smart Prompt
-
-                </label>
-
-            </button>
-
-            <button class="menu-item"
-                    data-page="affiliate">
-
-                <span>
-
-                    🛒
-
-                </span>
-
-                <label>
-
-                    Affiliate Studio
-
-                </label>
-
-            </button>
-
-            <button class="menu-item"
-                    data-page="image">
-
-                <span>
-
-                    🖼️
-
-                </span>
-
-                <label>
-
-                    Image Studio
-
-                </label>
-
-            </button>
-
-            <button class="menu-item"
-                    data-page="video">
-
-                <span>
-
-                    🎥
-
-                </span>
-
-                <label>
-
-                    Video Studio
-
-                </label>
-
-            </button>
-
-            <button class="menu-item"
-                    data-page="storyboard">
-
-                <span>
-
-                    🎬
-
-                </span>
-
-                <label>
-
-                    Storyboard AI
-
-                </label>
-
-            </button>
-
-            <button class="menu-item"
-                    data-page="narrator">
-
-                <span>
-
-                    🎙️
-
-                </span>
-
-                <label>
-
-                    AI Narrator
-
-                </label>
-
-            </button>
-
-            <button class="menu-item"
-                    data-page="library">
-
-                <span>
-
-                    📚
-
-                </span>
-
-                <label>
-
-                    Prompt Library
-
-                </label>
-
-            </button>
-
-            <button class="menu-item"
-                    data-page="optimizer">
-
-                <span>
-
-                    🧠
-
-                </span>
-
-                <label>
-
-                    Prompt Optimizer
-
-                </label>
-
-            </button>
-
-            <button class="menu-item"
-                    data-page="workspace">
-
-                <span>
-
-                    📁
-
-                </span>
-
-                <label>
-
-                    Workspace
-
-                </label>
-
-            </button>
-
-            <button class="menu-item"
-                    data-page="settings">
-
-                <span>
-
-                    ⚙️
-
-                </span>
-
-                <label>
-
-                    Settings
-
-                </label>
-
-            </button>
-
-        </nav>
-
-        <!-- STATUS -->
-
-        <div class="sidebar-status">
-
-            <h4>
-
-                AI Engine
-
-            </h4>
-
-            <div class="engine-status">
-
-                <span class="dot"></span>
-
-                Smart Prompt Ready
-
-            </div>
-
-            <div class="engine-status">
-
-                <span class="dot"></span>
-
-                Image Generator Ready
-
-            </div>
-
-            <div class="engine-status">
-
-                <span class="dot"></span>
-
-                Video Generator Ready
-
-            </div>
-
-            <div class="engine-status">
-
-                <span class="dot"></span>
-
-                Narrator Ready
-
-            </div>
-
-        </div>
-
-        <div class="sidebar-footer">
-
-            <small>
-
-                Version 2.0 Alpha
-
-            </small>
-
-        </div>
-
-    </aside>
-
-    <!-- ============================================= -->
-    <!-- MAIN -->
-    <!-- ============================================= -->
-
-    <main id="main">
-
-        <!-- lanjut di PART 2 -->
-                <!-- ============================================= -->
-        <!-- TOPBAR -->
-        <!-- ============================================= -->
-
-        <header id="topbar">
-
-            <div class="topbar-left">
-
-                <button id="menu-toggle"
-                        class="icon-button">
-
-                    ☰
-
-                </button>
-
-                <div class="page-title">
-
-                    <h1 id="page-title">
-
-                        Dashboard
-
-                    </h1>
-
-                    <span id="page-subtitle">
-
-                        Welcome to PowerTools Ultimate AI Suite
-
-                    </span>
-
-                </div>
-
-            </div>
-
-            <div class="topbar-center">
-
-                <div class="search-box">
-
-                    <input
-                        type="text"
-                        id="global-search"
-                        placeholder="Cari Prompt, Project, Template, AI Module...">
-
-                </div>
-
-            </div>
-
-            <div class="topbar-right">
-
-                <button class="icon-button">
-
-                    🌙
-
-                </button>
-
-                <button class="icon-button">
-
-                    🔔
-
-                </button>
-
-                <button class="icon-button">
-
-                    💾
-
-                </button>
-
-                <button class="icon-button">
-
-                    👤
-
-                </button>
-
-            </div>
-
-        </header>
-
-        <!-- ============================================= -->
-        <!-- PAGE CONTENT -->
-        <!-- ============================================= -->
-
-        <section id="page-content">
-
-            <!-- DASHBOARD -->
-
-            <section
-                id="dashboard-page"
-                class="page active">
-
-                <!-- HERO -->
-
-                <section class="hero">
-
-                    <div class="hero-left">
-
-                        <span class="hero-badge">
-
-                            🚀 POWERTOOLS V2
-
-                        </span>
-
-                        <h2>
-
-                            Ultimate AI Creator Suite
-
-                        </h2>
-
-                        <p>
-
-                            Satu aplikasi untuk membuat Prompt AI,
-                            Image Generator,
-                            Video Generator,
-                            Storyboard,
-                            Affiliate Content,
-                            Poster,
-                            Banner,
-                            Thumbnail,
-                            Caption,
-                            Narasi,
-                            hingga Workspace AI.
-
-                        </p>
-
-                        <div class="hero-action">
-
-                            <button class="primary-btn">
-
-                                ✨ Mulai Sekarang
-
-                            </button>
-
-                            <button class="secondary-btn">
-
-                                📚 Prompt Library
-
-                            </button>
-
-                        </div>
-
-                    </div>
-
-                    <div class="hero-right">
-
-                        <div class="hero-card">
-
-                            <h3>
-
-                                AI Status
-
-                            </h3>
-
-                            <ul>
-
-                                <li>🟢 Smart Prompt</li>
-
-                                <li>🟢 Image Generator</li>
-
-                                <li>🟢 Video Generator</li>
-
-                                <li>🟢 Storyboard</li>
-
-                                <li>🟢 Narrator</li>
-
-                            </ul>
-
-                        </div>
-
-                    </div>
-
-                </section>
-
-                <!-- QUICK TOOLS -->
-
-                <section class="quick-tools">
-
-                    <h2>
-
-                        Quick Tools
-
-                    </h2>
-
-                    <div class="tool-grid">
-
-                        <div class="tool-card">
-
-                            <div class="tool-icon">
-
-                                ✨
-
-                            </div>
-
-                            <h3>
-
-                                Smart Prompt
-
-                            </h3>
-
-                            <p>
-
-                                Membuat prompt profesional otomatis.
-
-                            </p>
-
-                        </div>
-
-                        <div class="tool-card">
-
-                            <div class="tool-icon">
-
-                                🖼️
-
-                            </div>
-
-                            <h3>
-
-                                Image Studio
-
-                            </h3>
-
-                            <p>
-
-                                Prompt AI untuk menghasilkan gambar.
-
-                            </p>
-
-                        </div>
-
-                        <div class="tool-card">
-
-                            <div class="tool-icon">
-
-                                🎥
-
-                            </div>
-
-                            <h3>
-
-                                Video Studio
-
-                            </h3>
-
-                            <p>
-
-                                Prompt video lengkap per scene.
-
-                            </p>
-
-                        </div>
-
-                        <div class="tool-card">
-
-                            <div class="tool-icon">
-
-                                🛒
-
-                            </div>
-
-                            <h3>
-
-                                Affiliate Studio
-
-                            </h3>
-
-                            <p>
-
-                                Prompt konten affiliate otomatis.
-
-                            </p>
-
-                        </div>
-
-                    </div>
-
-                </section>
-
-                <!-- DASHBOARD INFO -->
-
-                <section class="dashboard-info">
-
-                    <div class="info-card">
-
-                        <h3>
-
-                            AI Modules
-
-                        </h3>
-
-                        <h1>
-
-                            40+
-
-                        </h1>
-
-                        <span>
-
-                            Ready
-
-                        </span>
-
-                    </div>
-
-                    <div class="info-card">
-
-                        <h3>
-
-                            Prompt Template
-
-                        </h3>
-
-                        <h1>
-
-                            5000+
-
-                        </h1>
-
-                        <span>
-
-                            Multi Category
-
-                        </span>
-
-                    </div>
-
-                    <div class="info-card">
-
-                        <h3>
-
-                            Workspace
-
-                        </h3>
-
-                        <h1>
-
-                            Unlimited
-
-                        </h1>
-
-                        <span>
-
-                            Cloud Ready
-
-                        </span>
-
-                    </div>
-
-                    <div class="info-card">
-
-                        <h3>
-
-                            AI Status
-
-                        </h3>
-
-                        <h1>
-
-                            ONLINE
-
-                        </h1>
-
-                        <span>
-
-                            All Engine Active
-
-                        </span>
-
-                    </div>
-
-                </section>
-
-                <!-- lanjut PART 3 -->
-                                <!-- ============================================= -->
-                <!-- RECENT PROJECT -->
-                <!-- ============================================= -->
-
-                <section class="recent-project">
-
-                    <div class="section-header">
-
-                        <h2>
-
-                            Recent Projects
-
-                        </h2>
-
-                        <button class="text-button">
-
-                            Lihat Semua
-
-                        </button>
-
-                    </div>
-
-                    <div class="project-grid">
-
-                        <div class="project-card">
-
-                            <div class="project-icon">
-
-                                🛒
-
-                            </div>
-
-                            <h3>
-
-                                Affiliate Hair Tonic
-
-                            </h3>
-
-                            <p>
-
-                                12 Scene • Character Lock • Draft
-
-                            </p>
-
-                        </div>
-
-                        <div class="project-card">
-
-                            <div class="project-icon">
-
-                                🍔
-
-                            </div>
-
-                            <h3>
-
-                                Poster Bakso Bakar
-
-                            </h3>
-
-                            <p>
-
-                                Banner Promosi • Ready
-
-                            </p>
-
-                        </div>
-
-                        <div class="project-card">
-
-                            <div class="project-icon">
-
-                                🏠
-
-                            </div>
-
-                            <h3>
-
-                                Banner Properti
-
-                            </h3>
-
-                            <p>
-
-                                8 Prompt • Published
-
-                            </p>
-
-                        </div>
-
-                        <div class="project-card">
-
-                            <div class="project-icon">
-
-                                🎥
-
-                            </div>
-
-                            <h3>
-
-                                TikTok Shop Video
-
-                            </h3>
-
-                            <p>
-
-                                10 Scene • Ready Render
-
-                            </p>
-
-                        </div>
-
-                    </div>
-
-                </section>
-
-                <!-- ============================================= -->
-                <!-- MODULE -->
-                <!-- ============================================= -->
-
-                <section class="module-section">
-
-                    <div class="section-header">
-
-                        <h2>
-
-                            AI Modules
-
-                        </h2>
-
-                    </div>
-
-                    <div class="module-grid">
-
-                        <div class="module-card">
-
-                            ✅ Smart Prompt Generator
-
-                        </div>
-
-                        <div class="module-card">
-
-                            ✅ Affiliate Studio
-
-                        </div>
-
-                        <div class="module-card">
-
-                            ✅ Image Studio
-
-                        </div>
-
-                        <div class="module-card">
-
-                            ✅ Video Studio
-
-                        </div>
-
-                        <div class="module-card">
-
-                            ✅ Storyboard AI
-
-                        </div>
-
-                        <div class="module-card">
-
-                            ✅ AI Narrator
-
-                        </div>
-
-                        <div class="module-card">
-
-                            ✅ Prompt Library
-
-                        </div>
-
-                        <div class="module-card">
-
-                            ✅ Prompt Optimizer
-
-                        </div>
-
-                        <div class="module-card">
-
-                            🟡 Poster Studio
-
-                        </div>
-
-                        <div class="module-card">
-
-                            🟡 Banner Studio
-
-                        </div>
-
-                        <div class="module-card">
-
-                            🟡 Thumbnail Studio
-
-                        </div>
-
-                        <div class="module-card">
-
-                            🟡 Workspace Manager
-
-                        </div>
-
-                    </div>
-
-                </section>
-
-                <!-- ============================================= -->
-                <!-- ACTIVITY -->
-                <!-- ============================================= -->
-
-                <section class="activity-section">
-
-                    <div class="section-header">
-
-                        <h2>
-
-                            Recent Activity
-
-                        </h2>
-
-                    </div>
-
-                    <div class="activity-list">
-
-                        <div class="activity-item">
-
-                            ✅ Smart Prompt berhasil dibuat
-
-                        </div>
-
-                        <div class="activity-item">
-
-                            🖼 Image Prompt disimpan
-
-                        </div>
-
-                        <div class="activity-item">
-
-                            🎥 Storyboard selesai dibuat
-
-                        </div>
-
-                        <div class="activity-item">
-
-                            🎙 Narasi berhasil digenerate
-
-                        </div>
-
-                    </div>
-
-                </section>
-
-            </section>
-
-            <!-- ============================================= -->
-            <!-- PAGE PLACEHOLDER -->
-            <!-- ============================================= -->
-
-            <section id="prompt-page"
-                     class="page"
-                     hidden></section>
-
-            <section id="affiliate-page"
-                     class="page"
-                     hidden></section>
-
-            <section id="image-page"
-                     class="page"
-                     hidden></section>
-
-            <section id="video-page"
-                     class="page"
-                     hidden></section>
-
-            <section id="storyboard-page"
-                     class="page"
-                     hidden></section>
-
-            <section id="narrator-page"
-                     class="page"
-                     hidden></section>
-
-            <section id="library-page"
-                     class="page"
-                     hidden></section>
-
-            <section id="optimizer-page"
-                     class="page"
-                     hidden></section>
-
-            <section id="workspace-page"
-                     class="page"
-                     hidden></section>
-
-            <section id="settings-page"
-                     class="page"
-                     hidden></section>
-
-        </section>
-
-        <!-- ============================================= -->
-        <!-- STATUS BAR -->
-        <!-- ============================================= -->
-
-        <footer id="status-bar">
-
-            <div class="status-left">
-
-                🟢 Ready
-
-            </div>
-
-            <div class="status-center">
-
-                Character Lock Ready
-
-            </div>
-
-            <div class="status-right">
-
-                PowerTools Ultimate AI Suite v2.0 Alpha
-
-            </div>
-
-        </footer>
-
-    </main>
-
-    <!-- lanjut Part 4 -->
-        <!-- ============================================= -->
-    <!-- GLOBAL ROOT COMPONENT -->
-    <!-- ============================================= -->
-
-    <div id="modal-root"></div>
-
-    <div id="toast-root"></div>
-
-    <div id="drawer-root"></div>
-
-    <div id="context-menu-root"></div>
-
-    <div id="floating-panel-root"></div>
-
-</div>
-
-<!-- ============================================= -->
-<!-- TEMPLATE -->
-<!-- ============================================= -->
-
-<template id="loading-template">
-
-    <div class="loading-overlay">
-
-        <div class="loading-box">
-
-            <div class="spinner"></div>
-
-            <h3>
-
-                Loading...
-
-            </h3>
+            </span>
 
         </div>
 
     </div>
 
-</template>
 
-<template id="confirm-template">
+    <!-- ==========================
+         SEARCH
+    =========================== -->
 
-    <div class="confirm-dialog">
+    <div class="sidebar-search">
 
-        <div class="confirm-header">
+        <input
 
-            <h3>
+            id="sidebar-search"
 
-                Konfirmasi
+            type="text"
 
-            </h3>
+            placeholder="Cari menu..."
 
-        </div>
+            autocomplete="off"
 
-        <div class="confirm-body">
+        >
 
-            <p id="confirm-message">
+    </div>
 
-                Apakah Anda yakin?
+
+    <!-- ==========================
+         NAVIGATION
+    =========================== -->
+
+    <nav id="sidebar-nav"
+         class="sidebar-nav">
+
+        <button class="menu-item active"
+                data-page="dashboard">
+
+            <span>🏠</span>
+
+            Dashboard
+
+        </button>
+
+
+        <button class="menu-item"
+                data-page="prompt">
+
+            <span>✨</span>
+
+            Smart Prompt
+
+        </button>
+
+
+        <button class="menu-item"
+                data-page="affiliate">
+
+            <span>🛍️</span>
+
+            Affiliate Studio
+
+        </button>
+
+
+        <button class="menu-item"
+                data-page="image">
+
+            <span>🖼️</span>
+
+            Image Studio
+
+        </button>
+
+
+        <button class="menu-item"
+                data-page="video">
+
+            <span>🎬</span>
+
+            Video Studio
+
+        </button>
+
+
+        <button class="menu-item"
+                data-page="storyboard">
+
+            <span>📖</span>
+
+            Storyboard
+
+        </button>
+
+
+        <button class="menu-item"
+                data-page="voice">
+
+            <span>🎙️</span>
+
+            Narrator
+
+        </button>
+
+
+        <button class="menu-item"
+                data-page="library">
+
+            <span>📚</span>
+
+            Library
+
+        </button>
+
+
+        <button class="menu-item"
+                data-page="workspace">
+
+            <span>💼</span>
+
+            Workspace
+
+        </button>
+
+
+        <button class="menu-item"
+                data-page="settings">
+
+            <span>⚙️</span>
+
+            Settings
+
+        </button>
+
+    </nav>
+
+
+    <!-- ==========================
+         ENGINE STATUS
+    =========================== -->
+
+    <div class="engine-status">
+
+        <h3>
+
+            AI Engine
+
+        </h3>
+
+        <ul>
+
+            <li>
+
+                <span class="status-dot online"></span>
+
+                Prompt Engine
+
+            </li>
+
+            <li>
+
+                <span class="status-dot online"></span>
+
+                Character Engine
+
+            </li>
+
+            <li>
+
+                <span class="status-dot online"></span>
+
+                Product Engine
+
+            </li>
+
+            <li>
+
+                <span class="status-dot online"></span>
+
+                Scene Engine
+
+            </li>
+
+            <li>
+
+                <span class="status-dot online"></span>
+
+                Voice Engine
+
+            </li>
+
+        </ul>
+
+    </div>
+
+
+    <!-- ==========================
+         SIDEBAR FOOTER
+    =========================== -->
+
+    <div class="sidebar-footer">
+
+        <small>
+
+            PowerTools AI Creator Suite
+
+        </small>
+
+        <small>
+
+            Version 1.0.0
+
+        </small>
+
+    </div>
+
+</aside>
+
+
+<!-- =====================================================
+     MAIN AREA
+====================================================== -->
+
+<div id="main-layout">
+
+<!-- =====================================================
+     TOPBAR
+====================================================== -->
+
+<header id="topbar"
+        class="topbar">
+
+    <!-- LEFT -->
+
+    <div class="topbar-left">
+
+        <button id="menu-toggle"
+                class="icon-button"
+                aria-label="Toggle Sidebar">
+
+            ☰
+
+        </button>
+
+        <div class="page-header">
+
+            <h1 id="page-title">
+
+                Dashboard
+
+            </h1>
+
+            <p id="page-subtitle">
+
+                Ultimate AI Creator Suite
 
             </p>
 
         </div>
 
-        <div class="confirm-footer">
+    </div>
 
-            <button
-                class="secondary-btn"
-                id="confirm-cancel">
 
-                Batal
+    <!-- CENTER -->
 
-            </button>
+    <div class="topbar-center">
 
-            <button
-                class="primary-btn"
-                id="confirm-ok">
+        <div class="global-search">
 
-                OK
+            <input
 
-            </button>
+                id="global-search"
+
+                type="search"
+
+                placeholder="Cari tools, prompt, project..."
+
+                autocomplete="off"
+
+            >
 
         </div>
 
     </div>
 
-</template>
 
-<template id="toast-template">
+    <!-- RIGHT -->
 
-    <div class="toast">
+    <div class="topbar-right">
 
-        <div class="toast-icon">
+        <button id="notification-btn"
+                class="icon-button"
+                title="Notifications">
 
-            ✔
+            🔔
 
-        </div>
+        </button>
 
-        <div class="toast-message">
 
-        </div>
+        <button id="theme-btn"
+                class="icon-button"
+                title="Theme">
+
+            🌙
+
+        </button>
+
+
+        <button id="settings-btn"
+                class="icon-button"
+                title="Settings">
+
+            ⚙️
+
+        </button>
 
     </div>
 
-</template>
+</header>
 
-<!-- ============================================= -->
-<!-- JAVASCRIPT -->
-<!-- ============================================= -->
 
-<script type="module" src="js/app.js"></script>
-<script type="module" src="js/router.js"></script>
-<script type="module" src="js/dashboard.js"></script>
-<script type="module" src="js/promptEngine.js"></script>
-<script type="module" src="js/affiliate.js"></script>
+<!-- =====================================================
+     PAGE CONTENT
+====================================================== -->
 
-<!--
-<script type="module" src="js/imageStudio.js"></script>
-<script type="module" src="js/videoStudio.js"></script>
-<script type="module" src="js/storyboard.js"></script>
-<script type="module" src="js/narrator.js"></script>
-<script type="module" src="js/library.js"></script>
-<script type="module" src="js/workspace.js"></script>
-<script type="module" src="js/settings.js"></script>
--->
+<main id="page-content"
+      class="page-content">
+
+
+<!-- =====================================================
+     DASHBOARD PAGE
+====================================================== -->
+
+<section
+
+    id="dashboard-page"
+
+    class="page active"
+
+>
+
+
+    <!-- HERO -->
+
+    <section class="hero-panel">
+
+        <div class="hero-left">
+
+            <h2>
+
+                Selamat Datang di
+
+                <span>
+
+                    PowerTools AI Creator Suite
+
+                </span>
+
+            </h2>
+
+            <p>
+
+                Bangun prompt profesional, storyboard,
+
+                affiliate content, AI image, AI video,
+
+                narrator, dan workflow kreatif dalam
+
+                satu aplikasi.
+
+            </p>
+
+            <div class="hero-actions">
+
+                <button
+
+                    id="start-btn"
+
+                    class="primary-btn"
+
+                >
+
+                    ✨ Mulai Sekarang
+
+                </button>
+
+                <button
+
+                    id="documentation-btn"
+
+                    class="secondary-btn"
+
+                >
+
+                    📖 Dokumentasi
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="hero-right">
+
+            <div class="hero-card">
+
+                <h3>
+
+                    Status Sistem
+
+                </h3>
+
+                <ul>
+
+                    <li>
+
+                        ✅ Prompt Engine
+
+                    </li>
+
+                    <li>
+
+                        ✅ Character Lock
+
+                    </li>
+
+                    <li>
+
+                        ✅ Product Lock
+
+                    </li>
+
+                    <li>
+
+                        ✅ Story Engine
+
+                    </li>
+
+                    <li>
+
+                        ✅ Voice Engine
+
+                    </li>
+
+                    <li>
+
+                        ✅ Video Engine
+
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- QUICK TOOLS -->
+
+    <section class="quick-tools">
+
+        <h2>
+
+            Quick Tools
+
+        </h2>
+
+        <div class="quick-grid">
+
+            <button class="tool-card"
+                    data-page="prompt">
+
+                ✨
+
+                <span>
+
+                    Smart Prompt
+
+                </span>
+
+            </button>
+
+
+            <button class="tool-card"
+                    data-page="affiliate">
+
+                🛍️
+
+                <span>
+
+                    Affiliate Studio
+
+                </span>
+
+            </button>
+
+
+            <button class="tool-card"
+                    data-page="image">
+
+                🖼️
+
+                <span>
+
+                    Image Studio
+
+                </span>
+
+            </button>
+
+
+            <button class="tool-card"
+                    data-page="video">
+
+                🎬
+
+                <span>
+
+                    Video Studio
+
+                </span>
+
+            </button>
+
+
+            <button class="tool-card"
+                    data-page="storyboard">
+
+                📖
+
+                <span>
+
+                    Storyboard
+
+                </span>
+
+            </button>
+
+
+            <button class="tool-card"
+                    data-page="voice">
+
+                🎙️
+
+                <span>
+
+                    Narrator
+
+                </span>
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- RECENT PROJECT -->
+
+    <section class="dashboard-section">
+
+        <h2>
+
+            Recent Project
+
+        </h2>
+
+        <div
+
+            id="recent-projects"
+
+            class="dashboard-grid"
+
+        >
+
+        </div>
+
+    </section>
+
+</section>
+
+    <!-- =====================================================
+     SMART PROMPT PAGE
+====================================================== -->
+
+<section
+
+    id="prompt-page"
+
+    class="page"
+
+    hidden
+
+>
+
+    <div class="page-wrapper">
+
+        <h2>
+
+            ✨ Smart Prompt Generator
+
+        </h2>
+
+        <p>
+
+            Generate prompt profesional untuk AI Image,
+            AI Video, Storyboard, dan berbagai AI Provider.
+
+        </p>
+
+        <div id="prompt-workspace"></div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     AFFILIATE PAGE
+====================================================== -->
+
+<section
+
+    id="affiliate-page"
+
+    class="page"
+
+    hidden
+
+>
+
+    <div class="page-wrapper">
+
+        <h2>
+
+            🛍️ Affiliate Studio
+
+        </h2>
+
+        <p>
+
+            Buat konten affiliate lengkap dari upload
+            produk hingga prompt video.
+
+        </p>
+
+        <div id="affiliate-workspace"></div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     IMAGE STUDIO
+====================================================== -->
+
+<section
+
+    id="image-page"
+
+    class="page"
+
+    hidden
+
+>
+
+    <div class="page-wrapper">
+
+        <h2>
+
+            🖼️ Image Studio
+
+        </h2>
+
+        <div id="image-workspace"></div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     VIDEO STUDIO
+====================================================== -->
+
+<section
+
+    id="video-page"
+
+    class="page"
+
+    hidden
+
+>
+
+    <div class="page-wrapper">
+
+        <h2>
+
+            🎬 Video Studio
+
+        </h2>
+
+        <div id="video-workspace"></div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     STORYBOARD
+====================================================== -->
+
+<section
+
+    id="storyboard-page"
+
+    class="page"
+
+    hidden
+
+>
+
+    <div class="page-wrapper">
+
+        <h2>
+
+            📖 Storyboard Studio
+
+        </h2>
+
+        <div id="storyboard-workspace"></div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     NARRATOR
+====================================================== -->
+
+<section
+
+    id="voice-page"
+
+    class="page"
+
+    hidden
+
+>
+
+    <div class="page-wrapper">
+
+        <h2>
+
+            🎙️ AI Narrator
+
+        </h2>
+
+        <div id="voice-workspace"></div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     LIBRARY
+====================================================== -->
+
+<section
+
+    id="library-page"
+
+    class="page"
+
+    hidden
+
+>
+
+    <div class="page-wrapper">
+
+        <h2>
+
+            📚 Prompt Library
+
+        </h2>
+
+        <div id="library-workspace"></div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     WORKSPACE
+====================================================== -->
+
+<section
+
+    id="workspace-page"
+
+    class="page"
+
+    hidden
+
+>
+
+    <div class="page-wrapper">
+
+        <h2>
+
+            💼 Workspace
+
+        </h2>
+
+        <div id="workspace-content"></div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     SETTINGS
+====================================================== -->
+
+<section
+
+    id="settings-page"
+
+    class="page"
+
+    hidden
+
+>
+
+    <div class="page-wrapper">
+
+        <h2>
+
+            ⚙️ Settings
+
+        </h2>
+
+        <div id="settings-content"></div>
+
+    </div>
+
+</section>
+
+
+</main>
+
+
+<!-- =====================================================
+     GLOBAL ROOT
+====================================================== -->
+
+<div id="modal-root"></div>
+
+<div id="drawer-root"></div>
+
+<div id="toast-root"></div>
+
+<div id="context-menu-root"></div>
+
+<div id="floating-panel-root"></div>
+
+<div id="notification-root"></div>
+
+<!-- =====================================================
+     END APP WRAPPER
+====================================================== -->
+
+</div>
+
+<!-- =====================================================
+     JAVASCRIPT
+     (LOAD ORDER SANGAT PENTING)
+====================================================== -->
+
+<!-- Core Engine -->
+
+<script src="js/promptEngine.js"></script>
+
+<!-- Core Application -->
+
+<script src="js/router.js"></script>
+
+<script src="js/dashboard.js"></script>
+
+<script src="js/affiliate.js"></script>
+
+<script src="js/app.js"></script>
+
+<!-- =====================================================
+     APPLICATION BOOT
+====================================================== -->
 
 <script>
 
-document.addEventListener("DOMContentLoaded", () => {
+window.addEventListener("DOMContentLoaded", () => {
 
-    const loading = document.getElementById("loading-screen");
+    console.log("====================================");
+    console.log("PowerTools AI Creator Suite");
+    console.log("Booting Application...");
+    console.log("====================================");
 
-    setTimeout(() => {
+    if (
+        window.PowerTools &&
+        PowerTools.promptEngine
+    ) {
 
-        if (loading) {
+        console.log("✅ Prompt Engine Ready");
 
-            loading.style.opacity = "0";
+    } else {
 
-            setTimeout(() => {
+        console.error("❌ Prompt Engine Not Loaded");
 
-                loading.remove();
+    }
 
-            },300);
+    if (
+        PowerTools &&
+        typeof PowerTools.init === "function"
+    ) {
 
-        }
+        PowerTools.init();
 
-    },600);
+    }
 
 });
 
