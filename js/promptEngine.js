@@ -9382,4 +9382,13499 @@ PowerTools.promptEngine.generateImageToVideo = function (
  * ============================================================
  */
 
+/* ============================================================
+ * PART 20
+ * Storyboard Prompt Engine
+ * Scene Breakdown Engine
+ * Shot Planning Engine
+ * Sequence Builder
+ * Cinematic Story Flow
+ * ============================================================
+ */
 
+
+/* ============================================================
+ * STORYBOARD ENGINE FOUNDATION
+ * ============================================================
+ */
+
+PowerTools.promptEngine.storyboard = {
+
+    version: "1.0",
+
+    defaults: {
+
+        scenes: 5,
+
+        durationPerScene: "8 seconds",
+
+        style: "cinematic",
+
+        fps: "24 fps",
+
+        resolution: "4K"
+
+    }
+
+};
+
+
+/* ============================================================
+ * SCENE BREAKDOWN ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.storyboard.sceneBuilder = {
+
+    build(scene = {}, index = 1) {
+
+        const blocks = [];
+
+
+        blocks.push(
+
+            "Scene " + index
+
+        );
+
+
+        if (scene.title)
+
+            blocks.push(
+
+                scene.title
+
+            );
+
+
+        if (scene.description)
+
+            blocks.push(
+
+                scene.description
+
+            );
+
+
+        if (scene.location)
+
+            blocks.push(
+
+                "Location: " +
+
+                scene.location
+
+            );
+
+
+        if (scene.time)
+
+            blocks.push(
+
+                "Time: " +
+
+                scene.time
+
+            );
+
+
+        if (scene.mood)
+
+            blocks.push(
+
+                "Mood: " +
+
+                scene.mood
+
+            );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+};
+
+
+/* ============================================================
+ * SHOT TYPE LIBRARY
+ * ============================================================
+ */
+
+PowerTools.promptEngine.storyboard.shots = {
+
+
+    extremeWide:
+
+        "extreme wide establishing shot",
+
+
+    wide:
+
+        "wide cinematic shot",
+
+
+    medium:
+
+        "medium shot",
+
+
+    close:
+
+        "close up shot",
+
+
+    extremeClose:
+
+        "extreme close up",
+
+
+    overShoulder:
+
+        "over the shoulder shot",
+
+
+    pov:
+
+        "first person POV shot",
+
+
+    aerial:
+
+        "aerial drone shot",
+
+
+    macro:
+
+        "macro detail shot"
+
+
+};
+
+
+/* ============================================================
+ * SHOT PLANNER ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.storyboard.shotPlanner = {
+
+
+    build(data = {}) {
+
+        const shots = [];
+
+
+        if (data.type)
+
+            shots.push(
+
+                PowerTools.promptEngine.storyboard.shots[
+
+                    data.type
+
+                ] ||
+
+                data.type
+
+            );
+
+
+        if (data.camera)
+
+            shots.push(
+
+                data.camera
+
+            );
+
+
+        if (data.lens)
+
+            shots.push(
+
+                data.lens +
+
+                " lens"
+
+            );
+
+
+        if (data.angle)
+
+            shots.push(
+
+                data.angle +
+
+                " angle"
+
+            );
+
+
+        if (data.focus)
+
+            shots.push(
+
+                "focus on " +
+
+                data.focus
+
+            );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            shots.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * CAMERA LANGUAGE ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.storyboard.cameraLanguage = {
+
+
+    build(data = {}) {
+
+
+        const blocks = [];
+
+
+        if (data.movement)
+
+            blocks.push(
+
+                data.movement
+
+            );
+
+
+        if (data.transition)
+
+            blocks.push(
+
+                data.transition
+
+            );
+
+
+        if (data.speed)
+
+            blocks.push(
+
+                data.speed +
+
+                " movement"
+
+            );
+
+
+        if (data.style)
+
+            blocks.push(
+
+                data.style +
+
+                " cinematography"
+
+            );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * STORY FLOW ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.storyboard.storyFlow = {
+
+
+    build(scenes = []) {
+
+
+        const result = [];
+
+
+        scenes.forEach((scene, index) => {
+
+
+            result.push(
+
+                PowerTools.promptEngine.storyboard.sceneBuilder.build(
+
+                    scene,
+
+                    index + 1
+
+                )
+
+            );
+
+
+        });
+
+
+        return result.join(". ");
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * CHARACTER JOURNEY ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.storyboard.characterJourney = {
+
+
+    build(data = {}) {
+
+
+        const blocks = [];
+
+
+        if (data.start)
+
+            blocks.push(
+
+                "Character starts: " +
+
+                data.start
+
+            );
+
+
+        if (data.change)
+
+            blocks.push(
+
+                "Character development: " +
+
+                data.change
+
+            );
+
+
+        if (data.end)
+
+            blocks.push(
+
+                "Character ending: " +
+
+                data.end
+
+            );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * MASTER STORYBOARD BUILDER
+ * ============================================================
+ */
+
+PowerTools.promptEngine.storyboard.build = function (
+
+    payload = {}
+
+) {
+
+
+    const blocks = [];
+
+
+    if (payload.title)
+
+        blocks.push(
+
+            "Title: " +
+
+            payload.title
+
+        );
+
+
+    if (
+
+        Array.isArray(
+
+            payload.scenes
+
+        )
+
+    )
+
+        blocks.push(
+
+            this.storyFlow.build(
+
+                payload.scenes
+
+            )
+
+        );
+
+
+    if (payload.shot)
+
+        blocks.push(
+
+            this.shotPlanner.build(
+
+                payload.shot
+
+            )
+
+        );
+
+
+    if (payload.camera)
+
+        blocks.push(
+
+            this.cameraLanguage.build(
+
+                payload.camera
+
+            )
+
+        );
+
+
+    if (payload.character)
+
+        blocks.push(
+
+            this.characterJourney.build(
+
+                payload.character
+
+            )
+
+        );
+
+
+    blocks.push(
+
+        payload.style ||
+
+        this.defaults.style
+
+    );
+
+
+    blocks.push(
+
+        payload.duration ||
+
+        this.defaults.durationPerScene
+
+    );
+
+
+    blocks.push(
+
+        payload.fps ||
+
+        this.defaults.fps
+
+    );
+
+
+    blocks.push(
+
+        payload.resolution ||
+
+        this.defaults.resolution
+
+    );
+
+
+    return PowerTools.promptEngine.utils.clean(
+
+        blocks.join(", ")
+
+    );
+
+
+};
+
+
+/* ============================================================
+ * QUICK STORYBOARD GENERATOR
+ * ============================================================
+ */
+
+PowerTools.promptEngine.createStoryboardPrompt = function (
+
+    payload = {}
+
+) {
+
+
+    return this.storyboard.build(
+
+        payload
+
+    );
+
+
+};
+
+
+/* ============================================================
+ * END PART 20
+ * ============================================================
+ */
+
+/* ============================================================
+ * PART 21
+ * Character DNA Engine
+ * Character Identity Blueprint
+ * Face DNA
+ * Body DNA
+ * Clothing DNA
+ * Personality DNA
+ * ============================================================
+ */
+
+
+/* ============================================================
+ * CHARACTER DNA FOUNDATION
+ * ============================================================
+ */
+
+PowerTools.promptEngine.characterDNA = {
+
+    version: "1.0",
+
+    defaults: {
+
+        consistency: true,
+
+        preserveFace: true,
+
+        preserveBody: true,
+
+        preserveStyle: true
+
+    }
+
+};
+
+
+/* ============================================================
+ * CHARACTER IDENTITY BLUEPRINT
+ * ============================================================
+ */
+
+PowerTools.promptEngine.characterDNA.identity = {
+
+
+    build(data = {}) {
+
+
+        const blocks = [];
+
+
+        if (data.name)
+
+            blocks.push(
+
+                "Character name: " +
+
+                data.name
+
+            );
+
+
+        if (data.age)
+
+            blocks.push(
+
+                "Age: " +
+
+                data.age
+
+            );
+
+
+        if (data.gender)
+
+            blocks.push(
+
+                "Gender: " +
+
+                data.gender
+
+            );
+
+
+        if (data.role)
+
+            blocks.push(
+
+                "Role: " +
+
+                data.role
+
+            );
+
+
+        if (data.background)
+
+            blocks.push(
+
+                "Background: " +
+
+                data.background
+
+            );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * FACE DNA ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.characterDNA.face = {
+
+
+    build(data = {}) {
+
+
+        const blocks = [
+
+            "consistent facial identity"
+
+        ];
+
+
+        if (data.shape)
+
+            blocks.push(
+
+                "face shape: " +
+
+                data.shape
+
+            );
+
+
+        if (data.eyes)
+
+            blocks.push(
+
+                "eyes: " +
+
+                data.eyes
+
+            );
+
+
+        if (data.nose)
+
+            blocks.push(
+
+                "nose: " +
+
+                data.nose
+
+            );
+
+
+        if (data.mouth)
+
+            blocks.push(
+
+                "mouth: " +
+
+                data.mouth
+
+            );
+
+
+        if (data.skin)
+
+            blocks.push(
+
+                "skin: " +
+
+                data.skin
+
+            );
+
+
+        if (data.hair)
+
+            blocks.push(
+
+                "hair: " +
+
+                data.hair
+
+            );
+
+
+        if (data.uniqueFeature)
+
+            blocks.push(
+
+                "unique feature: " +
+
+                data.uniqueFeature
+
+            );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * BODY DNA ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.characterDNA.body = {
+
+
+    build(data = {}) {
+
+
+        const blocks = [];
+
+
+        if (data.height)
+
+            blocks.push(
+
+                "height: " +
+
+                data.height
+
+            );
+
+
+        if (data.build)
+
+            blocks.push(
+
+                "body type: " +
+
+                data.build
+
+            );
+
+
+        if (data.posture)
+
+            blocks.push(
+
+                "posture: " +
+
+                data.posture
+
+            );
+
+
+        if (data.proportion)
+
+            blocks.push(
+
+                "body proportion: " +
+
+                data.proportion
+
+            );
+
+
+        if (data.movement)
+
+            blocks.push(
+
+                "movement style: " +
+
+                data.movement
+
+            );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * CLOTHING DNA ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.characterDNA.clothing = {
+
+
+    build(data = {}) {
+
+
+        const blocks = [];
+
+
+        if (data.style)
+
+            blocks.push(
+
+                "fashion style: " +
+
+                data.style
+
+            );
+
+
+        if (data.top)
+
+            blocks.push(
+
+                "upper clothing: " +
+
+                data.top
+
+            );
+
+
+        if (data.bottom)
+
+            blocks.push(
+
+                "lower clothing: " +
+
+                data.bottom
+
+            );
+
+
+        if (data.color)
+
+            blocks.push(
+
+                "color palette: " +
+
+                data.color
+
+            );
+
+
+        if (data.material)
+
+            blocks.push(
+
+                "material: " +
+
+                data.material
+
+            );
+
+
+        if (data.accessories)
+
+            blocks.push(
+
+                "accessories: " +
+
+                data.accessories
+
+            );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * PERSONALITY DNA ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.characterDNA.personality = {
+
+
+    build(data = {}) {
+
+
+        const blocks = [];
+
+
+        if (data.traits)
+
+            blocks.push(
+
+                "personality traits: " +
+
+                data.traits
+
+            );
+
+
+        if (data.emotion)
+
+            blocks.push(
+
+                "emotional style: " +
+
+                data.emotion
+
+            );
+
+
+        if (data.behavior)
+
+            blocks.push(
+
+                "behavior: " +
+
+                data.behavior
+
+            );
+
+
+        if (data.voice)
+
+            blocks.push(
+
+                "voice personality: " +
+
+                data.voice
+
+            );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * CHARACTER MEMORY ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.characterDNA.memory = {
+
+
+    store: [],
+
+
+    save(character) {
+
+
+        this.store.push(
+
+            character
+
+        );
+
+
+        return true;
+
+
+    },
+
+
+    getLast() {
+
+
+        return this.store[
+
+            this.store.length - 1
+
+        ] || null;
+
+
+    },
+
+
+    clear() {
+
+
+        this.store = [];
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * CHARACTER DNA MASTER BUILDER
+ * ============================================================
+ */
+
+PowerTools.promptEngine.characterDNA.build = function (
+
+    payload = {}
+
+) {
+
+
+    const blocks = [];
+
+
+    if (payload.identity)
+
+        blocks.push(
+
+            this.identity.build(
+
+                payload.identity
+
+            )
+
+        );
+
+
+    if (payload.face)
+
+        blocks.push(
+
+            this.face.build(
+
+                payload.face
+
+            )
+
+        );
+
+
+    if (payload.body)
+
+        blocks.push(
+
+            this.body.build(
+
+                payload.body
+
+            )
+
+        );
+
+
+    if (payload.clothing)
+
+        blocks.push(
+
+            this.clothing.build(
+
+                payload.clothing
+
+            )
+
+        );
+
+
+    if (payload.personality)
+
+        blocks.push(
+
+            this.personality.build(
+
+                payload.personality
+
+            )
+
+        );
+
+
+    blocks.push(
+
+        "maintain character consistency across all scenes"
+
+    );
+
+
+    return PowerTools.promptEngine.utils.clean(
+
+        blocks.join(", ")
+
+    );
+
+
+};
+
+
+/* ============================================================
+ * QUICK CHARACTER DNA GENERATOR
+ * ============================================================
+ */
+
+PowerTools.promptEngine.createCharacterDNA = function (
+
+    payload = {}
+
+) {
+
+
+    return this.characterDNA.build(
+
+        payload
+
+    );
+
+
+};
+
+
+/* ============================================================
+ * END PART 21
+ * ============================================================
+ */
+
+/* ============================================================
+ * PART 22
+ * Character Expression Engine
+ * Emotion Library
+ * Pose Engine
+ * Gesture Engine
+ * Action Sequence Engine
+ * Character Animation Prompt
+ * ============================================================
+ */
+
+
+/* ============================================================
+ * CHARACTER EXPRESSION ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.characterDNA.expression = {
+
+    version: "1.0",
+
+
+    emotions: {
+
+        happy:
+            "warm genuine smile, relaxed facial muscles",
+
+        sad:
+            "sad expression, emotional eyes, subtle tears",
+
+        angry:
+            "angry expression, intense eyes, tense facial muscles",
+
+        surprised:
+            "surprised expression, widened eyes",
+
+        fear:
+            "fearful expression, nervous eyes",
+
+        excited:
+            "excited expression, energetic face",
+
+        calm:
+            "calm expression, peaceful face",
+
+        confident:
+            "confident expression, strong eye contact",
+
+        mysterious:
+            "mysterious expression, subtle emotion",
+
+        serious:
+            "serious expression, focused eyes"
+
+    },
+
+
+    build(data = {}) {
+
+
+        const blocks = [];
+
+
+        if (data.emotion)
+
+            blocks.push(
+
+                this.emotions[
+
+                    data.emotion
+
+                ] ||
+
+                data.emotion
+
+            );
+
+
+        if (data.face)
+
+            blocks.push(
+
+                data.face
+
+            );
+
+
+        if (data.eyes)
+
+            blocks.push(
+
+                "eye expression: " +
+
+                data.eyes
+
+            );
+
+
+        if (data.mouth)
+
+            blocks.push(
+
+                "mouth expression: " +
+
+                data.mouth
+
+            );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * EMOTION TRANSITION ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.characterDNA.emotionTransition = {
+
+
+    build(data = {}) {
+
+
+        const blocks = [];
+
+
+        if (data.start)
+
+            blocks.push(
+
+                "starts with " +
+
+                data.start +
+
+                " emotion"
+
+            );
+
+
+        if (data.change)
+
+            blocks.push(
+
+                "gradually changes into " +
+
+                data.change
+
+            );
+
+
+        if (data.end)
+
+            blocks.push(
+
+                "ends with " +
+
+                data.end
+
+            );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * POSE ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.characterDNA.pose = {
+
+
+    library: {
+
+
+        standing:
+            "natural standing pose",
+
+
+        sitting:
+            "relaxed sitting pose",
+
+
+        walking:
+            "natural walking pose",
+
+
+        running:
+            "dynamic running pose",
+
+
+        heroic:
+            "heroic cinematic pose",
+
+
+        casual:
+            "casual relaxed pose",
+
+
+        action:
+            "dynamic action pose",
+
+
+        portrait:
+            "professional portrait pose"
+
+    },
+
+
+    build(data = {}) {
+
+
+        const blocks = [];
+
+
+        if (data.type)
+
+            blocks.push(
+
+                this.library[
+
+                    data.type
+
+                ] ||
+
+                data.type
+
+            );
+
+
+        if (data.direction)
+
+            blocks.push(
+
+                data.direction +
+
+                " body direction"
+
+            );
+
+
+        if (data.hand)
+
+            blocks.push(
+
+                "hand position: " +
+
+                data.hand
+
+            );
+
+
+        if (data.extra)
+
+            blocks.push(
+
+                data.extra
+
+            );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * GESTURE ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.characterDNA.gesture = {
+
+
+    library: {
+
+
+        wave:
+            "friendly hand waving",
+
+
+        point:
+            "pointing naturally",
+
+
+        hold:
+            "holding object naturally",
+
+
+        touch:
+            "gentle touching gesture",
+
+
+        walk:
+            "natural arm movement while walking",
+
+
+        talk:
+            "natural talking gestures"
+
+
+    },
+
+
+    build(data = {}) {
+
+
+        const blocks = [];
+
+
+        if (data.type)
+
+            blocks.push(
+
+                this.library[
+
+                    data.type
+
+                ] ||
+
+                data.type
+
+            );
+
+
+        if (data.speed)
+
+            blocks.push(
+
+                data.speed +
+
+                " gesture movement"
+
+            );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * ACTION SEQUENCE ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.characterDNA.action = {
+
+
+    build(data = {}) {
+
+
+        const blocks = [];
+
+
+        if (data.begin)
+
+            blocks.push(
+
+                "begin action: " +
+
+                data.begin
+
+            );
+
+
+        if (data.middle)
+
+            blocks.push(
+
+                "continue action: " +
+
+                data.middle
+
+            );
+
+
+        if (data.end)
+
+            blocks.push(
+
+                "finish action: " +
+
+                data.end
+
+            );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * CHARACTER ANIMATION PROMPT
+ * ============================================================
+ */
+
+PowerTools.promptEngine.characterDNA.animation = {
+
+
+    build(data = {}) {
+
+
+        const blocks = [];
+
+
+        if (data.expression)
+
+            blocks.push(
+
+                PowerTools.promptEngine.characterDNA.expression.build(
+
+                    data.expression
+
+                )
+
+            );
+
+
+        if (data.pose)
+
+            blocks.push(
+
+                PowerTools.promptEngine.characterDNA.pose.build(
+
+                    data.pose
+
+                )
+
+            );
+
+
+        if (data.gesture)
+
+            blocks.push(
+
+                PowerTools.promptEngine.characterDNA.gesture.build(
+
+                    data.gesture
+
+                )
+
+            );
+
+
+        if (data.action)
+
+            blocks.push(
+
+                PowerTools.promptEngine.characterDNA.action.build(
+
+                    data.action
+
+                )
+
+            );
+
+
+        blocks.push(
+
+            "maintain exact character identity during animation"
+
+        );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * CHARACTER SCENE PROMPT
+ * ============================================================
+ */
+
+PowerTools.promptEngine.createCharacterAnimation = function (
+
+    payload = {}
+
+) {
+
+
+    return this.characterDNA.animation.build(
+
+        payload
+
+    );
+
+
+};
+
+
+/* ============================================================
+ * END PART 22
+ * ============================================================
+ */
+
+/* ============================================================
+ * PART 23
+ * Product DNA Engine
+ * Product Identity Blueprint
+ * Shape DNA
+ * Material DNA
+ * Brand DNA
+ * Packaging DNA
+ * Product Photography Prompt
+ * ============================================================
+ */
+
+
+/* ============================================================
+ * PRODUCT DNA FOUNDATION
+ * ============================================================
+ */
+
+PowerTools.promptEngine.productDNA = {
+
+    version: "1.0",
+
+    defaults: {
+
+        preserveShape: true,
+
+        preserveMaterial: true,
+
+        preserveBrand: true,
+
+        preserveColor: true,
+
+        preserveDetails: true
+
+    }
+
+};
+
+
+/* ============================================================
+ * PRODUCT IDENTITY BLUEPRINT
+ * ============================================================
+ */
+
+PowerTools.promptEngine.productDNA.identity = {
+
+
+    build(data = {}) {
+
+
+        const blocks = [];
+
+
+        if (data.name)
+
+            blocks.push(
+
+                "Product name: " +
+
+                data.name
+
+            );
+
+
+        if (data.category)
+
+            blocks.push(
+
+                "Category: " +
+
+                data.category
+
+            );
+
+
+        if (data.description)
+
+            blocks.push(
+
+                data.description
+
+            );
+
+
+        if (data.target)
+
+            blocks.push(
+
+                "Target market: " +
+
+                data.target
+
+            );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * PRODUCT SHAPE DNA
+ * ============================================================
+ */
+
+PowerTools.promptEngine.productDNA.shape = {
+
+
+    build(data = {}) {
+
+
+        const blocks = [
+
+            "preserve exact product geometry"
+
+        ];
+
+
+        if (data.form)
+
+            blocks.push(
+
+                "shape: " +
+
+                data.form
+
+            );
+
+
+        if (data.size)
+
+            blocks.push(
+
+                "dimensions: " +
+
+                data.size
+
+            );
+
+
+        if (data.structure)
+
+            blocks.push(
+
+                "structure: " +
+
+                data.structure
+
+            );
+
+
+        if (data.details)
+
+            blocks.push(
+
+                "design details: " +
+
+                data.details
+
+            );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * MATERIAL DNA ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.productDNA.material = {
+
+
+    build(data = {}) {
+
+
+        const blocks = [];
+
+
+        if (data.primary)
+
+            blocks.push(
+
+                "main material: " +
+
+                data.primary
+
+            );
+
+
+        if (data.texture)
+
+            blocks.push(
+
+                "texture: " +
+
+                data.texture
+
+            );
+
+
+        if (data.finish)
+
+            blocks.push(
+
+                "surface finish: " +
+
+                data.finish
+
+            );
+
+
+        if (data.reflection)
+
+            blocks.push(
+
+                "reflection: " +
+
+                data.reflection
+
+            );
+
+
+        if (data.extra)
+
+            blocks.push(
+
+                data.extra
+
+            );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * BRAND DNA ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.productDNA.brand = {
+
+
+    build(data = {}) {
+
+
+        const blocks = [
+
+            "maintain original brand identity"
+
+        ];
+
+
+        if (data.logo)
+
+            blocks.push(
+
+                "logo placement: " +
+
+                data.logo
+
+            );
+
+
+        if (data.color)
+
+            blocks.push(
+
+                "brand color palette: " +
+
+                data.color
+
+            );
+
+
+        if (data.style)
+
+            blocks.push(
+
+                "brand style: " +
+
+                data.style
+
+            );
+
+
+        if (data.message)
+
+            blocks.push(
+
+                "brand message: " +
+
+                data.message
+
+            );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * PACKAGING DNA ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.productDNA.packaging = {
+
+
+    build(data = {}) {
+
+
+        const blocks = [];
+
+
+        if (data.type)
+
+            blocks.push(
+
+                "packaging type: " +
+
+                data.type
+
+            );
+
+
+        if (data.color)
+
+            blocks.push(
+
+                "packaging color: " +
+
+                data.color
+
+            );
+
+
+        if (data.label)
+
+            blocks.push(
+
+                "label design: " +
+
+                data.label
+
+            );
+
+
+        if (data.material)
+
+            blocks.push(
+
+                "packaging material: " +
+
+                data.material
+
+            );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * PRODUCT PHOTOGRAPHY ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.productDNA.photography = {
+
+
+    build(data = {}) {
+
+
+        const blocks = [
+
+            "professional product photography"
+
+        ];
+
+
+        if (data.camera)
+
+            blocks.push(
+
+                data.camera
+
+            );
+
+
+        if (data.lens)
+
+            blocks.push(
+
+                data.lens +
+
+                " lens"
+
+            );
+
+
+        if (data.angle)
+
+            blocks.push(
+
+                data.angle +
+
+                " angle"
+
+            );
+
+
+        if (data.background)
+
+            blocks.push(
+
+                "background: " +
+
+                data.background
+
+            );
+
+
+        if (data.lighting)
+
+            blocks.push(
+
+                "lighting: " +
+
+                data.lighting
+
+            );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * PRODUCT DNA MASTER BUILDER
+ * ============================================================
+ */
+
+PowerTools.promptEngine.productDNA.build = function (
+
+    payload = {}
+
+) {
+
+
+    const blocks = [];
+
+
+    if (payload.identity)
+
+        blocks.push(
+
+            this.identity.build(
+
+                payload.identity
+
+            )
+
+        );
+
+
+    if (payload.shape)
+
+        blocks.push(
+
+            this.shape.build(
+
+                payload.shape
+
+            )
+
+        );
+
+
+    if (payload.material)
+
+        blocks.push(
+
+            this.material.build(
+
+                payload.material
+
+            )
+
+        );
+
+
+    if (payload.brand)
+
+        blocks.push(
+
+            this.brand.build(
+
+                payload.brand
+
+            )
+
+        );
+
+
+    if (payload.packaging)
+
+        blocks.push(
+
+            this.packaging.build(
+
+                payload.packaging
+
+            )
+
+        );
+
+
+    if (payload.photo)
+
+        blocks.push(
+
+            this.photography.build(
+
+                payload.photo
+
+            )
+
+        );
+
+
+    blocks.push(
+
+        "maintain product consistency across all generated images and videos"
+
+    );
+
+
+    return PowerTools.promptEngine.utils.clean(
+
+        blocks.join(", ")
+
+    );
+
+
+};
+
+
+/* ============================================================
+ * QUICK PRODUCT DNA GENERATOR
+ * ============================================================
+ */
+
+PowerTools.promptEngine.createProductDNA = function (
+
+    payload = {}
+
+) {
+
+
+    return this.productDNA.build(
+
+        payload
+
+    );
+
+
+};
+
+
+/* ============================================================
+ * END PART 23
+ * ============================================================
+ */
+
+/* ============================================================
+ * PART 24
+ * Product Commercial Video Engine
+ * Product Showcase Builder
+ * 360° Rotation Engine
+ * Luxury Advertisement Prompt
+ * E-Commerce Video Prompt
+ * Product Camera Movement
+ * Product Lighting Studio
+ * ============================================================
+ */
+
+
+/* ============================================================
+ * PRODUCT VIDEO ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.productVideo = {
+
+    version: "1.0",
+
+    defaults: {
+
+        duration: "8 seconds",
+
+        fps: "24 fps",
+
+        resolution: "4K",
+
+        style: "premium commercial"
+
+    }
+
+};
+
+
+/* ============================================================
+ * PRODUCT SHOWCASE ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.productVideo.showcase = {
+
+
+    build(data = {}) {
+
+
+        const blocks = [];
+
+
+        blocks.push(
+
+            "premium product showcase"
+
+        );
+
+
+        if (data.hero)
+
+            blocks.push(
+
+                "hero product shot: " +
+
+                data.hero
+
+            );
+
+
+        if (data.feature)
+
+            blocks.push(
+
+                "highlight product feature: " +
+
+                data.feature
+
+            );
+
+
+        if (data.detail)
+
+            blocks.push(
+
+                "macro detail reveal: " +
+
+                data.detail
+
+            );
+
+
+        if (data.usage)
+
+            blocks.push(
+
+                "product usage scene: " +
+
+                data.usage
+
+            );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * 360 ROTATION ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.productVideo.rotation360 = {
+
+
+    build(data = {}) {
+
+
+        const blocks = [
+
+            "360 degree product rotation",
+
+            "smooth turntable movement",
+
+            "preserve exact product geometry"
+
+        ];
+
+
+        if (data.speed)
+
+            blocks.push(
+
+                data.speed +
+
+                " rotation speed"
+
+            );
+
+
+        if (data.camera)
+
+            blocks.push(
+
+                "camera distance: " +
+
+                data.camera
+
+            );
+
+
+        if (data.angle)
+
+            blocks.push(
+
+                "view angle: " +
+
+                data.angle
+
+            );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * PRODUCT CAMERA MOVEMENT
+ * ============================================================
+ */
+
+PowerTools.promptEngine.productVideo.camera = {
+
+
+    build(data = {}) {
+
+
+        const blocks = [];
+
+
+        if (data.move)
+
+            blocks.push(
+
+                data.move
+
+            );
+
+
+        if (data.zoom)
+
+            blocks.push(
+
+                data.zoom +
+
+                " zoom"
+
+            );
+
+
+        if (data.focus)
+
+            blocks.push(
+
+                "focus transition: " +
+
+                data.focus
+
+            );
+
+
+        if (data.lens)
+
+            blocks.push(
+
+                data.lens +
+
+                " lens"
+
+            );
+
+
+        if (data.extra)
+
+            blocks.push(
+
+                data.extra
+
+            );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * PRODUCT LIGHTING STUDIO ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.productVideo.lighting = {
+
+
+    build(data = {}) {
+
+
+        const blocks = [
+
+            "professional studio lighting"
+
+        ];
+
+
+        if (data.type)
+
+            blocks.push(
+
+                data.type +
+
+                " lighting"
+
+            );
+
+
+        if (data.direction)
+
+            blocks.push(
+
+                "light direction: " +
+
+                data.direction
+
+            );
+
+
+        if (data.shadow)
+
+            blocks.push(
+
+                "shadow style: " +
+
+                data.shadow
+
+            );
+
+
+        if (data.reflection)
+
+            blocks.push(
+
+                "controlled reflections"
+
+            );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * LUXURY ADVERTISEMENT ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.productVideo.luxuryAd = {
+
+
+    build(data = {}) {
+
+
+        const blocks = [
+
+            "luxury brand advertisement",
+
+            "cinematic commercial production",
+
+            "premium visual storytelling"
+
+        ];
+
+
+        if (data.mood)
+
+            blocks.push(
+
+                "brand mood: " +
+
+                data.mood
+
+            );
+
+
+        if (data.environment)
+
+            blocks.push(
+
+                "luxury environment: " +
+
+                data.environment
+
+            );
+
+
+        if (data.camera)
+
+            blocks.push(
+
+                data.camera
+
+            );
+
+
+        if (data.message)
+
+            blocks.push(
+
+                data.message
+
+            );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * E-COMMERCE VIDEO ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.productVideo.ecommerce = {
+
+
+    build(data = {}) {
+
+
+        const blocks = [
+
+            "professional e-commerce product video",
+
+            "clean presentation",
+
+            "clear product visibility"
+
+        ];
+
+
+        if (data.platform)
+
+            blocks.push(
+
+                "platform: " +
+
+                data.platform
+
+            );
+
+
+        if (data.target)
+
+            blocks.push(
+
+                "target customer: " +
+
+                data.target
+
+            );
+
+
+        if (data.highlight)
+
+            blocks.push(
+
+                "selling point: " +
+
+                data.highlight
+
+            );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * PRODUCT VIDEO MASTER BUILDER
+ * ============================================================
+ */
+
+PowerTools.promptEngine.productVideo.build = function (
+
+    payload = {}
+
+) {
+
+
+    const blocks = [];
+
+
+    if (payload.product)
+
+        blocks.push(
+
+            PowerTools.promptEngine.productDNA.build(
+
+                payload.product
+
+            )
+
+        );
+
+
+    if (payload.showcase)
+
+        blocks.push(
+
+            this.showcase.build(
+
+                payload.showcase
+
+            )
+
+        );
+
+
+    if (payload.rotation)
+
+        blocks.push(
+
+            this.rotation360.build(
+
+                payload.rotation
+
+            )
+
+        );
+
+
+    if (payload.camera)
+
+        blocks.push(
+
+            this.camera.build(
+
+                payload.camera
+
+            )
+
+        );
+
+
+    if (payload.lighting)
+
+        blocks.push(
+
+            this.lighting.build(
+
+                payload.lighting
+
+            )
+
+        );
+
+
+    if (payload.luxury)
+
+        blocks.push(
+
+            this.luxuryAd.build(
+
+                payload.luxury
+
+            )
+
+        );
+
+
+    if (payload.ecommerce)
+
+        blocks.push(
+
+            this.ecommerce.build(
+
+                payload.ecommerce
+
+            )
+
+        );
+
+
+    blocks.push(
+
+        payload.duration ||
+
+        this.defaults.duration
+
+    );
+
+
+    blocks.push(
+
+        payload.fps ||
+
+        this.defaults.fps
+
+    );
+
+
+    blocks.push(
+
+        payload.resolution ||
+
+        this.defaults.resolution
+
+    );
+
+
+    return PowerTools.promptEngine.utils.clean(
+
+        blocks.join(", ")
+
+    );
+
+
+};
+
+
+/* ============================================================
+ * QUICK PRODUCT VIDEO API
+ * ============================================================
+ */
+
+PowerTools.promptEngine.createProductVideoPrompt = function (
+
+    payload = {}
+
+) {
+
+
+    return this.productVideo.build(
+
+        payload
+
+    );
+
+
+};
+
+
+/* ============================================================
+ * END PART 24
+ * ============================================================
+ */
+
+/* ============================================================
+ * PART 25
+ * Marketing Prompt Engine
+ * Ads Generator
+ * Social Media Ads
+ * Affiliate Marketing Engine
+ * CTA Generator
+ * Audience Targeting
+ * ============================================================
+ */
+
+
+/* ============================================================
+ * MARKETING ENGINE FOUNDATION
+ * ============================================================
+ */
+
+PowerTools.promptEngine.marketing = {
+
+    version: "1.0",
+
+    defaults: {
+
+        platform: "social media",
+
+        tone: "persuasive",
+
+        goal: "increase conversion"
+
+    }
+
+};
+
+
+/* ============================================================
+ * AUDIENCE TARGETING ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.marketing.audience = {
+
+
+    build(data = {}) {
+
+
+        const blocks = [];
+
+
+        if (data.age)
+
+            blocks.push(
+
+                "Age group: " +
+
+                data.age
+
+            );
+
+
+        if (data.gender)
+
+            blocks.push(
+
+                "Gender: " +
+
+                data.gender
+
+            );
+
+
+        if (data.location)
+
+            blocks.push(
+
+                "Location: " +
+
+                data.location
+
+            );
+
+
+        if (data.interest)
+
+            blocks.push(
+
+                "Interest: " +
+
+                data.interest
+
+            );
+
+
+        if (data.problem)
+
+            blocks.push(
+
+                "Customer problem: " +
+
+                data.problem
+
+            );
+
+
+        if (data.desire)
+
+            blocks.push(
+
+                "Customer desire: " +
+
+                data.desire
+
+            );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * AD COPY ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.marketing.adCopy = {
+
+
+    build(data = {}) {
+
+
+        const blocks = [];
+
+
+        blocks.push(
+
+            "high converting advertisement copy"
+
+        );
+
+
+        if (data.product)
+
+            blocks.push(
+
+                "Product: " +
+
+                data.product
+
+            );
+
+
+        if (data.problem)
+
+            blocks.push(
+
+                "Pain point: " +
+
+                data.problem
+
+            );
+
+
+        if (data.solution)
+
+            blocks.push(
+
+                "Solution: " +
+
+                data.solution
+
+            );
+
+
+        if (data.benefit)
+
+            blocks.push(
+
+                "Main benefit: " +
+
+                data.benefit
+
+            );
+
+
+        if (data.offer)
+
+            blocks.push(
+
+                "Offer: " +
+
+                data.offer
+
+            );
+
+
+        if (data.proof)
+
+            blocks.push(
+
+                "Social proof: " +
+
+                data.proof
+
+            );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * FACEBOOK ADS ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.marketing.facebook = {
+
+
+    build(data = {}) {
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            [
+
+                "Facebook Ads campaign",
+
+                "attention grabbing headline",
+
+                "clear benefit explanation",
+
+                "trust building message",
+
+                "strong call to action",
+
+                PowerTools.promptEngine.marketing.adCopy.build(
+
+                    data
+
+                )
+
+            ].join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * INSTAGRAM ADS ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.marketing.instagram = {
+
+
+    build(data = {}) {
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            [
+
+                "Instagram visual advertisement",
+
+                "scroll stopping creative",
+
+                "beautiful product presentation",
+
+                "short engaging caption",
+
+                "viral style hook",
+
+                PowerTools.promptEngine.marketing.adCopy.build(
+
+                    data
+
+                )
+
+            ].join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * TIKTOK ADS ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.marketing.tiktok = {
+
+
+    build(data = {}) {
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            [
+
+                "TikTok short form advertisement",
+
+                "first 3 seconds powerful hook",
+
+                "native creator style",
+
+                "fast engaging storytelling",
+
+                "viral marketing structure",
+
+                PowerTools.promptEngine.marketing.adCopy.build(
+
+                    data
+
+                )
+
+            ].join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * YOUTUBE ADS ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.marketing.youtube = {
+
+
+    build(data = {}) {
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            [
+
+                "YouTube video advertisement",
+
+                "strong opening hook",
+
+                "story driven marketing",
+
+                "clear product demonstration",
+
+                "conversion focused ending",
+
+                PowerTools.promptEngine.marketing.adCopy.build(
+
+                    data
+
+                )
+
+            ].join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * CTA GENERATOR ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.marketing.cta = {
+
+
+    library: {
+
+
+        buy:
+
+            "Buy now and get yours today",
+
+
+        discount:
+
+            "Claim your special discount now",
+
+
+        learn:
+
+            "Learn more about this product",
+
+
+        try:
+
+            "Try it today with confidence",
+
+
+        join:
+
+            "Join thousands of satisfied customers"
+
+
+    },
+
+
+    build(type = "buy") {
+
+
+        return this.library[type] ||
+
+            this.library.buy;
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * AFFILIATE MARKETING ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.marketing.affiliate = {
+
+
+    build(data = {}) {
+
+
+        const blocks = [
+
+            "affiliate marketing content",
+
+            "product recommendation",
+
+            "trust focused storytelling"
+
+        ];
+
+
+        if (data.product)
+
+            blocks.push(
+
+                "promoting: " +
+
+                data.product
+
+            );
+
+
+        if (data.review)
+
+            blocks.push(
+
+                "review angle: " +
+
+                data.review
+
+            );
+
+
+        if (data.platform)
+
+            blocks.push(
+
+                "platform: " +
+
+                data.platform
+
+            );
+
+
+        blocks.push(
+
+            PowerTools.promptEngine.marketing.cta.build(
+
+                data.cta
+
+            )
+
+        );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * MASTER MARKETING BUILDER
+ * ============================================================
+ */
+
+PowerTools.promptEngine.marketing.build = function (
+
+    payload = {}
+
+) {
+
+
+    const blocks = [];
+
+
+    if (payload.audience)
+
+        blocks.push(
+
+            this.audience.build(
+
+                payload.audience
+
+            )
+
+        );
+
+
+    if (payload.platform)
+
+        blocks.push(
+
+            this[
+
+                payload.platform
+
+            ]?.build(
+
+                payload
+
+            ) ||
+
+            this.adCopy.build(
+
+                payload
+
+            )
+
+        );
+
+
+    if (payload.affiliate)
+
+        blocks.push(
+
+            this.affiliate.build(
+
+                payload.affiliate
+
+            )
+
+        );
+
+
+    return PowerTools.promptEngine.utils.clean(
+
+        blocks.join(", ")
+
+    );
+
+
+};
+
+
+/* ============================================================
+ * QUICK MARKETING API
+ * ============================================================
+ */
+
+PowerTools.promptEngine.createMarketingPrompt = function (
+
+    payload = {}
+
+) {
+
+
+    return this.marketing.build(
+
+        payload
+
+    );
+
+
+};
+
+
+/* ============================================================
+ * END PART 25
+ * ============================================================
+ */
+
+/* ============================================================
+ * PART 26
+ * Voice AI Prompt Engine
+ * Voice Character Blueprint
+ * TTS Prompt Builder
+ * Narration Style Engine
+ * Emotion Voice Control
+ * Voice Over Script Engine
+ * ============================================================
+ */
+
+
+/* ============================================================
+ * VOICE ENGINE FOUNDATION
+ * ============================================================
+ */
+
+PowerTools.promptEngine.voice = {
+
+    version: "1.0",
+
+    defaults: {
+
+        language: "English",
+
+        style: "natural",
+
+        emotion: "neutral",
+
+        speed: "normal",
+
+        quality: "professional"
+
+    }
+
+};
+
+
+/* ============================================================
+ * VOICE CHARACTER BLUEPRINT
+ * ============================================================
+ */
+
+PowerTools.promptEngine.voice.character = {
+
+
+    build(data = {}) {
+
+
+        const blocks = [];
+
+
+        if (data.gender)
+
+            blocks.push(
+
+                "voice gender: " +
+
+                data.gender
+
+            );
+
+
+        if (data.age)
+
+            blocks.push(
+
+                "voice age: " +
+
+                data.age
+
+            );
+
+
+        if (data.type)
+
+            blocks.push(
+
+                "voice type: " +
+
+                data.type
+
+            );
+
+
+        if (data.tone)
+
+            blocks.push(
+
+                "voice tone: " +
+
+                data.tone
+
+            );
+
+
+        if (data.personality)
+
+            blocks.push(
+
+                "voice personality: " +
+
+                data.personality
+
+            );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * NARRATION STYLE ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.voice.narration = {
+
+
+    styles: {
+
+
+        documentary:
+
+            "documentary narrator style",
+
+
+        cinematic:
+
+            "cinematic movie trailer narration",
+
+
+        commercial:
+
+            "professional advertisement voice",
+
+
+        storytelling:
+
+            "warm storytelling narration",
+
+
+        educational:
+
+            "clear educational explanation style",
+
+
+        emotional:
+
+            "deep emotional narration",
+
+
+        casual:
+
+            "friendly casual creator voice"
+
+
+    },
+
+
+    build(data = {}) {
+
+
+        const blocks = [];
+
+
+        if (data.style)
+
+            blocks.push(
+
+                this.styles[
+
+                    data.style
+
+                ] ||
+
+                data.style
+
+            );
+
+
+        if (data.pace)
+
+            blocks.push(
+
+                data.pace +
+
+                " speaking pace"
+
+            );
+
+
+        if (data.pause)
+
+            blocks.push(
+
+                "natural pauses"
+
+            );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * EMOTION VOICE CONTROL
+ * ============================================================
+ */
+
+PowerTools.promptEngine.voice.emotion = {
+
+
+    library: {
+
+
+        happy:
+
+            "bright cheerful emotional delivery",
+
+
+        sad:
+
+            "soft emotional delivery with sadness",
+
+
+        excited:
+
+            "energetic enthusiastic delivery",
+
+
+        serious:
+
+            "deep serious professional delivery",
+
+
+        calm:
+
+            "calm relaxing delivery",
+
+
+        dramatic:
+
+            "powerful dramatic cinematic delivery",
+
+
+        inspiring:
+
+            "motivational inspiring delivery"
+
+
+    },
+
+
+    build(type) {
+
+
+        return this.library[type] ||
+
+            this.library.calm;
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * TTS PROMPT BUILDER
+ * ============================================================
+ */
+
+PowerTools.promptEngine.voice.tts = {
+
+
+    build(data = {}) {
+
+
+        const blocks = [];
+
+
+        if (data.script)
+
+            blocks.push(
+
+                "Script: " +
+
+                data.script
+
+            );
+
+
+        blocks.push(
+
+            PowerTools.promptEngine.voice.character.build(
+
+                data.character ||
+
+                {}
+
+            )
+
+        );
+
+
+        blocks.push(
+
+            PowerTools.promptEngine.voice.narration.build(
+
+                data.narration ||
+
+                {}
+
+            )
+
+        );
+
+
+        if (data.emotion)
+
+            blocks.push(
+
+                PowerTools.promptEngine.voice.emotion.build(
+
+                    data.emotion
+
+                )
+
+            );
+
+
+        if (data.language)
+
+            blocks.push(
+
+                "Language: " +
+
+                data.language
+
+            );
+
+
+        if (data.speed)
+
+            blocks.push(
+
+                "Speaking speed: " +
+
+                data.speed
+
+            );
+
+
+        blocks.push(
+
+            "high quality studio voice recording"
+
+        );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * VOICE OVER SCRIPT ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.voice.script = {
+
+
+    build(data = {}) {
+
+
+        const blocks = [];
+
+
+        if (data.hook)
+
+            blocks.push(
+
+                "Opening hook: " +
+
+                data.hook
+
+            );
+
+
+        if (data.body)
+
+            blocks.push(
+
+                "Main message: " +
+
+                data.body
+
+            );
+
+
+        if (data.benefit)
+
+            blocks.push(
+
+                "Benefit: " +
+
+                data.benefit
+
+            );
+
+
+        if (data.closing)
+
+            blocks.push(
+
+                "Closing: " +
+
+                data.closing
+
+            );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(". ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * LIP SYNC PREPARATION ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.voice.lipsync = {
+
+
+    build(data = {}) {
+
+
+        const blocks = [
+
+            "accurate lip synchronization",
+
+            "natural mouth movement",
+
+            "realistic facial animation"
+
+        ];
+
+
+        if (data.expression)
+
+            blocks.push(
+
+                "match facial expression with voice emotion"
+
+            );
+
+
+        if (data.character)
+
+            blocks.push(
+
+                "preserve character identity"
+
+            );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * OPENAI TTS FORMATTER
+ * ============================================================
+ */
+
+PowerTools.promptEngine.voice.openAITTS = {
+
+
+    build(data = {}) {
+
+
+        return {
+
+            voice:
+
+                data.voice ||
+
+                "Nova",
+
+
+            style:
+
+                data.style ||
+
+                "natural",
+
+
+            emotion:
+
+                data.emotion ||
+
+                "neutral",
+
+
+            instructions:
+
+                PowerTools.promptEngine.voice.tts.build(
+
+                    data
+
+                )
+
+
+        };
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * ELEVENLABS FORMATTER
+ * ============================================================
+ */
+
+PowerTools.promptEngine.voice.elevenLabs = {
+
+
+    build(data = {}) {
+
+
+        return {
+
+            voice:
+
+                data.voice ||
+
+                "default",
+
+
+            stability:
+
+                data.stability ||
+
+                0.5,
+
+
+            similarity:
+
+                data.similarity ||
+
+                0.75,
+
+
+            prompt:
+
+                PowerTools.promptEngine.voice.tts.build(
+
+                    data
+
+                )
+
+
+        };
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * QUICK VOICE API
+ * ============================================================
+ */
+
+PowerTools.promptEngine.createVoicePrompt = function (
+
+    payload = {}
+
+) {
+
+
+    return this.voice.tts.build(
+
+        payload
+
+    );
+
+
+};
+
+
+/* ============================================================
+ * END PART 26
+ * ============================================================
+ */
+
+/* ============================================================
+ * PART 27
+ * AI Prompt Quality Engine
+ * Prompt Analyzer
+ * Quality Score
+ * Detail Booster
+ * Cinematic Enhancer
+ * Negative Prompt Generator
+ * Auto Improve System
+ * ============================================================
+ */
+
+
+/* ============================================================
+ * QUALITY ENGINE FOUNDATION
+ * ============================================================
+ */
+
+PowerTools.promptEngine.quality = {
+
+    version: "1.0",
+
+    minimumScore: 80
+
+};
+
+
+/* ============================================================
+ * PROMPT ANALYZER ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.quality.analyzer = {
+
+
+    analyze(prompt = "") {
+
+
+        const text = String(prompt);
+
+
+        return {
+
+
+            length:
+
+                text.length,
+
+
+            words:
+
+                text.split(/\s+/)
+
+                .filter(Boolean)
+
+                .length,
+
+
+            hasSubject:
+
+                /character|person|object|product|scene/i
+
+                .test(text),
+
+
+            hasStyle:
+
+                /cinematic|realistic|anime|3d|illustration|photography/i
+
+                .test(text),
+
+
+            hasCamera:
+
+                /camera|lens|shot|angle|close up|wide/i
+
+                .test(text),
+
+
+            hasLighting:
+
+                /lighting|shadow|light|golden hour|studio/i
+
+                .test(text),
+
+
+            hasQuality:
+
+                /4k|8k|high quality|ultra detailed|masterpiece/i
+
+                .test(text)
+
+
+        };
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * QUALITY SCORE ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.quality.score = {
+
+
+    calculate(prompt = "") {
+
+
+        const data =
+
+            PowerTools.promptEngine.quality.analyzer.analyze(
+
+                prompt
+
+            );
+
+
+        let score = 0;
+
+
+        if (data.length > 100)
+
+            score += 15;
+
+
+        if (data.words > 30)
+
+            score += 15;
+
+
+        if (data.hasSubject)
+
+            score += 15;
+
+
+        if (data.hasStyle)
+
+            score += 15;
+
+
+        if (data.hasCamera)
+
+            score += 15;
+
+
+        if (data.hasLighting)
+
+            score += 10;
+
+
+        if (data.hasQuality)
+
+            score += 15;
+
+
+        return Math.min(
+
+            score,
+
+            100
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * DETAIL BOOSTER ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.quality.detailBooster = {
+
+
+    boost(prompt = "") {
+
+
+        const additions = [
+
+            "ultra detailed",
+
+            "high fidelity",
+
+            "professional quality",
+
+            "realistic textures",
+
+            "accurate proportions",
+
+            "cinematic composition",
+
+            "beautiful lighting",
+
+            "sharp details"
+
+        ];
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            [
+
+                prompt,
+
+                additions.join(", ")
+
+            ].join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * CINEMATIC ENHANCER
+ * ============================================================
+ */
+
+PowerTools.promptEngine.quality.cinematic = {
+
+
+    enhance(prompt = "") {
+
+
+        const cinematic = [
+
+            "cinematic storytelling",
+
+            "professional cinematography",
+
+            "film color grading",
+
+            "dynamic composition",
+
+            "depth of field",
+
+            "realistic camera movement"
+
+        ];
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            [
+
+                prompt,
+
+                cinematic.join(", ")
+
+            ].join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * NEGATIVE PROMPT GENERATOR
+ * ============================================================
+ */
+
+PowerTools.promptEngine.quality.negative = {
+
+
+    defaults: [
+
+        "low quality",
+
+        "blurry",
+
+        "distorted face",
+
+        "bad anatomy",
+
+        "extra fingers",
+
+        "wrong proportions",
+
+        "duplicate objects",
+
+        "artifacts",
+
+        "noise",
+
+        "watermark",
+
+        "text errors"
+
+    ],
+
+
+    build(extra = []) {
+
+
+        return [
+
+            ...this.defaults,
+
+            ...(
+
+                Array.isArray(extra)
+
+                ?
+
+                extra
+
+                :
+
+                []
+
+            )
+
+        ].join(", ");
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * PROMPT IMPROVER ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.quality.improve = {
+
+
+    build(prompt = "", options = {}) {
+
+
+        let result = prompt;
+
+
+        if (
+
+            options.detail !== false
+
+        )
+
+            result =
+
+                PowerTools.promptEngine.quality.detailBooster.boost(
+
+                    result
+
+                );
+
+
+        if (
+
+            options.cinematic !== false
+
+        )
+
+            result =
+
+                PowerTools.promptEngine.quality.cinematic.enhance(
+
+                    result
+
+                );
+
+
+        return result;
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * AI MODEL OPTIMIZER
+ * ============================================================
+ */
+
+PowerTools.promptEngine.quality.optimizer = {
+
+
+    models: {
+
+
+        midjourney:
+
+            "focus on artistic composition and visual style",
+
+
+        leonardo:
+
+            "focus on detailed rendering and consistency",
+
+
+        stableDiffusion:
+
+            "focus on prompt weighting and visual accuracy",
+
+
+        veo:
+
+            "focus on motion realism and cinematic camera",
+
+
+        kling:
+
+            "focus on smooth movement and temporal consistency",
+
+
+        runway:
+
+            "focus on professional filmmaking language"
+
+
+    },
+
+
+    optimize(model, prompt) {
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            [
+
+                prompt,
+
+                this.models[model] ||
+
+                ""
+
+            ].join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * QUALITY REPORT
+ * ============================================================
+ */
+
+PowerTools.promptEngine.quality.report = {
+
+
+    generate(prompt = "") {
+
+
+        return {
+
+
+            score:
+
+                PowerTools.promptEngine.quality.score.calculate(
+
+                    prompt
+
+                ),
+
+
+            analysis:
+
+                PowerTools.promptEngine.quality.analyzer.analyze(
+
+                    prompt
+
+                ),
+
+
+            negative:
+
+                PowerTools.promptEngine.quality.negative.build()
+
+
+        };
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * QUICK QUALITY API
+ * ============================================================
+ */
+
+PowerTools.promptEngine.improvePrompt = function (
+
+    prompt,
+
+    options = {}
+
+) {
+
+
+    return this.quality.improve.build(
+
+        prompt,
+
+        options
+
+    );
+
+
+};
+
+
+/* ============================================================
+ * END PART 27
+ * ============================================================
+ */
+
+/* ============================================================
+ * PART 28
+ * Export & Template Engine
+ * Prompt Export TXT
+ * JSON Export
+ * AI Provider Template
+ * Prompt Versioning
+ * Prompt History
+ * Copy Ready Formatter
+ * ============================================================
+ */
+
+
+/* ============================================================
+ * EXPORT ENGINE FOUNDATION
+ * ============================================================
+ */
+
+PowerTools.promptEngine.exporter = {
+
+    version: "1.0",
+
+    formats: [
+
+        "txt",
+
+        "json",
+
+        "markdown"
+
+    ]
+
+};
+
+
+/* ============================================================
+ * PROMPT TEMPLATE STORAGE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.templates = {
+
+
+    database: [],
+
+
+    add(template = {}) {
+
+
+        const item = {
+
+
+            id:
+
+                PowerTools.utils.uuid(),
+
+
+            name:
+
+                template.name ||
+
+                "Untitled Template",
+
+
+            category:
+
+                template.category ||
+
+                "general",
+
+
+            content:
+
+                template.content ||
+
+                "",
+
+
+            created:
+
+                new Date()
+
+        };
+
+
+        this.database.push(
+
+            item
+
+        );
+
+
+        return item;
+
+
+    },
+
+
+    getAll() {
+
+
+        return this.database;
+
+
+    },
+
+
+    find(id) {
+
+
+        return this.database.find(
+
+            item =>
+
+                item.id === id
+
+        );
+
+
+    },
+
+
+    remove(id) {
+
+
+        this.database =
+
+            this.database.filter(
+
+                item =>
+
+                    item.id !== id
+
+            );
+
+
+        return true;
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * PROMPT VERSION CONTROL
+ * ============================================================
+ */
+
+PowerTools.promptEngine.versioning = {
+
+
+    history: [],
+
+
+    save(prompt, note = "") {
+
+
+        const version = {
+
+
+            id:
+
+                PowerTools.utils.uuid(),
+
+
+            prompt,
+
+
+            note,
+
+
+            timestamp:
+
+                new Date()
+
+        };
+
+
+        this.history.push(
+
+            version
+
+        );
+
+
+        return version;
+
+
+    },
+
+
+    list() {
+
+
+        return this.history;
+
+
+    },
+
+
+    latest() {
+
+
+        return this.history[
+
+            this.history.length - 1
+
+        ] || null;
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * TXT EXPORT ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.exporter.txt = {
+
+
+    build(data = {}) {
+
+
+        return [
+
+            "POWERTOOLS AI CREATOR SUITE",
+
+            "============================",
+
+            "",
+
+            "PROMPT:",
+
+            data.prompt || "",
+
+            "",
+
+            "NEGATIVE PROMPT:",
+
+            data.negative || "",
+
+            "",
+
+            "MODEL:",
+
+            data.model || "Universal AI"
+
+        ].join("\n");
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * JSON EXPORT ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.exporter.json = {
+
+
+    build(data = {}) {
+
+
+        return JSON.stringify(
+
+            {
+
+
+                app:
+
+                    "PowerTools AI Creator Suite",
+
+
+                version:
+
+                    "1.0",
+
+
+                model:
+
+                    data.model || "",
+
+
+                prompt:
+
+                    data.prompt || "",
+
+
+                negative:
+
+                    data.negative || "",
+
+
+                settings:
+
+                    data.settings || {},
+
+
+                created:
+
+                    new Date()
+
+
+            },
+
+            null,
+
+            4
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * MARKDOWN EXPORT ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.exporter.markdown = {
+
+
+    build(data = {}) {
+
+
+        return `
+
+# PowerTools AI Prompt
+
+
+## Model
+
+${data.model || "Universal AI"}
+
+
+## Prompt
+
+${data.prompt || ""}
+
+
+## Negative Prompt
+
+${data.negative || ""}
+
+
+## Settings
+
+${JSON.stringify(data.settings || {}, null, 2)}
+
+`;
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * AI PROVIDER TEMPLATE ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.providerTemplates = {
+
+
+    templates: {
+
+
+        midjourney:
+
+`
+/imagine prompt:
+
+{{PROMPT}}
+
+Style:
+{{STYLE}}
+
+Aspect Ratio:
+{{RATIO}}
+
+Quality:
+{{QUALITY}}
+`,
+
+
+        leonardo:
+
+`
+Prompt:
+
+{{PROMPT}}
+
+Negative Prompt:
+
+{{NEGATIVE}}
+
+Model:
+
+{{MODEL}}
+`,
+
+
+        veo:
+
+`
+Video Prompt:
+
+{{PROMPT}}
+
+Duration:
+{{DURATION}}
+
+Camera:
+{{CAMERA}}
+
+Motion:
+{{MOTION}}
+`,
+
+
+        kling:
+
+`
+Kling AI Video Prompt:
+
+{{PROMPT}}
+
+Motion Strength:
+{{MOTION}}
+
+Camera Movement:
+{{CAMERA}}
+`
+
+
+    },
+
+
+    build(provider, variables = {}) {
+
+
+        let template =
+
+            this.templates[provider];
+
+
+        if (!template)
+
+            return variables.prompt || "";
+
+
+        Object.keys(
+
+            variables
+
+        ).forEach(
+
+            key => {
+
+
+                template =
+
+                    template.replaceAll(
+
+                        "{{" + key.toUpperCase() + "}}",
+
+                        variables[key]
+
+                    );
+
+
+            }
+
+        );
+
+
+        return template;
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * COPY READY FORMATTER
+ * ============================================================
+ */
+
+PowerTools.promptEngine.copyFormatter = {
+
+
+    build(prompt = "") {
+
+
+        return {
+
+
+            plain:
+
+                prompt.trim(),
+
+
+            wrapped:
+
+`
+================================
+
+POWERTOOLS AI PROMPT
+
+================================
+
+${prompt}
+
+================================
+`,
+
+
+            clipboard:
+
+                prompt.trim()
+
+
+        };
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * EXPORT MASTER FUNCTION
+ * ============================================================
+ */
+
+PowerTools.promptEngine.exportPrompt = function (
+
+    format,
+
+    data = {}
+
+) {
+
+
+    format =
+
+        String(format || "txt")
+
+        .toLowerCase();
+
+
+    if (
+
+        this.exporter[format]
+
+    )
+
+
+        return this.exporter[format].build(
+
+            data
+
+        );
+
+
+    return data.prompt || "";
+
+
+};
+
+
+/* ============================================================
+ * END PART 28
+ * ============================================================
+ */
+
+/* ============================================================
+ * PART 29
+ * Prompt Automation Engine
+ * Auto Prompt Builder
+ * Prompt Pipeline
+ * Multi Model Generator
+ * Batch Prompt Generator
+ * Queue System
+ * A/B Prompt Testing
+ * ============================================================
+ */
+
+
+/* ============================================================
+ * AUTOMATION ENGINE FOUNDATION
+ * ============================================================
+ */
+
+PowerTools.promptEngine.automation = {
+
+    version: "1.0",
+
+    queue: [],
+
+    results: []
+
+};
+
+
+/* ============================================================
+ * AUTO PROMPT BUILDER
+ * ============================================================
+ */
+
+PowerTools.promptEngine.automation.builder = {
+
+
+    build(data = {}) {
+
+
+        const blocks = [];
+
+
+        if (data.subject)
+
+            blocks.push(
+
+                data.subject
+
+            );
+
+
+        if (data.action)
+
+            blocks.push(
+
+                "performing " +
+
+                data.action
+
+            );
+
+
+        if (data.environment)
+
+            blocks.push(
+
+                "in " +
+
+                data.environment
+
+            );
+
+
+        if (data.style)
+
+            blocks.push(
+
+                data.style +
+
+                " style"
+
+            );
+
+
+        if (data.camera)
+
+            blocks.push(
+
+                data.camera
+
+            );
+
+
+        if (data.lighting)
+
+            blocks.push(
+
+                data.lighting
+
+            );
+
+
+        if (data.quality)
+
+            blocks.push(
+
+                data.quality
+
+            );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * PROMPT PIPELINE ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.automation.pipeline = {
+
+
+    steps: [],
+
+
+    add(name, callback) {
+
+
+        this.steps.push({
+
+            name,
+
+            callback
+
+        });
+
+
+        return this;
+
+
+    },
+
+
+    run(input) {
+
+
+        let result = input;
+
+
+        this.steps.forEach(step => {
+
+
+            if (
+
+                typeof step.callback === "function"
+
+            )
+
+                result =
+
+                    step.callback(
+
+                        result
+
+                    );
+
+
+        });
+
+
+        return result;
+
+
+    },
+
+
+    clear() {
+
+
+        this.steps = [];
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * MULTI MODEL GENERATOR
+ * ============================================================
+ */
+
+PowerTools.promptEngine.automation.multiModel = {
+
+
+    generate(models = [], payload = {}) {
+
+
+        const output = [];
+
+
+        models.forEach(model => {
+
+
+            output.push({
+
+
+                model,
+
+
+                prompt:
+
+                    PowerTools.promptEngine.generate(
+
+                        model,
+
+                        payload
+
+                    )
+
+
+            });
+
+
+        });
+
+
+        return output;
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * BATCH PROMPT GENERATOR
+ * ============================================================
+ */
+
+PowerTools.promptEngine.automation.batch = {
+
+
+    generate(items = []) {
+
+
+        return items.map(
+
+            (item, index) => {
+
+
+                return {
+
+
+                    id:
+
+                        index + 1,
+
+
+                    prompt:
+
+                        PowerTools.promptEngine.automation.builder.build(
+
+                            item
+
+                        )
+
+
+                };
+
+
+            }
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * PROMPT QUEUE SYSTEM
+ * ============================================================
+ */
+
+PowerTools.promptEngine.automation.queueManager = {
+
+
+    add(task) {
+
+
+        PowerTools.promptEngine.automation.queue.push(
+
+            task
+
+        );
+
+
+        return (
+
+            PowerTools.promptEngine.automation.queue.length
+
+        );
+
+
+    },
+
+
+    next() {
+
+
+        return (
+
+            PowerTools.promptEngine.automation.queue.shift()
+
+            ||
+
+            null
+
+        );
+
+
+    },
+
+
+    clear() {
+
+
+        PowerTools.promptEngine.automation.queue = [];
+
+
+    },
+
+
+    size() {
+
+
+        return PowerTools.promptEngine.automation.queue.length;
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * RANDOM VARIATION ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.automation.variation = {
+
+
+    create(prompt, variations = []) {
+
+
+        const result = [];
+
+
+        variations.forEach(variable => {
+
+
+            result.push(
+
+                PowerTools.promptEngine.utils.clean(
+
+                    [
+
+                        prompt,
+
+                        variable
+
+                    ].join(", ")
+
+                )
+
+            );
+
+
+        });
+
+
+        return result;
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * A/B PROMPT TEST ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.automation.abTest = {
+
+
+    tests: [],
+
+
+    create(name, promptA, promptB) {
+
+
+        const test = {
+
+
+            id:
+
+                PowerTools.utils.uuid(),
+
+
+            name,
+
+
+            A:
+
+                promptA,
+
+
+            B:
+
+                promptB,
+
+
+            results: {
+
+
+                A: 0,
+
+
+                B: 0
+
+
+            }
+
+
+        };
+
+
+        this.tests.push(
+
+            test
+
+        );
+
+
+        return test;
+
+
+    },
+
+
+    vote(id, version) {
+
+
+        const test =
+
+            this.tests.find(
+
+                item =>
+
+                    item.id === id
+
+            );
+
+
+        if (!test)
+
+            return false;
+
+
+        if (
+
+            version === "A"
+
+            ||
+
+            version === "B"
+
+        )
+
+            test.results[version]++;
+
+
+        return test;
+
+
+    },
+
+
+    winner(id) {
+
+
+        const test =
+
+            this.tests.find(
+
+                item =>
+
+                    item.id === id
+
+            );
+
+
+        if (!test)
+
+            return null;
+
+
+        return (
+
+            test.results.A >= test.results.B
+
+            ?
+
+            "A"
+
+            :
+
+            "B"
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * AUTOMATION MASTER RUNNER
+ * ============================================================
+ */
+
+PowerTools.promptEngine.runAutomation = function (
+
+    config = {}
+
+) {
+
+
+    let prompt =
+
+        this.automation.builder.build(
+
+            config
+
+        );
+
+
+    if (
+
+        config.improve
+
+    )
+
+        prompt =
+
+            this.improvePrompt(
+
+                prompt
+
+            );
+
+
+    if (
+
+        config.model
+
+    )
+
+        prompt =
+
+            this.quality.optimizer.optimize(
+
+                config.model,
+
+                prompt
+
+            );
+
+
+    return prompt;
+
+
+};
+
+
+/* ============================================================
+ * END PART 29
+ * ============================================================
+ */
+
+/* ============================================================
+ * PART 30
+ * Prompt Intelligence Memory Engine
+ * AI Prompt Memory
+ * Favorite Prompt System
+ * Prompt Collection
+ * Tag System
+ * Search Engine
+ * Smart Recommendation
+ * ============================================================
+ */
+
+
+/* ============================================================
+ * MEMORY ENGINE FOUNDATION
+ * ============================================================
+ */
+
+PowerTools.promptEngine.memory = {
+
+    version: "1.0",
+
+    database: [],
+
+    favorites: []
+
+};
+
+
+/* ============================================================
+ * PROMPT MEMORY STORAGE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.memory.store = {
+
+
+    save(data = {}) {
+
+
+        const item = {
+
+
+            id:
+
+                PowerTools.utils.uuid(),
+
+
+            title:
+
+                data.title ||
+
+                "Untitled Prompt",
+
+
+            prompt:
+
+                data.prompt ||
+
+                "",
+
+
+            category:
+
+                data.category ||
+
+                "general",
+
+
+            tags:
+
+                data.tags ||
+
+                [],
+
+
+            model:
+
+                data.model ||
+
+                "universal",
+
+
+            created:
+
+                new Date(),
+
+
+            usage:
+
+                0
+
+
+        };
+
+
+        PowerTools.promptEngine.memory.database.push(
+
+            item
+
+        );
+
+
+        return item;
+
+
+    },
+
+
+    getAll() {
+
+
+        return PowerTools.promptEngine.memory.database;
+
+
+    },
+
+
+    find(id) {
+
+
+        return PowerTools.promptEngine.memory.database.find(
+
+            item =>
+
+                item.id === id
+
+        );
+
+
+    },
+
+
+    delete(id) {
+
+
+        PowerTools.promptEngine.memory.database =
+
+            PowerTools.promptEngine.memory.database.filter(
+
+                item =>
+
+                    item.id !== id
+
+            );
+
+
+        return true;
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * FAVORITE PROMPT ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.memory.favorite = {
+
+
+    add(id) {
+
+
+        const item =
+
+            PowerTools.promptEngine.memory.store.find(
+
+                id
+
+            );
+
+
+        if (!item)
+
+            return false;
+
+
+        PowerTools.promptEngine.memory.favorites.push(
+
+            item
+
+        );
+
+
+        return item;
+
+
+    },
+
+
+    remove(id) {
+
+
+        PowerTools.promptEngine.memory.favorites =
+
+            PowerTools.promptEngine.memory.favorites.filter(
+
+                item =>
+
+                    item.id !== id
+
+            );
+
+
+        return true;
+
+
+    },
+
+
+    list() {
+
+
+        return PowerTools.promptEngine.memory.favorites;
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * TAG MANAGEMENT ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.memory.tags = {
+
+
+    add(id, tag) {
+
+
+        const item =
+
+            PowerTools.promptEngine.memory.store.find(
+
+                id
+
+            );
+
+
+        if (!item)
+
+            return false;
+
+
+        if (
+
+            !item.tags.includes(tag)
+
+        )
+
+            item.tags.push(
+
+                tag
+
+            );
+
+
+        return item;
+
+
+    },
+
+
+    remove(id, tag) {
+
+
+        const item =
+
+            PowerTools.promptEngine.memory.store.find(
+
+                id
+
+            );
+
+
+        if (!item)
+
+            return false;
+
+
+        item.tags =
+
+            item.tags.filter(
+
+                t =>
+
+                    t !== tag
+
+            );
+
+
+        return item;
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * PROMPT SEARCH ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.memory.search = {
+
+
+    query(keyword = "") {
+
+
+        keyword =
+
+            keyword.toLowerCase();
+
+
+        return PowerTools.promptEngine.memory.database.filter(
+
+            item => {
+
+
+                return (
+
+                    item.title
+
+                    .toLowerCase()
+
+                    .includes(keyword)
+
+                    ||
+
+                    item.prompt
+
+                    .toLowerCase()
+
+                    .includes(keyword)
+
+                    ||
+
+                    item.category
+
+                    .toLowerCase()
+
+                    .includes(keyword)
+
+                    ||
+
+                    item.tags
+
+                    .join(" ")
+
+                    .toLowerCase()
+
+                    .includes(keyword)
+
+                );
+
+
+            }
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * USAGE TRACKING ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.memory.tracker = {
+
+
+    use(id) {
+
+
+        const item =
+
+            PowerTools.promptEngine.memory.store.find(
+
+                id
+
+            );
+
+
+        if (!item)
+
+            return false;
+
+
+        item.usage++;
+
+
+        return item;
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * SMART RECOMMENDATION ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.memory.recommend = {
+
+
+    generate(category = "") {
+
+
+        let results =
+
+            PowerTools.promptEngine.memory.database;
+
+
+        if (category)
+
+
+            results =
+
+                results.filter(
+
+                    item =>
+
+                        item.category === category
+
+                );
+
+
+        return results
+
+            .sort(
+
+                (
+
+                    a,
+
+                    b
+
+                ) =>
+
+                    b.usage -
+
+                    a.usage
+
+            )
+
+            .slice(
+
+                0,
+
+                5
+
+            );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * PROMPT COLLECTION ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.memory.collection = {
+
+
+    create(name, prompts = []) {
+
+
+        return {
+
+
+            id:
+
+                PowerTools.utils.uuid(),
+
+
+            name,
+
+
+            prompts,
+
+
+            created:
+
+                new Date()
+
+
+        };
+
+
+    },
+
+
+    merge(collections = []) {
+
+
+        const prompts = [];
+
+
+        collections.forEach(collection => {
+
+
+            prompts.push(
+
+                ...collection.prompts
+
+            );
+
+
+        });
+
+
+        return prompts;
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * MEMORY EXPORT
+ * ============================================================
+ */
+
+PowerTools.promptEngine.memory.export = {
+
+
+    json() {
+
+
+        return JSON.stringify(
+
+            {
+
+                prompts:
+
+                    PowerTools.promptEngine.memory.database,
+
+
+                favorites:
+
+                    PowerTools.promptEngine.memory.favorites
+
+            },
+
+            null,
+
+            4
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * QUICK MEMORY API
+ * ============================================================
+ */
+
+PowerTools.promptEngine.savePrompt = function (
+
+    data = {}
+
+) {
+
+
+    return this.memory.store.save(
+
+        data
+
+    );
+
+
+};
+
+
+PowerTools.promptEngine.searchPrompt = function (
+
+    keyword
+
+) {
+
+
+    return this.memory.search.query(
+
+        keyword
+
+    );
+
+
+};
+
+
+/* ============================================================
+ * END PART 30
+ * ============================================================
+ */
+
+/* ============================================================
+ * PART 31
+ * Prompt Collaboration Engine
+ * Project Workspace
+ * Prompt Sharing
+ * Team Notes
+ * Creator Profile
+ * Comment System
+ * Workflow Manager
+ * ============================================================
+ */
+
+
+/* ============================================================
+ * COLLABORATION ENGINE FOUNDATION
+ * ============================================================
+ */
+
+PowerTools.promptEngine.collaboration = {
+
+    version: "1.0",
+
+    projects: [],
+
+    comments: [],
+
+    users: []
+
+};
+
+
+/* ============================================================
+ * CREATOR PROFILE ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.collaboration.profile = {
+
+
+    create(data = {}) {
+
+
+        const profile = {
+
+
+            id:
+
+                PowerTools.utils.uuid(),
+
+
+            name:
+
+                data.name ||
+
+                "Creator",
+
+
+            role:
+
+                data.role ||
+
+                "AI Creator",
+
+
+            bio:
+
+                data.bio ||
+
+                "",
+
+
+            avatar:
+
+                data.avatar ||
+
+                null,
+
+
+            created:
+
+                new Date()
+
+
+        };
+
+
+        PowerTools.promptEngine.collaboration.users.push(
+
+            profile
+
+        );
+
+
+        return profile;
+
+
+    },
+
+
+    get(id) {
+
+
+        return PowerTools.promptEngine.collaboration.users.find(
+
+            user =>
+
+                user.id === id
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * PROJECT WORKSPACE ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.collaboration.workspace = {
+
+
+    create(data = {}) {
+
+
+        const project = {
+
+
+            id:
+
+                PowerTools.utils.uuid(),
+
+
+            title:
+
+                data.title ||
+
+                "Untitled Project",
+
+
+            description:
+
+                data.description ||
+
+                "",
+
+
+            owner:
+
+                data.owner ||
+
+                null,
+
+
+            prompts:
+
+                [],
+
+
+            notes:
+
+                [],
+
+
+            status:
+
+                "draft",
+
+
+            created:
+
+                new Date()
+
+
+        };
+
+
+        PowerTools.promptEngine.collaboration.projects.push(
+
+            project
+
+        );
+
+
+        return project;
+
+
+    },
+
+
+    get(id) {
+
+
+        return PowerTools.promptEngine.collaboration.projects.find(
+
+            project =>
+
+                project.id === id
+
+        );
+
+
+    },
+
+
+    delete(id) {
+
+
+        PowerTools.promptEngine.collaboration.projects =
+
+            PowerTools.promptEngine.collaboration.projects.filter(
+
+                project =>
+
+                    project.id !== id
+
+            );
+
+
+        return true;
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * PROJECT PROMPT MANAGER
+ * ============================================================
+ */
+
+PowerTools.promptEngine.collaboration.projectPrompt = {
+
+
+    add(projectId, prompt) {
+
+
+        const project =
+
+            PowerTools.promptEngine.collaboration.workspace.get(
+
+                projectId
+
+            );
+
+
+        if (!project)
+
+            return false;
+
+
+        project.prompts.push({
+
+            id:
+
+                PowerTools.utils.uuid(),
+
+
+            content:
+
+                prompt,
+
+
+            created:
+
+                new Date()
+
+        });
+
+
+        return project;
+
+
+    },
+
+
+    remove(projectId, promptId) {
+
+
+        const project =
+
+            PowerTools.promptEngine.collaboration.workspace.get(
+
+                projectId
+
+            );
+
+
+        if (!project)
+
+            return false;
+
+
+        project.prompts =
+
+            project.prompts.filter(
+
+                item =>
+
+                    item.id !== promptId
+
+            );
+
+
+        return project;
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * TEAM NOTES ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.collaboration.notes = {
+
+
+    add(projectId, note) {
+
+
+        const project =
+
+            PowerTools.promptEngine.collaboration.workspace.get(
+
+                projectId
+
+            );
+
+
+        if (!project)
+
+            return false;
+
+
+        project.notes.push({
+
+            id:
+
+                PowerTools.utils.uuid(),
+
+
+            text:
+
+                note,
+
+
+            time:
+
+                new Date()
+
+        });
+
+
+        return project.notes;
+
+
+    },
+
+
+    list(projectId) {
+
+
+        const project =
+
+            PowerTools.promptEngine.collaboration.workspace.get(
+
+                projectId
+
+            );
+
+
+        return project
+
+            ?
+
+            project.notes
+
+            :
+
+            [];
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * COMMENT SYSTEM
+ * ============================================================
+ */
+
+PowerTools.promptEngine.collaboration.comment = {
+
+
+    add(data = {}) {
+
+
+        const comment = {
+
+
+            id:
+
+                PowerTools.utils.uuid(),
+
+
+            project:
+
+                data.project,
+
+
+            user:
+
+                data.user,
+
+
+            message:
+
+                data.message || "",
+
+
+            created:
+
+                new Date()
+
+
+        };
+
+
+        PowerTools.promptEngine.collaboration.comments.push(
+
+            comment
+
+        );
+
+
+        return comment;
+
+
+    },
+
+
+    get(projectId) {
+
+
+        return PowerTools.promptEngine.collaboration.comments.filter(
+
+            item =>
+
+                item.project === projectId
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * SHARING ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.collaboration.share = {
+
+
+    create(projectId) {
+
+
+        return {
+
+
+            project:
+
+                projectId,
+
+
+            token:
+
+                btoa(
+
+                    projectId +
+
+                    Date.now()
+
+                ),
+
+
+            created:
+
+                new Date()
+
+
+        };
+
+
+    },
+
+
+    access(token) {
+
+
+        return token || null;
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * PROJECT VERSION CONTROL
+ * ============================================================
+ */
+
+PowerTools.promptEngine.collaboration.version = {
+
+
+    history: [],
+
+
+    save(project, note = "") {
+
+
+        const version = {
+
+
+            id:
+
+                PowerTools.utils.uuid(),
+
+
+            project,
+
+
+            note,
+
+
+            timestamp:
+
+                new Date()
+
+
+        };
+
+
+        this.history.push(
+
+            version
+
+        );
+
+
+        return version;
+
+
+    },
+
+
+    list(projectId) {
+
+
+        return this.history.filter(
+
+            item =>
+
+                item.project.id === projectId
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * CREATIVE WORKFLOW MANAGER
+ * ============================================================
+ */
+
+PowerTools.promptEngine.collaboration.workflow = {
+
+
+    stages: [
+
+        "idea",
+
+        "draft",
+
+        "design",
+
+        "review",
+
+        "final"
+
+    ],
+
+
+    move(project, stage) {
+
+
+        if (
+
+            this.stages.includes(stage)
+
+        )
+
+            project.status = stage;
+
+
+        return project;
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * QUICK COLLAB API
+ * ============================================================
+ */
+
+PowerTools.promptEngine.createWorkspace = function (
+
+    data = {}
+
+) {
+
+
+    return this.collaboration.workspace.create(
+
+        data
+
+    );
+
+
+};
+
+
+/* ============================================================
+ * END PART 31
+ * ============================================================
+ */
+
+/* ============================================================
+ * PART 32
+ * AI Creative Assistant Engine
+ * Natural Language Assistant
+ * Intent Detection
+ * Idea Generator
+ * Concept Expansion
+ * Prompt Suggestion
+ * Creative Direction AI
+ * ============================================================
+ */
+
+
+/* ============================================================
+ * CREATIVE ASSISTANT FOUNDATION
+ * ============================================================
+ */
+
+PowerTools.promptEngine.assistant = {
+
+    version: "1.0",
+
+    memory: [],
+
+    suggestions: []
+
+};
+
+
+/* ============================================================
+ * USER INTENT DETECTOR
+ * ============================================================
+ */
+
+PowerTools.promptEngine.assistant.intent = {
+
+
+    detect(input = "") {
+
+
+        const text =
+
+            input.toLowerCase();
+
+
+        const intents = {
+
+
+            image:
+
+                [
+
+                    "image",
+
+                    "poster",
+
+                    "photo",
+
+                    "picture",
+
+                    "illustration"
+
+                ],
+
+
+            video:
+
+                [
+
+                    "video",
+
+                    "movie",
+
+                    "animation",
+
+                    "scene"
+
+                ],
+
+
+            product:
+
+                [
+
+                    "product",
+
+                    "brand",
+
+                    "advertisement",
+
+                    "shop"
+
+                ],
+
+
+            character:
+
+                [
+
+                    "character",
+
+                    "person",
+
+                    "avatar",
+
+                    "hero"
+
+                ],
+
+
+            story:
+
+                [
+
+                    "story",
+
+                    "film",
+
+                    "narrative",
+
+                    "script"
+
+                ]
+
+        };
+
+
+        for (
+
+            const key in intents
+
+        ) {
+
+
+            if (
+
+                intents[key].some(
+
+                    word =>
+
+                        text.includes(word)
+
+                )
+
+            )
+
+                return key;
+
+
+        }
+
+
+        return "general";
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * IDEA GENERATOR ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.assistant.idea = {
+
+
+    generate(topic = "") {
+
+
+        const ideas = [
+
+
+            "cinematic storytelling concept",
+
+            "premium commercial concept",
+
+            "viral social media concept",
+
+            "futuristic creative concept",
+
+            "emotional brand story",
+
+            "high quality visual campaign"
+
+        ];
+
+
+        const random =
+
+            ideas[
+
+                Math.floor(
+
+                    Math.random()
+
+                    *
+
+                    ideas.length
+
+                )
+
+            ];
+
+
+        return {
+
+            topic,
+
+            concept:
+
+                topic +
+
+                " - " +
+
+                random
+
+        };
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * CONCEPT EXPANSION ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.assistant.expand = {
+
+
+    build(data = {}) {
+
+
+        const blocks = [];
+
+
+        if (data.idea)
+
+            blocks.push(
+
+                "Creative idea: " +
+
+                data.idea
+
+            );
+
+
+        if (data.goal)
+
+            blocks.push(
+
+                "Goal: " +
+
+                data.goal
+
+            );
+
+
+        if (data.audience)
+
+            blocks.push(
+
+                "Audience: " +
+
+                data.audience
+
+            );
+
+
+        if (data.style)
+
+            blocks.push(
+
+                "Visual direction: " +
+
+                data.style
+
+            );
+
+
+        blocks.push(
+
+            "Develop professional creative concept with detailed visual storytelling"
+
+        );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * PROMPT SUGGESTION ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.assistant.suggestion = {
+
+
+    generate(input = "") {
+
+
+        const intent =
+
+            PowerTools.promptEngine.assistant.intent.detect(
+
+                input
+
+            );
+
+
+        const suggestions = {
+
+
+            image:
+
+                [
+
+                    "Create cinematic image prompt",
+
+                    "Generate professional poster prompt",
+
+                    "Create realistic product photography prompt"
+
+                ],
+
+
+            video:
+
+                [
+
+                    "Create cinematic video scene",
+
+                    "Generate storyboard sequence",
+
+                    "Create image-to-video animation prompt"
+
+                ],
+
+
+            product:
+
+                [
+
+                    "Create commercial product advertisement",
+
+                    "Generate affiliate marketing video",
+
+                    "Create luxury brand campaign"
+
+                ],
+
+
+            character:
+
+                [
+
+                    "Create consistent character design",
+
+                    "Generate character sheet",
+
+                    "Create animation character prompt"
+
+                ],
+
+
+            story:
+
+                [
+
+                    "Create short film concept",
+
+                    "Generate complete story structure",
+
+                    "Build cinematic screenplay"
+
+                ],
+
+
+            general:
+
+                [
+
+                    "Improve this prompt",
+
+                    "Expand creative idea",
+
+                    "Generate professional AI prompt"
+
+                ]
+
+        };
+
+
+        return suggestions[intent];
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * CREATIVE DIRECTOR ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.assistant.director = {
+
+
+    analyze(data = {}) {
+
+
+        const result = {
+
+
+            direction: [],
+
+
+            recommendation: []
+
+        };
+
+
+        if (!data.style)
+
+            result.direction.push(
+
+                "Add visual style reference"
+
+            );
+
+
+        if (!data.camera)
+
+            result.direction.push(
+
+                "Add cinematic camera direction"
+
+            );
+
+
+        if (!data.lighting)
+
+            result.direction.push(
+
+                "Add lighting information"
+
+            );
+
+
+        if (!data.story)
+
+            result.direction.push(
+
+                "Add storytelling element"
+
+            );
+
+
+        result.recommendation.push(
+
+            "Use Character DNA for consistency"
+
+        );
+
+
+        result.recommendation.push(
+
+            "Use Quality Engine before export"
+
+        );
+
+
+        result.recommendation.push(
+
+            "Generate multiple variations"
+
+        );
+
+
+        return result;
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * NATURAL LANGUAGE PROMPT ASSISTANT
+ * ============================================================
+ */
+
+PowerTools.promptEngine.assistant.chat = {
+
+
+    process(message = "") {
+
+
+        const intent =
+
+            PowerTools.promptEngine.assistant.intent.detect(
+
+                message
+
+            );
+
+
+        return {
+
+
+            intent,
+
+
+            suggestions:
+
+                PowerTools.promptEngine.assistant.suggestion.generate(
+
+                    message
+
+                ),
+
+
+            idea:
+
+                PowerTools.promptEngine.assistant.idea.generate(
+
+                    message
+
+                )
+
+
+        };
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * CREATIVE MEMORY
+ * ============================================================
+ */
+
+PowerTools.promptEngine.assistant.remember = function (
+
+    data
+
+) {
+
+
+    this.assistant.memory.push(
+
+        {
+
+            data,
+
+            time:
+
+                new Date()
+
+        }
+
+    );
+
+
+    return true;
+
+
+};
+
+
+/* ============================================================
+ * QUICK ASSISTANT API
+ * ============================================================
+ */
+
+PowerTools.promptEngine.askAI = function (
+
+    message
+
+) {
+
+
+    return this.assistant.chat.process(
+
+        message
+
+    );
+
+
+};
+
+
+/* ============================================================
+ * END PART 32
+ * ============================================================
+ */
+
+/* ============================================================
+ * PART 33
+ * Story & Script Intelligence Engine
+ * Story Generator
+ * Three Act Structure
+ * Character Arc
+ * Scene Writer
+ * Dialogue Generator
+ * Script Formatter
+ * Movie Trailer Builder
+ * ============================================================
+ */
+
+
+/* ============================================================
+ * STORY ENGINE FOUNDATION
+ * ============================================================
+ */
+
+PowerTools.promptEngine.storyAI = {
+
+    version: "1.0",
+
+    genres: [
+
+        "action",
+
+        "drama",
+
+        "fantasy",
+
+        "adventure",
+
+        "comedy",
+
+        "horror",
+
+        "sci-fi",
+
+        "romance"
+
+    ]
+
+};
+
+
+/* ============================================================
+ * STORY IDEA GENERATOR
+ * ============================================================
+ */
+
+PowerTools.promptEngine.storyAI.idea = {
+
+
+    generate(data = {}) {
+
+
+        const blocks = [];
+
+
+        if (data.title)
+
+            blocks.push(
+
+                "Title: " +
+
+                data.title
+
+            );
+
+
+        if (data.genre)
+
+            blocks.push(
+
+                "Genre: " +
+
+                data.genre
+
+            );
+
+
+        if (data.theme)
+
+            blocks.push(
+
+                "Theme: " +
+
+                data.theme
+
+            );
+
+
+        if (data.concept)
+
+            blocks.push(
+
+                "Story concept: " +
+
+                data.concept
+
+            );
+
+
+        blocks.push(
+
+            "Create original cinematic story concept with emotional depth"
+
+        );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * THREE ACT STRUCTURE ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.storyAI.threeAct = {
+
+
+    build(data = {}) {
+
+
+        return {
+
+
+            act1: {
+
+
+                title:
+
+                    "Setup",
+
+
+                description:
+
+                    data.setup ||
+
+                    "Introduce world, characters, and main conflict"
+
+            },
+
+
+            act2: {
+
+
+                title:
+
+                    "Confrontation",
+
+
+                description:
+
+                    data.conflict ||
+
+                    "Character faces challenges and rising tension"
+
+            },
+
+
+            act3: {
+
+
+                title:
+
+                    "Resolution",
+
+
+                description:
+
+                    data.resolution ||
+
+                    "Final conflict and emotional conclusion"
+
+            }
+
+
+        };
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * CHARACTER ARC ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.storyAI.characterArc = {
+
+
+    build(data = {}) {
+
+
+        const blocks = [];
+
+
+        if (data.start)
+
+            blocks.push(
+
+                "Beginning personality: " +
+
+                data.start
+
+            );
+
+
+        if (data.challenge)
+
+            blocks.push(
+
+                "Main challenge: " +
+
+                data.challenge
+
+            );
+
+
+        if (data.change)
+
+            blocks.push(
+
+                "Character transformation: " +
+
+                data.change
+
+            );
+
+
+        if (data.end)
+
+            blocks.push(
+
+                "Ending state: " +
+
+                data.end
+
+            );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * SCENE WRITER ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.storyAI.scene = {
+
+
+    write(data = {}) {
+
+
+        const scene = {
+
+
+            location:
+
+                data.location ||
+
+                "unknown location",
+
+
+            time:
+
+                data.time ||
+
+                "daytime",
+
+
+            characters:
+
+                data.characters ||
+
+                [],
+
+
+            action:
+
+                data.action ||
+
+                "",
+
+
+            emotion:
+
+                data.emotion ||
+
+                "neutral",
+
+
+            visual:
+
+                data.visual ||
+
+                "cinematic visual"
+
+        };
+
+
+        return scene;
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * DIALOGUE GENERATOR ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.storyAI.dialogue = {
+
+
+    generate(data = {}) {
+
+
+        return {
+
+
+            character:
+
+                data.character || "Character",
+
+
+            emotion:
+
+                data.emotion || "neutral",
+
+
+            line:
+
+                data.line ||
+
+                "Create meaningful dialogue"
+
+
+        };
+
+
+    },
+
+
+    conversation(data = []) {
+
+
+        return data.map(
+
+            item =>
+
+
+                this.generate(
+
+                    item
+
+                )
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * SCRIPT FORMATTER ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.storyAI.script = {
+
+
+    format(data = {}) {
+
+
+        const lines = [];
+
+
+        lines.push(
+
+            "TITLE: " +
+
+            (
+
+                data.title ||
+
+                "Untitled"
+
+            )
+
+        );
+
+
+        lines.push(
+
+            ""
+
+        );
+
+
+        lines.push(
+
+            "SCENE:"
+
+        );
+
+
+        lines.push(
+
+            JSON.stringify(
+
+                data.scene ||
+
+                {},
+
+                null,
+
+                2
+
+            )
+
+        );
+
+
+        lines.push(
+
+            ""
+
+        );
+
+
+        lines.push(
+
+            "DIALOGUE:"
+
+        );
+
+
+        lines.push(
+
+            JSON.stringify(
+
+                data.dialogue ||
+
+                [],
+
+                null,
+
+                2
+
+            )
+
+        );
+
+
+        return lines.join(
+
+            "\n"
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * MOVIE TRAILER BUILDER
+ * ============================================================
+ */
+
+PowerTools.promptEngine.storyAI.trailer = {
+
+
+    build(data = {}) {
+
+
+        const blocks = [
+
+
+            "cinematic movie trailer",
+
+
+            "dramatic opening",
+
+
+            "powerful visual montage"
+
+        ];
+
+
+        if (data.hook)
+
+            blocks.push(
+
+                "Opening hook: " +
+
+                data.hook
+
+            );
+
+
+        if (data.action)
+
+            blocks.push(
+
+                "Action moments: " +
+
+                data.action
+
+            );
+
+
+        if (data.emotion)
+
+            blocks.push(
+
+                "Emotional climax: " +
+
+                data.emotion
+
+            );
+
+
+        if (data.music)
+
+            blocks.push(
+
+                "Music style: " +
+
+                data.music
+
+            );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * STORY MASTER BUILDER
+ * ============================================================
+ */
+
+PowerTools.promptEngine.storyAI.build = function (
+
+    payload = {}
+
+) {
+
+
+    const blocks = [];
+
+
+    if (payload.idea)
+
+        blocks.push(
+
+            this.idea.generate(
+
+                payload.idea
+
+            )
+
+        );
+
+
+    if (payload.character)
+
+        blocks.push(
+
+            this.characterArc.build(
+
+                payload.character
+
+            )
+
+        );
+
+
+    if (payload.trailer)
+
+        blocks.push(
+
+            this.trailer.build(
+
+                payload.trailer
+
+            )
+
+        );
+
+
+    return PowerTools.promptEngine.utils.clean(
+
+        blocks.join(", ")
+
+    );
+
+
+};
+
+
+/* ============================================================
+ * QUICK STORY API
+ * ============================================================
+ */
+
+PowerTools.promptEngine.createStoryPrompt = function (
+
+    payload = {}
+
+) {
+
+
+    return this.storyAI.build(
+
+        payload
+
+    );
+
+
+};
+
+
+/* ============================================================
+ * END PART 33
+ * ============================================================
+ */
+
+/* ============================================================
+ * PART 34
+ * Scene & Cinematic Direction Engine
+ * Scene Builder
+ * Environment Generator
+ * Cinematic Composition
+ * Camera Director
+ * Shot Type Library
+ * Lighting Director
+ * Atmosphere Generator
+ * ============================================================
+ */
+
+
+/* ============================================================
+ * SCENE ENGINE FOUNDATION
+ * ============================================================
+ */
+
+PowerTools.promptEngine.sceneAI = {
+
+    version: "1.0",
+
+    defaultQuality:
+
+        "cinematic 4K production quality"
+
+};
+
+
+/* ============================================================
+ * SCENE BUILDER ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.sceneAI.builder = {
+
+
+    build(data = {}) {
+
+
+        const blocks = [];
+
+
+        if (data.location)
+
+            blocks.push(
+
+                "Location: " +
+
+                data.location
+
+            );
+
+
+        if (data.time)
+
+            blocks.push(
+
+                "Time: " +
+
+                data.time
+
+            );
+
+
+        if (data.weather)
+
+            blocks.push(
+
+                "Weather: " +
+
+                data.weather
+
+            );
+
+
+        if (data.subject)
+
+            blocks.push(
+
+                "Main subject: " +
+
+                data.subject
+
+            );
+
+
+        if (data.action)
+
+            blocks.push(
+
+                "Action: " +
+
+                data.action
+
+            );
+
+
+        if (data.mood)
+
+            blocks.push(
+
+                "Scene mood: " +
+
+                data.mood
+
+            );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * ENVIRONMENT GENERATOR
+ * ============================================================
+ */
+
+PowerTools.promptEngine.sceneAI.environment = {
+
+
+    build(data = {}) {
+
+
+        const blocks = [];
+
+
+        if (data.place)
+
+            blocks.push(
+
+                "environment: " +
+
+                data.place
+
+            );
+
+
+        if (data.details)
+
+            blocks.push(
+
+                "environment details: " +
+
+                data.details
+
+            );
+
+
+        if (data.architecture)
+
+            blocks.push(
+
+                "architecture: " +
+
+                data.architecture
+
+            );
+
+
+        if (data.nature)
+
+            blocks.push(
+
+                "natural elements: " +
+
+                data.nature
+
+            );
+
+
+        if (data.population)
+
+            blocks.push(
+
+                "background activity: " +
+
+                data.population
+
+            );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * SHOT TYPE LIBRARY
+ * ============================================================
+ */
+
+PowerTools.promptEngine.sceneAI.shots = {
+
+
+    library: {
+
+
+        closeup:
+
+            "extreme close-up shot",
+
+
+        portrait:
+
+            "cinematic portrait shot",
+
+
+        medium:
+
+            "medium shot composition",
+
+
+        wide:
+
+            "wide establishing shot",
+
+
+        aerial:
+
+            "aerial drone shot",
+
+
+        macro:
+
+            "macro detail shot",
+
+
+        tracking:
+
+            "tracking camera shot",
+
+
+        pov:
+
+            "first person POV shot"
+
+
+    },
+
+
+    get(type) {
+
+
+        return this.library[type] ||
+
+            type;
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * CAMERA DIRECTOR ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.sceneAI.camera = {
+
+
+    build(data = {}) {
+
+
+        const blocks = [];
+
+
+        if (data.shot)
+
+            blocks.push(
+
+                PowerTools.promptEngine.sceneAI.shots.get(
+
+                    data.shot
+
+                )
+
+            );
+
+
+        if (data.movement)
+
+            blocks.push(
+
+                "camera movement: " +
+
+                data.movement
+
+            );
+
+
+        if (data.lens)
+
+            blocks.push(
+
+                data.lens +
+
+                " lens"
+
+            );
+
+
+        if (data.angle)
+
+            blocks.push(
+
+                "camera angle: " +
+
+                data.angle
+
+            );
+
+
+        if (data.focus)
+
+            blocks.push(
+
+                "focus: " +
+
+                data.focus
+
+            );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * CINEMATIC COMPOSITION ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.sceneAI.composition = {
+
+
+    build(data = {}) {
+
+
+        const blocks = [];
+
+
+        if (data.rule)
+
+            blocks.push(
+
+                "composition rule: " +
+
+                data.rule
+
+            );
+
+
+        if (data.balance)
+
+            blocks.push(
+
+                "visual balance: " +
+
+                data.balance
+
+            );
+
+
+        if (data.depth)
+
+            blocks.push(
+
+                "depth layering: " +
+
+                data.depth
+
+            );
+
+
+        if (data.focus)
+
+            blocks.push(
+
+                "visual focus: " +
+
+                data.focus
+
+            );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * LIGHTING DIRECTOR ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.sceneAI.lighting = {
+
+
+    styles: {
+
+
+        cinematic:
+
+            "cinematic dramatic lighting",
+
+
+        studio:
+
+            "professional studio lighting",
+
+
+        natural:
+
+            "natural realistic lighting",
+
+
+        sunset:
+
+            "warm sunset golden lighting",
+
+
+        night:
+
+            "moody night lighting",
+
+
+        neon:
+
+            "colorful neon cinematic lighting"
+
+
+    },
+
+
+    build(data = {}) {
+
+
+        const blocks = [];
+
+
+        if (data.style)
+
+            blocks.push(
+
+                this.styles[data.style]
+
+                ||
+
+                data.style
+
+            );
+
+
+        if (data.direction)
+
+            blocks.push(
+
+                "light direction: " +
+
+                data.direction
+
+            );
+
+
+        if (data.shadow)
+
+            blocks.push(
+
+                "shadow style: " +
+
+                data.shadow
+
+            );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * ATMOSPHERE GENERATOR
+ * ============================================================
+ */
+
+PowerTools.promptEngine.sceneAI.atmosphere = {
+
+
+    build(data = {}) {
+
+
+        const blocks = [];
+
+
+        if (data.weather)
+
+            blocks.push(
+
+                data.weather
+
+            );
+
+
+        if (data.particles)
+
+            blocks.push(
+
+                "atmospheric particles: " +
+
+                data.particles
+
+            );
+
+
+        if (data.feeling)
+
+            blocks.push(
+
+                "emotional atmosphere: " +
+
+                data.feeling
+
+            );
+
+
+        if (data.sound)
+
+            blocks.push(
+
+                "sound atmosphere: " +
+
+                data.sound
+
+            );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * MASTER CINEMATIC BUILDER
+ * ============================================================
+ */
+
+PowerTools.promptEngine.sceneAI.build = function (
+
+    payload = {}
+
+) {
+
+
+    const blocks = [];
+
+
+    if (payload.scene)
+
+        blocks.push(
+
+            this.builder.build(
+
+                payload.scene
+
+            )
+
+        );
+
+
+    if (payload.environment)
+
+        blocks.push(
+
+            this.environment.build(
+
+                payload.environment
+
+            )
+
+        );
+
+
+    if (payload.camera)
+
+        blocks.push(
+
+            this.camera.build(
+
+                payload.camera
+
+            )
+
+        );
+
+
+    if (payload.composition)
+
+        blocks.push(
+
+            this.composition.build(
+
+                payload.composition
+
+            )
+
+        );
+
+
+    if (payload.lighting)
+
+        blocks.push(
+
+            this.lighting.build(
+
+                payload.lighting
+
+            )
+
+        );
+
+
+    if (payload.atmosphere)
+
+        blocks.push(
+
+            this.atmosphere.build(
+
+                payload.atmosphere
+
+            )
+
+        );
+
+
+    blocks.push(
+
+        this.defaultQuality
+
+    );
+
+
+    return PowerTools.promptEngine.utils.clean(
+
+        blocks.join(", ")
+
+    );
+
+
+};
+
+
+/* ============================================================
+ * QUICK SCENE API
+ * ============================================================
+ */
+
+PowerTools.promptEngine.createScenePrompt = function (
+
+    payload = {}
+
+) {
+
+
+    return this.sceneAI.build(
+
+        payload
+
+    );
+
+
+};
+
+
+/* ============================================================
+ * END PART 34
+ * ============================================================
+ */
+
+/* ============================================================
+ * PART 35
+ * AI Video Director Engine
+ * Video Timeline Builder
+ * Scene Duration Control
+ * Camera Motion Sequence
+ * Transition Engine
+ * Motion Prompt Generator
+ * VEO / Kling / Runway Formatter
+ * Image To Video Intelligence
+ * ============================================================
+ */
+
+
+/* ============================================================
+ * VIDEO DIRECTOR FOUNDATION
+ * ============================================================
+ */
+
+PowerTools.promptEngine.videoAI = {
+
+    version: "1.0",
+
+    defaults: {
+
+        duration:
+
+            "8 seconds",
+
+        fps:
+
+            "24fps",
+
+        quality:
+
+            "cinematic 4K"
+
+    }
+
+};
+
+
+/* ============================================================
+ * VIDEO TIMELINE BUILDER
+ * ============================================================
+ */
+
+PowerTools.promptEngine.videoAI.timeline = {
+
+
+    scenes: [],
+
+
+    add(data = {}) {
+
+
+        const scene = {
+
+
+            id:
+
+                this.scenes.length + 1,
+
+
+            duration:
+
+                data.duration ||
+
+                "8 seconds",
+
+
+            description:
+
+                data.description ||
+
+                "",
+
+
+            camera:
+
+                data.camera ||
+
+                "",
+
+
+            motion:
+
+                data.motion ||
+
+                ""
+
+
+        };
+
+
+        this.scenes.push(
+
+            scene
+
+        );
+
+
+        return scene;
+
+
+    },
+
+
+    build() {
+
+
+        return this.scenes;
+
+
+    },
+
+
+    clear() {
+
+
+        this.scenes = [];
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * SCENE DURATION CONTROL
+ * ============================================================
+ */
+
+PowerTools.promptEngine.videoAI.duration = {
+
+
+    presets: {
+
+
+        short:
+
+            "5 seconds",
+
+
+        standard:
+
+            "8 seconds",
+
+
+        cinematic:
+
+            "15 seconds",
+
+
+        trailer:
+
+            "30 seconds"
+
+
+    },
+
+
+    get(type) {
+
+
+        return this.presets[type]
+
+            ||
+
+            type
+
+            ||
+
+            this.presets.standard;
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * CAMERA MOTION SEQUENCE ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.videoAI.cameraMotion = {
+
+
+    library: {
+
+
+        zoomIn:
+
+            "slow cinematic zoom in",
+
+
+        zoomOut:
+
+            "smooth zoom out reveal",
+
+
+        pan:
+
+            "slow horizontal camera pan",
+
+
+        tilt:
+
+            "cinematic vertical tilt movement",
+
+
+        orbit:
+
+            "360 degree camera orbit",
+
+
+        tracking:
+
+            "dynamic tracking shot",
+
+
+        handheld:
+
+            "realistic handheld camera movement",
+
+
+        drone:
+
+            "smooth drone camera flight"
+
+
+    },
+
+
+    build(type) {
+
+
+        return this.library[type]
+
+            ||
+
+            type;
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * TRANSITION ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.videoAI.transition = {
+
+
+    effects: {
+
+
+        fade:
+
+            "smooth cinematic fade transition",
+
+
+        cut:
+
+            "clean cinematic cut",
+
+
+        dissolve:
+
+            "soft dissolve transition",
+
+
+        zoom:
+
+            "dynamic zoom transition",
+
+
+        flash:
+
+            "dramatic flash transition"
+
+
+    },
+
+
+    build(type) {
+
+
+        return this.effects[type]
+
+            ||
+
+            type;
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * MOTION PROMPT GENERATOR
+ * ============================================================
+ */
+
+PowerTools.promptEngine.videoAI.motion = {
+
+
+    build(data = {}) {
+
+
+        const blocks = [];
+
+
+        if (data.subject)
+
+            blocks.push(
+
+                "subject movement: " +
+
+                data.subject
+
+            );
+
+
+        if (data.environment)
+
+            blocks.push(
+
+                "environment movement: " +
+
+                data.environment
+
+            );
+
+
+        if (data.camera)
+
+            blocks.push(
+
+                "camera movement: " +
+
+                data.camera
+
+            );
+
+
+        if (data.speed)
+
+            blocks.push(
+
+                "motion speed: " +
+
+                data.speed
+
+            );
+
+
+        if (data.style)
+
+            blocks.push(
+
+                "animation style: " +
+
+                data.style
+
+            );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * IMAGE TO VIDEO INTELLIGENCE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.videoAI.imageToVideo = {
+
+
+    build(data = {}) {
+
+
+        const blocks = [
+
+            "animate still image into cinematic video",
+
+            "preserve original image identity",
+
+            "maintain visual consistency"
+
+        ];
+
+
+        if (data.character)
+
+            blocks.push(
+
+                "keep character appearance unchanged"
+
+            );
+
+
+        if (data.product)
+
+            blocks.push(
+
+                "keep product shape unchanged"
+
+            );
+
+
+        if (data.camera)
+
+            blocks.push(
+
+                data.camera
+
+            );
+
+
+        if (data.motion)
+
+            blocks.push(
+
+                data.motion
+
+            );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * AI VIDEO PROVIDER FORMATTER
+ * ============================================================
+ */
+
+PowerTools.promptEngine.videoAI.provider = {
+
+
+    veo(data = {}) {
+
+
+        return {
+
+
+            platform:
+
+                "Google Veo",
+
+
+            prompt:
+
+                data.prompt || "",
+
+
+            duration:
+
+                data.duration ||
+
+                "8 seconds",
+
+
+            camera:
+
+                data.camera || "",
+
+
+            motion:
+
+                data.motion || ""
+
+
+        };
+
+
+    },
+
+
+    kling(data = {}) {
+
+
+        return {
+
+
+            platform:
+
+                "Kling AI",
+
+
+            prompt:
+
+                data.prompt || "",
+
+
+            motionStrength:
+
+                data.motionStrength ||
+
+                "medium",
+
+
+            camera:
+
+                data.camera || ""
+
+
+        };
+
+
+    },
+
+
+    runway(data = {}) {
+
+
+        return {
+
+
+            platform:
+
+                "Runway",
+
+
+            prompt:
+
+                data.prompt || "",
+
+
+            style:
+
+                data.style ||
+
+                "cinematic"
+
+
+        };
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * VIDEO DIRECTOR MASTER BUILDER
+ * ============================================================
+ */
+
+PowerTools.promptEngine.videoAI.build = function (
+
+    payload = {}
+
+) {
+
+
+    const blocks = [];
+
+
+    if (payload.scene)
+
+        blocks.push(
+
+            PowerTools.promptEngine.sceneAI.build(
+
+                payload.scene
+
+            )
+
+        );
+
+
+    if (payload.motion)
+
+        blocks.push(
+
+            this.motion.build(
+
+                payload.motion
+
+            )
+
+        );
+
+
+    if (payload.imageToVideo)
+
+        blocks.push(
+
+            this.imageToVideo.build(
+
+                payload.imageToVideo
+
+            )
+
+        );
+
+
+    if (payload.transition)
+
+        blocks.push(
+
+            this.transition.build(
+
+                payload.transition
+
+            )
+
+        );
+
+
+    blocks.push(
+
+        payload.duration ||
+
+        this.defaults.duration
+
+    );
+
+
+    blocks.push(
+
+        this.defaults.quality
+
+    );
+
+
+    return PowerTools.promptEngine.utils.clean(
+
+        blocks.join(", ")
+
+    );
+
+
+};
+
+
+/* ============================================================
+ * QUICK VIDEO API
+ * ============================================================
+ */
+
+PowerTools.promptEngine.createVideoDirectorPrompt = function (
+
+    payload = {}
+
+) {
+
+
+    return this.videoAI.build(
+
+        payload
+
+    );
+
+
+};
+
+
+/* ============================================================
+ * END PART 35
+ * ============================================================
+ */
+
+/* ============================================================
+ * PART 36
+ * AI Design & Graphic Engine
+ * Poster Generator
+ * Banner Generator
+ * Thumbnail Generator
+ * Typography Engine
+ * Layout Composer
+ * Color Psychology
+ * Brand Design System
+ * Social Media Creative Builder
+ * ============================================================
+ */
+
+
+/* ============================================================
+ * DESIGN ENGINE FOUNDATION
+ * ============================================================
+ */
+
+PowerTools.promptEngine.designAI = {
+
+    version: "1.0",
+
+    defaultQuality:
+
+        "professional graphic design, high resolution"
+
+};
+
+
+/* ============================================================
+ * POSTER GENERATOR ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.designAI.poster = {
+
+
+    build(data = {}) {
+
+
+        const blocks = [];
+
+
+        blocks.push(
+
+            "professional poster design"
+
+        );
+
+
+        if (data.title)
+
+            blocks.push(
+
+                "headline: " +
+
+                data.title
+
+            );
+
+
+        if (data.theme)
+
+            blocks.push(
+
+                "theme: " +
+
+                data.theme
+
+            );
+
+
+        if (data.subject)
+
+            blocks.push(
+
+                "main visual: " +
+
+                data.subject
+
+            );
+
+
+        if (data.style)
+
+            blocks.push(
+
+                "style: " +
+
+                data.style
+
+            );
+
+
+        if (data.size)
+
+            blocks.push(
+
+                "format: " +
+
+                data.size
+
+            );
+
+
+        blocks.push(
+
+            this.quality ||
+
+            "cinematic poster composition"
+
+        );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * BANNER GENERATOR ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.designAI.banner = {
+
+
+    build(data = {}) {
+
+
+        const blocks = [
+
+            "professional marketing banner design"
+
+        ];
+
+
+        if (data.product)
+
+            blocks.push(
+
+                "featured product: " +
+
+                data.product
+
+            );
+
+
+        if (data.message)
+
+            blocks.push(
+
+                "marketing message: " +
+
+                data.message
+
+            );
+
+
+        if (data.style)
+
+            blocks.push(
+
+                data.style
+
+            );
+
+
+        if (data.platform)
+
+            blocks.push(
+
+                "platform: " +
+
+                data.platform
+
+            );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * THUMBNAIL GENERATOR ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.designAI.thumbnail = {
+
+
+    build(data = {}) {
+
+
+        const blocks = [
+
+            "high click through rate thumbnail design"
+
+        ];
+
+
+        if (data.topic)
+
+            blocks.push(
+
+                "video topic: " +
+
+                data.topic
+
+            );
+
+
+        if (data.expression)
+
+            blocks.push(
+
+                "strong facial expression: " +
+
+                data.expression
+
+            );
+
+
+        if (data.text)
+
+            blocks.push(
+
+                "bold readable text: " +
+
+                data.text
+
+            );
+
+
+        blocks.push(
+
+            "attention grabbing composition"
+
+        );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * TYPOGRAPHY ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.designAI.typography = {
+
+
+    styles: {
+
+
+        modern:
+
+            "modern clean typography",
+
+
+        luxury:
+
+            "elegant premium typography",
+
+
+        futuristic:
+
+            "futuristic digital typography",
+
+
+        playful:
+
+            "fun creative typography",
+
+
+        cinematic:
+
+            "movie title typography"
+
+
+    },
+
+
+    build(data = {}) {
+
+
+        const blocks = [];
+
+
+        if (data.style)
+
+            blocks.push(
+
+                this.styles[data.style]
+
+                ||
+
+                data.style
+
+            );
+
+
+        if (data.font)
+
+            blocks.push(
+
+                "font style: " +
+
+                data.font
+
+            );
+
+
+        if (data.effect)
+
+            blocks.push(
+
+                "text effect: " +
+
+                data.effect
+
+            );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * LAYOUT COMPOSER ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.designAI.layout = {
+
+
+    build(data = {}) {
+
+
+        const blocks = [];
+
+
+        if (data.structure)
+
+            blocks.push(
+
+                "layout structure: " +
+
+                data.structure
+
+            );
+
+
+        if (data.position)
+
+            blocks.push(
+
+                "element placement: " +
+
+                data.position
+
+            );
+
+
+        if (data.balance)
+
+            blocks.push(
+
+                "visual balance: " +
+
+                data.balance
+
+            );
+
+
+        if (data.grid)
+
+            blocks.push(
+
+                "grid system: " +
+
+                data.grid
+
+            );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * COLOR PSYCHOLOGY ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.designAI.color = {
+
+
+    meanings: {
+
+
+        red:
+
+            "energy passion urgency",
+
+
+        blue:
+
+            "trust professional calm",
+
+
+        green:
+
+            "natural growth freshness",
+
+
+        black:
+
+            "luxury premium elegance",
+
+
+        white:
+
+            "clean minimal modern",
+
+
+        purple:
+
+            "creative futuristic premium"
+
+
+    },
+
+
+    build(color) {
+
+
+        return (
+
+            color +
+
+            " color palette with " +
+
+            (
+
+                this.meanings[color]
+
+                ||
+
+                "balanced visual emotion"
+
+            )
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * BRAND DESIGN SYSTEM
+ * ============================================================
+ */
+
+PowerTools.promptEngine.designAI.brand = {
+
+
+    build(data = {}) {
+
+
+        const blocks = [];
+
+
+        if (data.name)
+
+            blocks.push(
+
+                "brand name: " +
+
+                data.name
+
+            );
+
+
+        if (data.industry)
+
+            blocks.push(
+
+                "industry: " +
+
+                data.industry
+
+            );
+
+
+        if (data.personality)
+
+            blocks.push(
+
+                "brand personality: " +
+
+                data.personality
+
+            );
+
+
+        if (data.color)
+
+            blocks.push(
+
+                PowerTools.promptEngine.designAI.color.build(
+
+                    data.color
+
+                )
+
+            );
+
+
+        blocks.push(
+
+            "consistent brand identity system"
+
+        );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * SOCIAL MEDIA CREATIVE BUILDER
+ * ============================================================
+ */
+
+PowerTools.promptEngine.designAI.social = {
+
+
+    platforms: {
+
+
+        instagram:
+
+            "Instagram optimized visual content",
+
+
+        youtube:
+
+            "YouTube optimized thumbnail design",
+
+
+        tiktok:
+
+            "TikTok viral creative format",
+
+
+        facebook:
+
+            "Facebook advertising creative"
+
+    },
+
+
+    build(data = {}) {
+
+
+        const blocks = [];
+
+
+        if (data.platform)
+
+            blocks.push(
+
+                this.platforms[data.platform]
+
+                ||
+
+                data.platform
+
+            );
+
+
+        if (data.content)
+
+            blocks.push(
+
+                data.content
+
+            );
+
+
+        blocks.push(
+
+            "high engagement social media design"
+
+        );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * MASTER DESIGN BUILDER
+ * ============================================================
+ */
+
+PowerTools.promptEngine.designAI.build = function (
+
+    payload = {}
+
+) {
+
+
+    const blocks = [];
+
+
+    if (payload.poster)
+
+        blocks.push(
+
+            this.poster.build(
+
+                payload.poster
+
+            )
+
+        );
+
+
+    if (payload.banner)
+
+        blocks.push(
+
+            this.banner.build(
+
+                payload.banner
+
+            )
+
+        );
+
+
+    if (payload.thumbnail)
+
+        blocks.push(
+
+            this.thumbnail.build(
+
+                payload.thumbnail
+
+            )
+
+        );
+
+
+    if (payload.typography)
+
+        blocks.push(
+
+            this.typography.build(
+
+                payload.typography
+
+            )
+
+        );
+
+
+    if (payload.layout)
+
+        blocks.push(
+
+            this.layout.build(
+
+                payload.layout
+
+            )
+
+        );
+
+
+    if (payload.brand)
+
+        blocks.push(
+
+            this.brand.build(
+
+                payload.brand
+
+            )
+
+        );
+
+
+    blocks.push(
+
+        this.defaultQuality
+
+    );
+
+
+    return PowerTools.promptEngine.utils.clean(
+
+        blocks.join(", ")
+
+    );
+
+
+};
+
+
+/* ============================================================
+ * QUICK DESIGN API
+ * ============================================================
+ */
+
+PowerTools.promptEngine.createDesignPrompt = function (
+
+    payload = {}
+
+) {
+
+
+    return this.designAI.build(
+
+        payload
+
+    );
+
+
+};
+
+
+/* ============================================================
+ * END PART 36
+ * ============================================================
+ */
+
+/* ============================================================
+ * PART 37
+ * AI Marketing & Affiliate Intelligence Engine
+ * Product Selling Prompt
+ * Affiliate Script Generator
+ * Hook Generator
+ * CTA Generator
+ * Sales Psychology
+ * Audience Targeting
+ * Viral Content Planner
+ * Campaign Builder
+ * ============================================================
+ */
+
+
+/* ============================================================
+ * MARKETING ENGINE FOUNDATION
+ * ============================================================
+ */
+
+PowerTools.promptEngine.marketingAI = {
+
+    version: "1.0",
+
+    objective:
+
+        "create high converting marketing content"
+
+};
+
+
+/* ============================================================
+ * PRODUCT SELLING PROMPT ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.marketingAI.product = {
+
+
+    build(data = {}) {
+
+
+        const blocks = [];
+
+
+        blocks.push(
+
+            "professional product marketing campaign"
+
+        );
+
+
+        if (data.product)
+
+            blocks.push(
+
+                "product: " +
+
+                data.product
+
+            );
+
+
+        if (data.feature)
+
+            blocks.push(
+
+                "main features: " +
+
+                data.feature
+
+            );
+
+
+        if (data.benefit)
+
+            blocks.push(
+
+                "customer benefits: " +
+
+                data.benefit
+
+            );
+
+
+        if (data.target)
+
+            blocks.push(
+
+                "target customer: " +
+
+                data.target
+
+            );
+
+
+        blocks.push(
+
+            "focus on emotional connection and purchase motivation"
+
+        );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * HOOK GENERATOR ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.marketingAI.hook = {
+
+
+    templates: [
+
+
+        "Stop scrolling, discover this amazing solution",
+
+        "You won't believe what this product can do",
+
+        "The secret everyone needs to know",
+
+        "Before you buy anything, watch this",
+
+        "A simple solution for everyday problems"
+
+
+    ],
+
+
+    generate(topic = "") {
+
+
+        const index =
+
+            Math.floor(
+
+                Math.random()
+
+                *
+
+                this.templates.length
+
+            );
+
+
+        return (
+
+            this.templates[index]
+
+            +
+
+            (
+
+                topic
+
+                ?
+
+                " about " + topic
+
+                :
+
+                ""
+
+            )
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * CTA GENERATOR ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.marketingAI.cta = {
+
+
+    library: [
+
+
+        "Click now and get yours today",
+
+        "Try it now and experience the difference",
+
+        "Don't miss this opportunity",
+
+        "Start your journey today",
+
+        "Get yours before it's gone"
+
+
+    ],
+
+
+    generate(type = "") {
+
+
+        if (type === "urgent")
+
+            return "Limited time offer, act now";
+
+
+        if (type === "soft")
+
+            return "Learn more and discover the benefits";
+
+
+        return this.library[
+
+            Math.floor(
+
+                Math.random()
+
+                *
+
+                this.library.length
+
+            )
+
+        ];
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * AFFILIATE SCRIPT GENERATOR
+ * ============================================================
+ */
+
+PowerTools.promptEngine.marketingAI.affiliate = {
+
+
+    build(data = {}) {
+
+
+        return {
+
+
+            hook:
+
+                data.hook ||
+
+                PowerTools.promptEngine.marketingAI.hook.generate(
+
+                    data.product
+
+                ),
+
+
+            problem:
+
+                data.problem ||
+
+                "identify customer problem",
+
+
+            solution:
+
+                data.solution ||
+
+                "introduce product solution",
+
+
+            benefit:
+
+                data.benefit ||
+
+                "explain product benefits",
+
+
+            proof:
+
+                data.proof ||
+
+                "show trust and credibility",
+
+
+            cta:
+
+                data.cta ||
+
+                PowerTools.promptEngine.marketingAI.cta.generate()
+
+        };
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * SALES PSYCHOLOGY ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.marketingAI.psychology = {
+
+
+    principles: {
+
+
+        scarcity:
+
+            "create urgency using limited availability",
+
+
+        trust:
+
+            "build credibility and social proof",
+
+
+        emotion:
+
+            "connect product with customer emotions",
+
+
+        problem:
+
+            "highlight customer pain points",
+
+
+        benefit:
+
+            "focus on transformation and results"
+
+
+    },
+
+
+    build(type) {
+
+
+        return (
+
+            this.principles[type]
+
+            ||
+
+            "customer focused persuasion"
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * AUDIENCE TARGETING ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.marketingAI.audience = {
+
+
+    build(data = {}) {
+
+
+        const blocks = [];
+
+
+        if (data.age)
+
+            blocks.push(
+
+                "age group: " +
+
+                data.age
+
+            );
+
+
+        if (data.gender)
+
+            blocks.push(
+
+                "gender: " +
+
+                data.gender
+
+            );
+
+
+        if (data.interest)
+
+            blocks.push(
+
+                "interests: " +
+
+                data.interest
+
+            );
+
+
+        if (data.behavior)
+
+            blocks.push(
+
+                "buying behavior: " +
+
+                data.behavior
+
+            );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * VIRAL CONTENT PLANNER
+ * ============================================================
+ */
+
+PowerTools.promptEngine.marketingAI.viral = {
+
+
+    build(data = {}) {
+
+
+        const blocks = [
+
+
+            "viral content strategy"
+
+
+        ];
+
+
+        if (data.platform)
+
+            blocks.push(
+
+                "platform: " +
+
+                data.platform
+
+            );
+
+
+        if (data.topic)
+
+            blocks.push(
+
+                "content topic: " +
+
+                data.topic
+
+            );
+
+
+        blocks.push(
+
+            "strong opening hook",
+
+            "high audience retention",
+
+            "shareable storytelling"
+
+        );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * CAMPAIGN BUILDER ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.marketingAI.campaign = {
+
+
+    create(data = {}) {
+
+
+        return {
+
+
+            name:
+
+                data.name ||
+
+                "New Campaign",
+
+
+            objective:
+
+                data.objective ||
+
+                "sales",
+
+
+            content:
+
+                data.content ||
+
+                [],
+
+
+            audience:
+
+                data.audience ||
+
+                {},
+
+
+            strategy:
+
+                data.strategy ||
+
+                "multi platform marketing"
+
+
+        };
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * MASTER MARKETING BUILDER
+ * ============================================================
+ */
+
+PowerTools.promptEngine.marketingAI.build = function (
+
+    payload = {}
+
+) {
+
+
+    const blocks = [];
+
+
+    if (payload.product)
+
+        blocks.push(
+
+            this.product.build(
+
+                payload.product
+
+            )
+
+        );
+
+
+    if (payload.affiliate)
+
+        blocks.push(
+
+            JSON.stringify(
+
+                this.affiliate.build(
+
+                    payload.affiliate
+
+                )
+
+            )
+
+        );
+
+
+    if (payload.psychology)
+
+        blocks.push(
+
+            this.psychology.build(
+
+                payload.psychology
+
+            )
+
+        );
+
+
+    if (payload.audience)
+
+        blocks.push(
+
+            this.audience.build(
+
+                payload.audience
+
+            )
+
+        );
+
+
+    if (payload.viral)
+
+        blocks.push(
+
+            this.viral.build(
+
+                payload.viral
+
+            )
+
+        );
+
+
+    return PowerTools.promptEngine.utils.clean(
+
+        blocks.join(", ")
+
+    );
+
+
+};
+
+
+/* ============================================================
+ * QUICK MARKETING API
+ * ============================================================
+ */
+
+PowerTools.promptEngine.createMarketingPrompt = function (
+
+    payload = {}
+
+) {
+
+
+    return this.marketingAI.build(
+
+        payload
+
+    );
+
+
+};
+
+
+/* ============================================================
+ * END PART 37
+ * ============================================================
+ */
+
+/* ============================================================
+ * PART 38
+ * AI Consistency & Lock System
+ * Character Consistency
+ * Product Consistency
+ * Style Lock
+ * Color Lock
+ * Scene Continuity
+ * Face Identity Protection
+ * Multi Scene Memory
+ * ============================================================
+ */
+
+
+/* ============================================================
+ * CONSISTENCY ENGINE FOUNDATION
+ * ============================================================
+ */
+
+PowerTools.promptEngine.consistencyAI = {
+
+    version: "1.0",
+
+    memory: [],
+
+    locks: []
+
+};
+
+
+/* ============================================================
+ * CHARACTER CONSISTENCY ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.consistencyAI.character = {
+
+
+    create(data = {}) {
+
+
+        const profile = {
+
+
+            id:
+
+                PowerTools.utils.uuid(),
+
+
+            name:
+
+                data.name ||
+
+                "Character",
+
+
+            appearance:
+
+                data.appearance ||
+
+                "",
+
+
+            face:
+
+                data.face ||
+
+                "",
+
+
+            hairstyle:
+
+                data.hair ||
+
+                "",
+
+
+            clothing:
+
+                data.clothing ||
+
+                "",
+
+
+            personality:
+
+                data.personality ||
+
+                "",
+
+
+            locked:
+
+                true
+
+
+        };
+
+
+        PowerTools.promptEngine.consistencyAI.locks.push(
+
+            profile
+
+        );
+
+
+        return profile;
+
+
+    },
+
+
+    apply(character, prompt = "") {
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            [
+
+                prompt,
+
+                "maintain exact character identity",
+
+                character.appearance,
+
+                character.face,
+
+                character.hairstyle,
+
+                character.clothing
+
+            ].join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * PRODUCT CONSISTENCY ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.consistencyAI.product = {
+
+
+    create(data = {}) {
+
+
+        const product = {
+
+
+            id:
+
+                PowerTools.utils.uuid(),
+
+
+            name:
+
+                data.name ||
+
+                "Product",
+
+
+            shape:
+
+                data.shape ||
+
+                "",
+
+
+            color:
+
+                data.color ||
+
+                "",
+
+
+            material:
+
+                data.material ||
+
+                "",
+
+
+            logo:
+
+                data.logo ||
+
+                "",
+
+
+            locked:
+
+                true
+
+
+        };
+
+
+        PowerTools.promptEngine.consistencyAI.locks.push(
+
+            product
+
+        );
+
+
+        return product;
+
+
+    },
+
+
+    apply(product, prompt = "") {
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            [
+
+                prompt,
+
+                "preserve exact product appearance",
+
+                product.shape,
+
+                product.color,
+
+                product.material,
+
+                product.logo
+
+            ].join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * STYLE LOCK ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.consistencyAI.style = {
+
+
+    lock(data = {}) {
+
+
+        return {
+
+
+            type:
+
+                "style lock",
+
+
+            visualStyle:
+
+                data.style || "",
+
+
+            rendering:
+
+                data.rendering || "",
+
+
+            quality:
+
+                data.quality || "",
+
+
+            active:
+
+                true
+
+
+        };
+
+
+    },
+
+
+    apply(lock, prompt = "") {
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            [
+
+                prompt,
+
+                "consistent visual style",
+
+                lock.visualStyle,
+
+                lock.rendering,
+
+                lock.quality
+
+            ].join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * COLOR LOCK ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.consistencyAI.color = {
+
+
+    create(colors = []) {
+
+
+        return {
+
+
+            palette:
+
+                colors,
+
+
+            locked:
+
+                true
+
+
+        };
+
+
+    },
+
+
+    apply(lock, prompt = "") {
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            [
+
+                prompt,
+
+                "maintain consistent color palette",
+
+                lock.palette.join(", ")
+
+            ].join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * FACE IDENTITY PROTECTION ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.consistencyAI.faceGuard = {
+
+
+    build(data = {}) {
+
+
+        const blocks = [
+
+
+            "preserve facial identity",
+
+            "same face structure",
+
+            "consistent facial features",
+
+            "no identity changes"
+
+        ];
+
+
+        if (data.reference)
+
+            blocks.push(
+
+                "follow reference image"
+
+            );
+
+
+        if (data.age)
+
+            blocks.push(
+
+                "maintain age appearance"
+
+            );
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * SCENE CONTINUITY ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.consistencyAI.continuity = {
+
+
+    scenes: [],
+
+
+    save(scene) {
+
+
+        this.scenes.push(
+
+            scene
+
+        );
+
+
+        return scene;
+
+
+    },
+
+
+    apply(prompt = "") {
+
+
+        return PowerTools.promptEngine.utils.clean(
+
+            [
+
+                prompt,
+
+                "maintain previous scene continuity",
+
+                "consistent environment",
+
+                "consistent character position"
+
+            ].join(", ")
+
+        );
+
+
+    },
+
+
+    reset() {
+
+
+        this.scenes = [];
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * MULTI SCENE MEMORY ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.consistencyAI.memory = {
+
+
+    save(data = {}) {
+
+
+        PowerTools.promptEngine.consistencyAI.memory.data =
+
+            PowerTools.promptEngine.consistencyAI.memory.data || [];
+
+
+        PowerTools.promptEngine.consistencyAI.memory.data.push(
+
+            {
+
+
+                data,
+
+
+                timestamp:
+
+                    new Date()
+
+
+            }
+
+        );
+
+
+        return true;
+
+
+    },
+
+
+    get() {
+
+
+        return this.data || [];
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * MASTER CONSISTENCY BUILDER
+ * ============================================================
+ */
+
+PowerTools.promptEngine.consistencyAI.build = function (
+
+    payload = {}
+
+) {
+
+
+    const blocks = [];
+
+
+    if (payload.character)
+
+        blocks.push(
+
+            this.character.apply(
+
+                payload.character,
+
+                payload.prompt || ""
+
+            )
+
+        );
+
+
+    if (payload.product)
+
+        blocks.push(
+
+            this.product.apply(
+
+                payload.product,
+
+                payload.prompt || ""
+
+            )
+
+        );
+
+
+    if (payload.style)
+
+        blocks.push(
+
+            this.style.apply(
+
+                payload.style,
+
+                payload.prompt || ""
+
+            )
+
+        );
+
+
+    if (payload.face)
+
+        blocks.push(
+
+            this.faceGuard.build(
+
+                payload.face
+
+            )
+
+        );
+
+
+    if (payload.continuity)
+
+        blocks.push(
+
+            this.continuity.apply(
+
+                payload.prompt || ""
+
+            )
+
+        );
+
+
+    return PowerTools.promptEngine.utils.clean(
+
+        blocks.join(", ")
+
+    );
+
+
+};
+
+
+/* ============================================================
+ * QUICK CONSISTENCY API
+ * ============================================================
+ */
+
+PowerTools.promptEngine.lockConsistency = function (
+
+    payload = {}
+
+) {
+
+
+    return this.consistencyAI.build(
+
+        payload
+
+    );
+
+
+};
+
+
+/* ============================================================
+ * END PART 38
+ * ============================================================
+ */
+
+/* ============================================================
+ * PART 39
+ * AI Master Prompt Orchestrator
+ * Engine Connector
+ * Smart Routing
+ * Auto Pipeline
+ * Full Prompt Assembly
+ * Character + Product + Scene + Voice + Video Merge
+ * One Click Master Prompt Generator
+ * ============================================================
+ */
+
+
+/* ============================================================
+ * MASTER ORCHESTRATOR FOUNDATION
+ * ============================================================
+ */
+
+PowerTools.promptEngine.orchestrator = {
+
+    version: "1.0",
+
+    pipeline: [],
+
+    modules: [
+
+        "character",
+
+        "product",
+
+        "scene",
+
+        "voice",
+
+        "video",
+
+        "design",
+
+        "marketing",
+
+        "story",
+
+        "quality"
+
+    ]
+
+};
+
+
+/* ============================================================
+ * ENGINE ROUTER
+ * ============================================================
+ */
+
+PowerTools.promptEngine.orchestrator.router = {
+
+
+    detect(payload = {}) {
+
+
+        const routes = [];
+
+
+        if (payload.character)
+
+            routes.push(
+
+                "character"
+
+            );
+
+
+        if (payload.product)
+
+            routes.push(
+
+                "product"
+
+            );
+
+
+        if (payload.scene)
+
+            routes.push(
+
+                "scene"
+
+            );
+
+
+        if (payload.voice)
+
+            routes.push(
+
+                "voice"
+
+            );
+
+
+        if (payload.video)
+
+            routes.push(
+
+                "video"
+
+            );
+
+
+        if (payload.design)
+
+            routes.push(
+
+                "design"
+
+            );
+
+
+        if (payload.marketing)
+
+            routes.push(
+
+                "marketing"
+
+            );
+
+
+        if (payload.story)
+
+            routes.push(
+
+                "story"
+
+            );
+
+
+        return routes;
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * PIPELINE MANAGER
+ * ============================================================
+ */
+
+PowerTools.promptEngine.orchestrator.pipelineManager = {
+
+
+    add(name, callback) {
+
+
+        this.pipeline.push({
+
+            name,
+
+            callback
+
+        });
+
+
+        return this;
+
+
+    },
+
+
+    execute(input) {
+
+
+        let result = input;
+
+
+        this.pipeline.forEach(
+
+            step => {
+
+
+                if (
+
+                    typeof step.callback === "function"
+
+                )
+
+                    result =
+
+                        step.callback(
+
+                            result
+
+                        );
+
+
+            }
+
+        );
+
+
+        return result;
+
+
+    },
+
+
+    clear() {
+
+
+        this.pipeline = [];
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * CHARACTER CONNECTOR
+ * ============================================================
+ */
+
+PowerTools.promptEngine.orchestrator.connectCharacter = function (
+
+    data
+
+) {
+
+
+    if (!data)
+
+        return "";
+
+
+    return this.character
+
+        ?
+
+        this.character.apply(
+
+            data,
+
+            ""
+
+        )
+
+        :
+
+        PowerTools.promptEngine.utils.clean(
+
+            [
+
+                data.name,
+
+                data.appearance,
+
+                data.style
+
+            ].join(", ")
+
+        );
+
+
+};
+
+
+/* ============================================================
+ * PRODUCT CONNECTOR
+ * ============================================================
+ */
+
+PowerTools.promptEngine.orchestrator.connectProduct = function (
+
+    data
+
+) {
+
+
+    if (!data)
+
+        return "";
+
+
+    return PowerTools.promptEngine.utils.clean(
+
+        [
+
+            "product",
+
+            data.name,
+
+            data.description,
+
+            data.material,
+
+            data.color
+
+        ].join(", ")
+
+    );
+
+
+};
+
+
+/* ============================================================
+ * SCENE CONNECTOR
+ * ============================================================
+ */
+
+PowerTools.promptEngine.orchestrator.connectScene = function (
+
+    data
+
+) {
+
+
+    if (!data)
+
+        return "";
+
+
+    return PowerTools.promptEngine.createScenePrompt(
+
+        {
+
+            scene:
+
+                data
+
+        }
+
+    );
+
+
+};
+
+
+/* ============================================================
+ * VIDEO CONNECTOR
+ * ============================================================
+ */
+
+PowerTools.promptEngine.orchestrator.connectVideo = function (
+
+    data
+
+) {
+
+
+    if (!data)
+
+        return "";
+
+
+    return PowerTools.promptEngine.createVideoDirectorPrompt(
+
+        data
+
+    );
+
+
+};
+
+
+/* ============================================================
+ * VOICE CONNECTOR
+ * ============================================================
+ */
+
+PowerTools.promptEngine.orchestrator.connectVoice = function (
+
+    data
+
+) {
+
+
+    if (!data)
+
+        return "";
+
+
+    return PowerTools.promptEngine.createVoicePrompt(
+
+        data
+
+    );
+
+
+};
+
+
+/* ============================================================
+ * DESIGN CONNECTOR
+ * ============================================================
+ */
+
+PowerTools.promptEngine.orchestrator.connectDesign = function (
+
+    data
+
+) {
+
+
+    if (!data)
+
+        return "";
+
+
+    return PowerTools.promptEngine.createDesignPrompt(
+
+        data
+
+    );
+
+
+};
+
+
+/* ============================================================
+ * MARKETING CONNECTOR
+ * ============================================================
+ */
+
+PowerTools.promptEngine.orchestrator.connectMarketing = function (
+
+    data
+
+) {
+
+
+    if (!data)
+
+        return "";
+
+
+    return PowerTools.promptEngine.createMarketingPrompt(
+
+        data
+
+    );
+
+
+};
+
+
+/* ============================================================
+ * MASTER PROMPT ASSEMBLER
+ * ============================================================
+ */
+
+PowerTools.promptEngine.orchestrator.assemble = function (
+
+    payload = {}
+
+) {
+
+
+    const blocks = [];
+
+
+    if (payload.character)
+
+        blocks.push(
+
+            this.connectCharacter(
+
+                payload.character
+
+            )
+
+        );
+
+
+    if (payload.product)
+
+        blocks.push(
+
+            this.connectProduct(
+
+                payload.product
+
+            )
+
+        );
+
+
+    if (payload.scene)
+
+        blocks.push(
+
+            this.connectScene(
+
+                payload.scene
+
+            )
+
+        );
+
+
+    if (payload.video)
+
+        blocks.push(
+
+            this.connectVideo(
+
+                payload.video
+
+            )
+
+        );
+
+
+    if (payload.voice)
+
+        blocks.push(
+
+            this.connectVoice(
+
+                payload.voice
+
+            )
+
+        );
+
+
+    if (payload.design)
+
+        blocks.push(
+
+            this.connectDesign(
+
+                payload.design
+
+            )
+
+        );
+
+
+    if (payload.marketing)
+
+        blocks.push(
+
+            this.connectMarketing(
+
+                payload.marketing
+
+            )
+
+        );
+
+
+    if (payload.story)
+
+        blocks.push(
+
+            PowerTools.promptEngine.createStoryPrompt(
+
+                payload.story
+
+            )
+
+        );
+
+
+    return PowerTools.promptEngine.utils.clean(
+
+        blocks.join(", ")
+
+    );
+
+
+};
+
+
+/* ============================================================
+ * QUALITY FINISHER
+ * ============================================================
+ */
+
+PowerTools.promptEngine.orchestrator.finish = function (
+
+    prompt,
+
+    options = {}
+
+) {
+
+
+    let result = prompt;
+
+
+    if (
+
+        options.improve !== false
+
+    )
+
+        result =
+
+            PowerTools.promptEngine.improvePrompt(
+
+                result
+
+            );
+
+
+    if (
+
+        options.negative
+
+    )
+
+        result +=
+
+
+            ", negative prompt: " +
+
+            PowerTools.promptEngine.quality.negative.build();
+
+
+    return result;
+
+
+};
+
+
+/* ============================================================
+ * ONE CLICK MASTER GENERATOR
+ * ============================================================
+ */
+
+PowerTools.promptEngine.generateMaster = function (
+
+    payload = {},
+
+    options = {}
+
+) {
+
+
+    const routes =
+
+        this.orchestrator.router.detect(
+
+            payload
+
+        );
+
+
+    let prompt =
+
+        this.orchestrator.assemble(
+
+            payload
+
+        );
+
+
+    prompt =
+
+        this.orchestrator.finish(
+
+            prompt,
+
+            options
+
+        );
+
+
+    return {
+
+
+        routes,
+
+
+        prompt,
+
+
+        score:
+
+            this.quality.score.calculate(
+
+                prompt
+
+            ),
+
+
+        created:
+
+            new Date()
+
+
+    };
+
+
+};
+
+
+/* ============================================================
+ * END PART 39
+ * ============================================================
+ */
+
+/* ============================================================
+ * PART 40 FINAL
+ * PowerTools Prompt Engine Core
+ *
+ * Boot System
+ * Public API
+ * Module Registration
+ * Global Configuration
+ * Save / Load Project
+ * Export Bridge
+ * Engine Monitor
+ * Final Ready System
+ * ============================================================
+ */
+
+
+/* ============================================================
+ * FINAL CORE FOUNDATION
+ * ============================================================
+ */
+
+PowerTools.promptEngine.core = {
+
+
+    version:
+
+        "5.0",
+
+
+    name:
+
+        "PowerTools AI Creator Suite Prompt Engine",
+
+
+    status:
+
+        "initializing",
+
+
+    modules: [],
+
+
+    config: {
+
+
+        quality:
+
+            true,
+
+
+        memory:
+
+            true,
+
+
+        automation:
+
+            true,
+
+
+        consistency:
+
+            true,
+
+
+        export:
+
+            true
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * MODULE REGISTRATION SYSTEM
+ * ============================================================
+ */
+
+PowerTools.promptEngine.register = function (
+
+    name
+
+) {
+
+
+    if (
+
+        !this.core.modules.includes(name)
+
+    )
+
+
+        this.core.modules.push(
+
+            name
+
+        );
+
+
+    return this.core.modules;
+
+
+};
+
+
+
+[
+    
+    "Character Engine",
+
+    "Product Engine",
+
+    "Scene Engine",
+
+    "Video Engine",
+
+    "Voice Engine",
+
+    "Story Engine",
+
+    "Design Engine",
+
+    "Marketing Engine",
+
+    "Quality Engine",
+
+    "Memory Engine",
+
+    "Automation Engine",
+
+    "Collaboration Engine",
+
+    "Consistency Engine",
+
+    "Master Orchestrator"
+
+]
+
+.forEach(
+
+    module =>
+
+        PowerTools.promptEngine.register(
+
+            module
+
+        )
+
+);
+
+
+
+/* ============================================================
+ * PROJECT SAVE SYSTEM
+ * ============================================================
+ */
+
+PowerTools.promptEngine.project = {
+
+
+    save(data = {}) {
+
+
+        const project = {
+
+
+            id:
+
+                PowerTools.utils.uuid(),
+
+
+            name:
+
+                data.name ||
+
+                "Untitled Project",
+
+
+            prompt:
+
+                data.prompt ||
+
+                "",
+
+
+            settings:
+
+                data.settings ||
+
+                {},
+
+
+            timestamp:
+
+                new Date()
+
+
+        };
+
+
+        if (
+
+            PowerTools.storage
+
+            &&
+
+            PowerTools.storage.save
+
+        )
+
+
+            PowerTools.storage.save(
+
+                project
+
+            );
+
+
+        return project;
+
+
+    },
+
+
+    load(id) {
+
+
+        if (
+
+            PowerTools.storage
+
+            &&
+
+            PowerTools.storage.get
+
+        )
+
+
+            return PowerTools.storage.get(
+
+                id
+
+            );
+
+
+        return null;
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * FINAL EXPORT BRIDGE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.exportBridge = {
+
+
+    create(data = {}) {
+
+
+        return {
+
+
+            application:
+
+                "PowerTools AI Creator Suite",
+
+
+            engine:
+
+                "Prompt Engine v5",
+
+
+            prompt:
+
+                data.prompt || "",
+
+
+            negative:
+
+                data.negative || "",
+
+
+            model:
+
+                data.model || "Universal AI",
+
+
+            metadata:{
+
+
+                modules:
+
+                    PowerTools.promptEngine.core.modules,
+
+
+                created:
+
+                    new Date()
+
+
+            }
+
+
+        };
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * ENGINE STATUS MONITOR
+ * ============================================================
+ */
+
+PowerTools.promptEngine.monitor = {
+
+
+    status() {
+
+
+        return {
+
+
+            name:
+
+                PowerTools.promptEngine.core.name,
+
+
+            version:
+
+                PowerTools.promptEngine.core.version,
+
+
+            status:
+
+                PowerTools.promptEngine.core.status,
+
+
+            modules:
+
+                PowerTools.promptEngine.core.modules.length,
+
+
+            loaded:
+
+                PowerTools.promptEngine.core.modules
+
+
+        };
+
+
+    }
+
+
+};
+
+
+/* ============================================================
+ * PUBLIC API
+ * ============================================================
+ */
+
+PowerTools.promptEngine.api = {
+
+
+    create:
+
+        function(payload){
+
+            return PowerTools.promptEngine.generateMaster(
+
+                payload
+
+            );
+
+        },
+
+
+    improve:
+
+        function(prompt){
+
+            return PowerTools.promptEngine.improvePrompt(
+
+                prompt
+
+            );
+
+        },
+
+
+    export:
+
+        function(format,data){
+
+            return PowerTools.promptEngine.exportPrompt(
+
+                format,
+
+                data
+
+            );
+
+        },
+
+
+    save:
+
+        function(data){
+
+            return PowerTools.promptEngine.project.save(
+
+                data
+
+            );
+
+        },
+
+
+    status:
+
+        function(){
+
+            return PowerTools.promptEngine.monitor.status();
+
+        }
+
+
+};
+
+
+/* ============================================================
+ * BOOT SEQUENCE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.boot = function(){
+
+
+    this.core.status =
+
+        "ready";
+
+
+    console.log(
+
+        "%c====================================",
+
+        "color:#22c55e"
+
+    );
+
+
+    console.log(
+
+        "%c PowerTools Prompt Engine v5 Loaded ",
+
+        "color:#06b6d4;font-weight:bold"
+
+    );
+
+
+    console.log(
+
+        "%c AI Creator Suite Ready ",
+
+        "color:#22c55e"
+
+    );
+
+
+    console.log(
+
+        "Modules:",
+
+        this.core.modules
+
+    );
+
+
+    console.log(
+
+        "%c====================================",
+
+        "color:#22c55e"
+
+    );
+
+
+    return true;
+
+
+};
+
+
+/* ============================================================
+ * AUTO START
+ * ============================================================
+ */
+
+setTimeout(
+
+    () => {
+
+
+        PowerTools.promptEngine.boot();
+
+
+    },
+
+    100
+
+);
+
+
+/* ============================================================
+ * FINAL MESSAGE
+ * ============================================================
+ */
+
+
+console.log(
+
+    "%c🚀 PowerTools AI Creator Suite Prompt Engine COMPLETE",
+
+    "color:#a855f7;font-size:16px;font-weight:bold"
+
+);
+
+
+/* ============================================================
+ * END PART 40
+ *
+ * PROMPT ENGINE.JS COMPLETE
+ *
+ * ============================================================
+ */
