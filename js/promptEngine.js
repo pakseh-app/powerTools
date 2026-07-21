@@ -7401,4 +7401,1985 @@ PowerTools.promptEngine.providers.kling = function (
  * ============================================================
  */
 
- 
+ /* ============================================================
+ * PART 16
+ * Runway Gen-4 Professional Engine
+ * Cinematic Shot Planner
+ * Camera Rig Engine
+ * Actor Performance Engine
+ * Lens Transition Engine
+ * Environmental Dynamics Engine
+ * ============================================================
+ */
+
+
+/* ============================================================
+ * RUNWAY GEN-4 ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.video.runway = {
+
+    version: "4.0",
+
+    defaults: {
+
+        duration: "8 seconds",
+
+        fps: "24 fps",
+
+        resolution: "4K",
+
+        aspectRatio: "16:9",
+
+        quality: "cinematic"
+
+    }
+
+};
+
+
+/* ============================================================
+ * CINEMATIC SHOT PLANNER
+ * ============================================================
+ */
+
+PowerTools.promptEngine.video.shotPlanner = {
+
+    build(data = {}) {
+
+        const blocks = [];
+
+        if (data.opening)
+            blocks.push(
+                "Opening shot: " +
+                data.opening
+            );
+
+        if (data.secondary)
+            blocks.push(
+                "Second shot: " +
+                data.secondary
+            );
+
+        if (data.hero)
+            blocks.push(
+                "Hero shot: " +
+                data.hero
+            );
+
+        if (data.closing)
+            blocks.push(
+                "Closing shot: " +
+                data.closing
+            );
+
+        return PowerTools.promptEngine.utils.clean(
+            blocks.join(", ")
+        );
+
+    }
+
+};
+
+
+/* ============================================================
+ * CAMERA RIG ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.video.cameraRig = {
+
+    build(data = {}) {
+
+        const blocks = [];
+
+        if (data.rig)
+            blocks.push(
+                data.rig
+            );
+
+        if (data.stabilizer)
+            blocks.push(
+                "camera stabilized with " +
+                data.stabilizer
+            );
+
+        if (data.movement)
+            blocks.push(
+                data.movement
+            );
+
+        if (data.acceleration)
+            blocks.push(
+                data.acceleration +
+                " acceleration"
+            );
+
+        if (data.extra)
+            blocks.push(
+                data.extra
+            );
+
+        return PowerTools.promptEngine.utils.clean(
+            blocks.join(", ")
+        );
+
+    }
+
+};
+
+
+/* ============================================================
+ * ACTOR PERFORMANCE ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.video.actorPerformance = {
+
+    build(data = {}) {
+
+        const blocks = [];
+
+        if (data.performance)
+            blocks.push(
+                data.performance
+            );
+
+        if (data.expression)
+            blocks.push(
+                "natural facial expression"
+            );
+
+        if (data.eyeContact)
+            blocks.push(
+                "realistic eye contact"
+            );
+
+        if (data.handMovement)
+            blocks.push(
+                "natural hand gestures"
+            );
+
+        if (data.walking)
+            blocks.push(
+                "realistic walking cycle"
+            );
+
+        if (data.extra)
+            blocks.push(
+                data.extra
+            );
+
+        return PowerTools.promptEngine.utils.clean(
+            blocks.join(", ")
+        );
+
+    }
+
+};
+
+
+/* ============================================================
+ * LENS TRANSITION ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.video.lensTransition = {
+
+    build(data = {}) {
+
+        const blocks = [];
+
+        if (data.start)
+            blocks.push(
+                "starts with " +
+                data.start
+            );
+
+        if (data.middle)
+            blocks.push(
+                "transitions to " +
+                data.middle
+            );
+
+        if (data.end)
+            blocks.push(
+                "finishes with " +
+                data.end
+            );
+
+        if (data.focus)
+            blocks.push(
+                "continuous focus transition"
+            );
+
+        if (data.extra)
+            blocks.push(
+                data.extra
+            );
+
+        return PowerTools.promptEngine.utils.clean(
+            blocks.join(", ")
+        );
+
+    }
+
+};
+
+
+/* ============================================================
+ * ENVIRONMENTAL DYNAMICS ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.video.environmentDynamics = {
+
+    build(data = {}) {
+
+        const blocks = [];
+
+        if (data.wind)
+            blocks.push(
+                "natural wind simulation"
+            );
+
+        if (data.fog)
+            blocks.push(
+                "dynamic volumetric fog"
+            );
+
+        if (data.clouds)
+            blocks.push(
+                "moving cloud layers"
+            );
+
+        if (data.water)
+            blocks.push(
+                "physically accurate water movement"
+            );
+
+        if (data.fire)
+            blocks.push(
+                "dynamic fire simulation"
+            );
+
+        if (data.rain)
+            blocks.push(
+                "realistic rainfall"
+            );
+
+        if (data.snow)
+            blocks.push(
+                "natural snowfall"
+            );
+
+        if (data.extra)
+            blocks.push(
+                data.extra
+            );
+
+        return PowerTools.promptEngine.utils.clean(
+            blocks.join(", ")
+        );
+
+    }
+
+};
+
+
+/* ============================================================
+ * FRAME STRUCTURE ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.video.frameStructure = {
+
+    build(data = {}) {
+
+        const blocks = [];
+
+        if (data.startFrame)
+            blocks.push(
+                "Start Frame: " +
+                data.startFrame
+            );
+
+        if (data.keyFrame)
+            blocks.push(
+                "Key Frame: " +
+                data.keyFrame
+            );
+
+        if (data.endFrame)
+            blocks.push(
+                "End Frame: " +
+                data.endFrame
+            );
+
+        return PowerTools.promptEngine.utils.clean(
+            blocks.join(", ")
+        );
+
+    }
+
+};
+
+
+/* ============================================================
+ * RUNWAY MASTER BUILDER
+ * ============================================================
+ */
+
+PowerTools.promptEngine.video.runway.build = function (
+
+    payload = {}
+
+) {
+
+    const blocks = [];
+
+    if (payload.prompt)
+        blocks.push(payload.prompt);
+
+    if (payload.shots)
+        blocks.push(
+            PowerTools.promptEngine.video.shotPlanner.build(
+                payload.shots
+            )
+        );
+
+    if (payload.cameraRig)
+        blocks.push(
+            PowerTools.promptEngine.video.cameraRig.build(
+                payload.cameraRig
+            )
+        );
+
+    if (payload.actor)
+        blocks.push(
+            PowerTools.promptEngine.video.actorPerformance.build(
+                payload.actor
+            )
+        );
+
+    if (payload.lens)
+        blocks.push(
+            PowerTools.promptEngine.video.lensTransition.build(
+                payload.lens
+            )
+        );
+
+    if (payload.environment)
+        blocks.push(
+            PowerTools.promptEngine.video.environmentDynamics.build(
+                payload.environment
+            )
+        );
+
+    if (payload.frames)
+        blocks.push(
+            PowerTools.promptEngine.video.frameStructure.build(
+                payload.frames
+            )
+        );
+
+    blocks.push(
+        payload.duration ||
+        this.defaults.duration
+    );
+
+    blocks.push(
+        payload.fps ||
+        this.defaults.fps
+    );
+
+    blocks.push(
+        payload.resolution ||
+        this.defaults.resolution
+    );
+
+    blocks.push(
+        payload.aspectRatio ||
+        this.defaults.aspectRatio
+    );
+
+    blocks.push(
+        this.defaults.quality
+    );
+
+    return PowerTools.promptEngine.utils.clean(
+        blocks.join(", ")
+    );
+
+};
+
+
+/* ============================================================
+ * QUICK RUNWAY GENERATOR
+ * ============================================================
+ */
+
+PowerTools.promptEngine.video.createRunwayPrompt = function (
+
+    payload = {}
+
+) {
+
+    return this.runway.build(payload);
+
+};
+
+
+/* ============================================================
+ * REGISTER RUNWAY PROVIDER
+ * ============================================================
+ */
+
+PowerTools.promptEngine.providers.runway = function (
+
+    prompt
+
+) {
+
+    return PowerTools.promptEngine.providerUtils.append(
+
+        prompt,
+
+        [
+
+            "Runway Gen-4 cinematic video",
+
+            "professional directing",
+
+            "film-grade camera work",
+
+            "natural actor performance",
+
+            "consistent temporal coherence",
+
+            "realistic environmental dynamics",
+
+            "high fidelity motion",
+
+            "production quality"
+
+        ]
+
+    );
+
+};
+
+
+/* ============================================================
+ * END PART 16
+ * ============================================================
+ */
+
+    /* ============================================================
+ * PART 17
+ * Pika 2.2 Professional Engine
+ * Luma Dream Machine Engine
+ * Hailuo AI Engine
+ * PixVerse Engine
+ * Higgsfield Engine
+ * ============================================================
+ */
+
+
+/* ============================================================
+ * PIKA AI ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.video.pika = {
+
+    defaults: {
+
+        duration: "8 seconds",
+
+        fps: "24 fps",
+
+        resolution: "4K",
+
+        aspectRatio: "16:9"
+
+    },
+
+    build(payload = {}) {
+
+        const blocks = [];
+
+        if (payload.prompt)
+            blocks.push(payload.prompt);
+
+        blocks.push(
+            "smooth cinematic animation"
+        );
+
+        blocks.push(
+            "natural subject movement"
+        );
+
+        blocks.push(
+            "stable camera motion"
+        );
+
+        blocks.push(
+            "consistent lighting"
+        );
+
+        blocks.push(
+            payload.duration || this.defaults.duration
+        );
+
+        blocks.push(
+            payload.fps || this.defaults.fps
+        );
+
+        blocks.push(
+            payload.resolution || this.defaults.resolution
+        );
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+    }
+
+};
+
+
+/* ============================================================
+ * LUMA DREAM MACHINE ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.video.luma = {
+
+    build(payload = {}) {
+
+        const blocks = [];
+
+        if (payload.prompt)
+            blocks.push(payload.prompt);
+
+        blocks.push(
+            "cinematic realism"
+        );
+
+        blocks.push(
+            "film quality motion"
+        );
+
+        blocks.push(
+            "natural camera behavior"
+        );
+
+        blocks.push(
+            "photorealistic physics"
+        );
+
+        blocks.push(
+            "dynamic cinematic lighting"
+        );
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+    }
+
+};
+
+
+/* ============================================================
+ * HAILUO AI ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.video.hailuo = {
+
+    build(payload = {}) {
+
+        const blocks = [];
+
+        if (payload.prompt)
+            blocks.push(payload.prompt);
+
+        blocks.push(
+            "smooth transition"
+        );
+
+        blocks.push(
+            "realistic facial animation"
+        );
+
+        blocks.push(
+            "continuous movement"
+        );
+
+        blocks.push(
+            "professional storytelling"
+        );
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+    }
+
+};
+
+
+/* ============================================================
+ * PIXVERSE ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.video.pixverse = {
+
+    build(payload = {}) {
+
+        const blocks = [];
+
+        if (payload.prompt)
+            blocks.push(payload.prompt);
+
+        blocks.push(
+            "dynamic action sequence"
+        );
+
+        blocks.push(
+            "realistic camera movement"
+        );
+
+        blocks.push(
+            "vivid cinematic colors"
+        );
+
+        blocks.push(
+            "smooth temporal consistency"
+        );
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+    }
+
+};
+
+
+/* ============================================================
+ * HIGGSFIELD ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.video.higgsfield = {
+
+    build(payload = {}) {
+
+        const blocks = [];
+
+        if (payload.prompt)
+            blocks.push(payload.prompt);
+
+        blocks.push(
+            "high-end commercial quality"
+        );
+
+        blocks.push(
+            "premium cinematography"
+        );
+
+        blocks.push(
+            "luxury advertising style"
+        );
+
+        blocks.push(
+            "film-grade realism"
+        );
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+    }
+
+};
+
+
+/* ============================================================
+ * QUICK VIDEO HELPERS
+ * ============================================================
+ */
+
+PowerTools.promptEngine.video.createPikaPrompt = function (
+
+    payload = {}
+
+) {
+
+    return this.pika.build(payload);
+
+};
+
+
+PowerTools.promptEngine.video.createLumaPrompt = function (
+
+    payload = {}
+
+) {
+
+    return this.luma.build(payload);
+
+};
+
+
+PowerTools.promptEngine.video.createHailuoPrompt = function (
+
+    payload = {}
+
+) {
+
+    return this.hailuo.build(payload);
+
+};
+
+
+PowerTools.promptEngine.video.createPixVersePrompt = function (
+
+    payload = {}
+
+) {
+
+    return this.pixverse.build(payload);
+
+};
+
+
+PowerTools.promptEngine.video.createHiggsfieldPrompt = function (
+
+    payload = {}
+
+) {
+
+    return this.higgsfield.build(payload);
+
+};
+
+
+/* ============================================================
+ * REGISTER VIDEO PROVIDERS
+ * ============================================================
+ */
+
+PowerTools.promptEngine.providers.pika = function (
+
+    prompt
+
+) {
+
+    return PowerTools.promptEngine.providerUtils.append(
+
+        prompt,
+
+        [
+
+            "Pika cinematic video",
+
+            "natural movement",
+
+            "smooth animation",
+
+            "realistic motion",
+
+            "professional camera movement",
+
+            "consistent lighting",
+
+            "high quality video"
+
+        ]
+
+    );
+
+};
+
+
+PowerTools.promptEngine.providers.luma = function (
+
+    prompt
+
+) {
+
+    return PowerTools.promptEngine.providerUtils.append(
+
+        prompt,
+
+        [
+
+            "Luma Dream Machine",
+
+            "cinematic realism",
+
+            "natural physics",
+
+            "professional film look",
+
+            "high fidelity motion",
+
+            "beautiful lighting"
+
+        ]
+
+    );
+
+};
+
+
+PowerTools.promptEngine.providers.hailuo = function (
+
+    prompt
+
+) {
+
+    return PowerTools.promptEngine.providerUtils.append(
+
+        prompt,
+
+        [
+
+            "Hailuo AI",
+
+            "smooth storytelling",
+
+            "natural facial expressions",
+
+            "stable character consistency",
+
+            "realistic cinematic motion"
+
+        ]
+
+    );
+
+};
+
+
+PowerTools.promptEngine.providers.pixverse = function (
+
+    prompt
+
+) {
+
+    return PowerTools.promptEngine.providerUtils.append(
+
+        prompt,
+
+        [
+
+            "PixVerse AI",
+
+            "dynamic camera",
+
+            "epic cinematic sequence",
+
+            "action realism",
+
+            "high temporal consistency"
+
+        ]
+
+    );
+
+};
+
+
+PowerTools.promptEngine.providers.higgsfield = function (
+
+    prompt
+
+) {
+
+    return PowerTools.promptEngine.providerUtils.append(
+
+        prompt,
+
+        [
+
+            "Higgsfield AI",
+
+            "luxury commercial",
+
+            "premium product video",
+
+            "fashion film",
+
+            "award-winning cinematography"
+
+        ]
+
+    );
+
+};
+
+
+/* ============================================================
+ * VIDEO PROVIDER ROUTER
+ * ============================================================
+ */
+
+PowerTools.promptEngine.video.generate = function (
+
+    provider,
+
+    payload = {}
+
+) {
+
+    provider =
+
+        String(provider || "")
+
+        .toLowerCase();
+
+    switch (provider) {
+
+        case "veo":
+            return this.createVeoPrompt(payload);
+
+        case "kling":
+            return this.createKlingPrompt(payload);
+
+        case "runway":
+            return this.createRunwayPrompt(payload);
+
+        case "pika":
+            return this.createPikaPrompt(payload);
+
+        case "luma":
+            return this.createLumaPrompt(payload);
+
+        case "hailuo":
+            return this.createHailuoPrompt(payload);
+
+        case "pixverse":
+            return this.createPixVersePrompt(payload);
+
+        case "higgsfield":
+            return this.createHiggsfieldPrompt(payload);
+
+        default:
+            return this.create(payload);
+
+    }
+
+};
+
+
+/* ============================================================
+ * END PART 17
+ * ============================================================
+ */
+
+/* ============================================================
+ * PART 18
+ * Image → Video Prompt Engine
+ * Image Analysis Schema
+ * Start / End Frame Builder
+ * Motion Planner
+ * Transition Planner
+ * ============================================================
+ */
+
+
+/* ============================================================
+ * IMAGE TO VIDEO ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.imageToVideo = {
+
+    version: "1.0",
+
+    defaults: {
+
+        preserveCharacter: true,
+
+        preserveProduct: true,
+
+        preserveStyle: true,
+
+        preserveLighting: true,
+
+        preserveComposition: true,
+
+        duration: "8 seconds",
+
+        fps: "24 fps",
+
+        resolution: "4K"
+
+    }
+
+};
+
+
+/* ============================================================
+ * IMAGE ANALYSIS SCHEMA
+ * ============================================================
+ */
+
+PowerTools.promptEngine.imageToVideo.analysis = {
+
+    analyze(image = {}) {
+
+        return {
+
+            subject:
+                image.subject || "",
+
+            environment:
+                image.environment || "",
+
+            style:
+                image.style || "",
+
+            lighting:
+                image.lighting || "",
+
+            camera:
+                image.camera || "",
+
+            composition:
+                image.composition || "",
+
+            colors:
+                image.colors || "",
+
+            mood:
+                image.mood || ""
+
+        };
+
+    }
+
+};
+
+
+/* ============================================================
+ * START FRAME BUILDER
+ * ============================================================
+ */
+
+PowerTools.promptEngine.imageToVideo.startFrame = {
+
+    build(data = {}) {
+
+        const blocks = [];
+
+        blocks.push(
+            "Start Frame"
+        );
+
+        if (data.subject)
+            blocks.push(data.subject);
+
+        if (data.environment)
+            blocks.push(data.environment);
+
+        if (data.camera)
+            blocks.push(data.camera);
+
+        if (data.lighting)
+            blocks.push(data.lighting);
+
+        if (data.style)
+            blocks.push(data.style);
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+    }
+
+};
+
+
+/* ============================================================
+ * END FRAME BUILDER
+ * ============================================================
+ */
+
+PowerTools.promptEngine.imageToVideo.endFrame = {
+
+    build(data = {}) {
+
+        const blocks = [];
+
+        blocks.push(
+            "End Frame"
+        );
+
+        if (data.goal)
+            blocks.push(data.goal);
+
+        if (data.expression)
+            blocks.push(data.expression);
+
+        if (data.camera)
+            blocks.push(data.camera);
+
+        if (data.environment)
+            blocks.push(data.environment);
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+    }
+
+};
+
+
+/* ============================================================
+ * MOTION PLANNER
+ * ============================================================
+ */
+
+PowerTools.promptEngine.imageToVideo.motionPlanner = {
+
+    build(data = {}) {
+
+        const blocks = [];
+
+        if (data.character)
+            blocks.push(
+                "character movement: " +
+                data.character
+            );
+
+        if (data.camera)
+            blocks.push(
+                "camera movement: " +
+                data.camera
+            );
+
+        if (data.environment)
+            blocks.push(
+                "environment movement: " +
+                data.environment
+            );
+
+        if (data.object)
+            blocks.push(
+                "object movement: " +
+                data.object
+            );
+
+        if (data.physics)
+            blocks.push(
+                "physics: " +
+                data.physics
+            );
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+    }
+
+};
+
+
+/* ============================================================
+ * TRANSITION PLANNER
+ * ============================================================
+ */
+
+PowerTools.promptEngine.imageToVideo.transitionPlanner = {
+
+    build(data = {}) {
+
+        const blocks = [];
+
+        if (data.type)
+            blocks.push(
+                data.type +
+                " transition"
+            );
+
+        if (data.speed)
+            blocks.push(
+                data.speed +
+                " transition speed"
+            );
+
+        if (data.style)
+            blocks.push(
+                data.style
+            );
+
+        if (data.extra)
+            blocks.push(
+                data.extra
+            );
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+    }
+
+};
+
+
+/* ============================================================
+ * PRESERVATION ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.imageToVideo.preservation = {
+
+    build(options = {}) {
+
+        const rules = [];
+
+        if (options.preserveCharacter !== false)
+
+            rules.push(
+
+                "maintain identical facial features, hairstyle, body proportions and clothing"
+
+            );
+
+        if (options.preserveProduct !== false)
+
+            rules.push(
+
+                "preserve product shape, texture, material and branding"
+
+            );
+
+        if (options.preserveStyle !== false)
+
+            rules.push(
+
+                "maintain identical artistic style"
+
+            );
+
+        if (options.preserveLighting !== false)
+
+            rules.push(
+
+                "keep lighting direction and color temperature consistent"
+
+            );
+
+        if (options.preserveComposition !== false)
+
+            rules.push(
+
+                "preserve framing and composition continuity"
+
+            );
+
+        return PowerTools.promptEngine.utils.clean(
+
+            rules.join(", ")
+
+        );
+
+    }
+
+};
+
+
+/* ============================================================
+ * IMAGE → VIDEO MASTER BUILDER
+ * ============================================================
+ */
+
+PowerTools.promptEngine.imageToVideo.build = function (
+
+    payload = {}
+
+) {
+
+    const blocks = [];
+
+    const analysis =
+
+        this.analysis.analyze(
+
+            payload.image ||
+
+            {}
+
+        );
+
+    blocks.push(
+
+        this.startFrame.build(
+
+            analysis
+
+        )
+
+    );
+
+    if (payload.motion)
+
+        blocks.push(
+
+            this.motionPlanner.build(
+
+                payload.motion
+
+            )
+
+        );
+
+    if (payload.transition)
+
+        blocks.push(
+
+            this.transitionPlanner.build(
+
+                payload.transition
+
+            )
+
+        );
+
+    blocks.push(
+
+        this.preservation.build(
+
+            Object.assign(
+
+                {},
+
+                this.defaults,
+
+                payload
+
+            )
+
+        )
+
+    );
+
+    if (payload.endFrame)
+
+        blocks.push(
+
+            this.endFrame.build(
+
+                payload.endFrame
+
+            )
+
+        );
+
+    blocks.push(
+
+        payload.duration ||
+
+        this.defaults.duration
+
+    );
+
+    blocks.push(
+
+        payload.fps ||
+
+        this.defaults.fps
+
+    );
+
+    blocks.push(
+
+        payload.resolution ||
+
+        this.defaults.resolution
+
+    );
+
+    return PowerTools.promptEngine.utils.clean(
+
+        blocks.join(", ")
+
+    );
+
+};
+
+
+/* ============================================================
+ * QUICK IMAGE → VIDEO API
+ * ============================================================
+ */
+
+PowerTools.promptEngine.createImageToVideoPrompt = function (
+
+    payload = {}
+
+) {
+
+    return this.imageToVideo.build(
+
+        payload
+
+    );
+
+};
+
+
+/* ============================================================
+ * END PART 18
+ * ============================================================
+ */
+
+/* ============================================================
+ * PART 19
+ * Image → Video Fusion Engine
+ * Character Preservation Engine
+ * Product Preservation Engine
+ * Motion Director
+ * Physics Planner
+ * AI Video Provider Fusion
+ * ============================================================
+ */
+
+
+/* ============================================================
+ * CHARACTER PRESERVATION ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.imageToVideo.characterPreservation = {
+
+    build(data = {}) {
+
+        const rules = [
+
+            "maintain identical facial identity",
+
+            "maintain eye shape",
+
+            "maintain eyebrow shape",
+
+            "maintain nose structure",
+
+            "maintain mouth proportions",
+
+            "maintain skin tone",
+
+            "maintain hairstyle",
+
+            "maintain clothing",
+
+            "maintain accessories",
+
+            "maintain body proportions"
+
+        ];
+
+        if (data.expression)
+
+            rules.push(
+
+                "allow only natural facial expression changes"
+
+            );
+
+        if (data.pose)
+
+            rules.push(
+
+                "allow smooth pose transition"
+
+            );
+
+        if (data.extra)
+
+            rules.push(
+
+                data.extra
+
+            );
+
+        return PowerTools.promptEngine.utils.clean(
+
+            rules.join(", ")
+
+        );
+
+    }
+
+};
+
+
+/* ============================================================
+ * PRODUCT PRESERVATION ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.imageToVideo.productPreservation = {
+
+    build(data = {}) {
+
+        const rules = [
+
+            "preserve exact product dimensions",
+
+            "preserve product geometry",
+
+            "preserve logo position",
+
+            "preserve label details",
+
+            "preserve materials",
+
+            "preserve reflections",
+
+            "preserve packaging",
+
+            "preserve textures"
+
+        ];
+
+        if (data.brand)
+
+            rules.push(
+
+                "maintain complete brand identity"
+
+            );
+
+        if (data.extra)
+
+            rules.push(
+
+                data.extra
+
+            );
+
+        return PowerTools.promptEngine.utils.clean(
+
+            rules.join(", ")
+
+        );
+
+    }
+
+};
+
+
+/* ============================================================
+ * MOTION DIRECTOR
+ * ============================================================
+ */
+
+PowerTools.promptEngine.imageToVideo.motionDirector = {
+
+    build(data = {}) {
+
+        const blocks = [];
+
+        if (data.primary)
+
+            blocks.push(
+
+                "primary motion: " +
+
+                data.primary
+
+            );
+
+        if (data.secondary)
+
+            blocks.push(
+
+                "secondary motion: " +
+
+                data.secondary
+
+            );
+
+        if (data.camera)
+
+            blocks.push(
+
+                "camera choreography: " +
+
+                data.camera
+
+            );
+
+        if (data.speed)
+
+            blocks.push(
+
+                "motion speed: " +
+
+                data.speed
+
+            );
+
+        if (data.intensity)
+
+            blocks.push(
+
+                "motion intensity: " +
+
+                data.intensity
+
+            );
+
+        if (data.extra)
+
+            blocks.push(
+
+                data.extra
+
+            );
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+    }
+
+};
+
+
+/* ============================================================
+ * PHYSICS PLANNER
+ * ============================================================
+ */
+
+PowerTools.promptEngine.imageToVideo.physicsPlanner = {
+
+    build(data = {}) {
+
+        const blocks = [];
+
+        if (data.gravity)
+
+            blocks.push(
+
+                "realistic gravity"
+
+            );
+
+        if (data.cloth)
+
+            blocks.push(
+
+                "cloth simulation"
+
+            );
+
+        if (data.hair)
+
+            blocks.push(
+
+                "natural hair physics"
+
+            );
+
+        if (data.wind)
+
+            blocks.push(
+
+                "environment reacts to wind"
+
+            );
+
+        if (data.water)
+
+            blocks.push(
+
+                "physically accurate water"
+
+            );
+
+        if (data.particles)
+
+            blocks.push(
+
+                "particle simulation"
+
+            );
+
+        if (data.shadow)
+
+            blocks.push(
+
+                "dynamic shadow consistency"
+
+            );
+
+        if (data.extra)
+
+            blocks.push(
+
+                data.extra
+
+            );
+
+        return PowerTools.promptEngine.utils.clean(
+
+            blocks.join(", ")
+
+        );
+
+    }
+
+};
+
+
+/* ============================================================
+ * VIDEO FUSION ENGINE
+ * ============================================================
+ */
+
+PowerTools.promptEngine.imageToVideo.fusion = {
+
+    providers: {
+
+        veo: "Veo 3",
+
+        kling: "Kling AI",
+
+        runway: "Runway Gen-4",
+
+        pika: "Pika",
+
+        luma: "Luma Dream Machine",
+
+        hailuo: "Hailuo AI",
+
+        pixverse: "PixVerse",
+
+        higgsfield: "Higgsfield"
+
+    },
+
+    build(provider, prompt) {
+
+        provider =
+
+            String(provider || "")
+
+            .toLowerCase();
+
+        return PowerTools.promptEngine.utils.clean(
+
+            [
+
+                this.providers[provider] ||
+
+                "Universal Video AI",
+
+                prompt
+
+            ].join(", ")
+
+        );
+
+    }
+
+};
+
+
+/* ============================================================
+ * ADVANCED IMAGE → VIDEO BUILDER
+ * ============================================================
+ */
+
+PowerTools.promptEngine.imageToVideo.buildAdvanced = function (
+
+    provider,
+
+    payload = {}
+
+) {
+
+    const sections = [];
+
+    sections.push(
+
+        this.startFrame.build(
+
+            this.analysis.analyze(
+
+                payload.image ||
+
+                {}
+
+            )
+
+        )
+
+    );
+
+    sections.push(
+
+        this.characterPreservation.build(
+
+            payload.character ||
+
+            {}
+
+        )
+
+    );
+
+    sections.push(
+
+        this.productPreservation.build(
+
+            payload.product ||
+
+            {}
+
+        )
+
+    );
+
+    sections.push(
+
+        this.motionDirector.build(
+
+            payload.motion ||
+
+            {}
+
+        )
+
+    );
+
+    sections.push(
+
+        this.physicsPlanner.build(
+
+            payload.physics ||
+
+            {}
+
+        )
+
+    );
+
+    sections.push(
+
+        this.endFrame.build(
+
+            payload.endFrame ||
+
+            {}
+
+        )
+
+    );
+
+    sections.push(
+
+        payload.duration ||
+
+        this.defaults.duration
+
+    );
+
+    sections.push(
+
+        payload.fps ||
+
+        this.defaults.fps
+
+    );
+
+    sections.push(
+
+        payload.resolution ||
+
+        this.defaults.resolution
+
+    );
+
+    return this.fusion.build(
+
+        provider,
+
+        PowerTools.promptEngine.utils.clean(
+
+            sections.join(", ")
+
+        )
+
+    );
+
+};
+
+
+/* ============================================================
+ * UNIVERSAL IMAGE → VIDEO ROUTER
+ * ============================================================
+ */
+
+PowerTools.promptEngine.generateImageToVideo = function (
+
+    provider,
+
+    payload = {}
+
+) {
+
+    provider =
+
+        String(provider || "")
+
+        .toLowerCase();
+
+    return this.imageToVideo.buildAdvanced(
+
+        provider,
+
+        payload
+
+    );
+
+};
+
+
+/* ============================================================
+ * END PART 19
+ * ============================================================
+ */
+
+
