@@ -247,14 +247,13 @@ window.PowerTools=window.PowerTools||{};
 
 window.PowerTools.promptEngine=new PromptEngine();
 
-})(window);
+// })(window);
 
 /*
 ============================================================
  PowerTools AI Creator Suite
  promptEngine.js
  PART 2A
- CORE PROMPT BUILDER
 ============================================================
 */
 
