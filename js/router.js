@@ -10520,4 +10520,15 @@ class Router {
    Router Export
 ====================================================== */
 
-export default Router;
+window.Router = Router;
+
+PowerTools.Router = Router;
+
+if (PowerTools.core) {
+
+    PowerTools.core.registerModule(
+        "router",
+        new Router()
+    );
+
+}
