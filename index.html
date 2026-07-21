@@ -1074,32 +1074,33 @@
 
 <script>
 
-window.addEventListener("DOMContentLoaded", () => {
+window.addEventListener("DOMContentLoaded", async () => {
 
     console.log("====================================");
     console.log("PowerTools AI Creator Suite");
     console.log("Booting Application...");
     console.log("====================================");
 
-    if (
-        window.PowerTools &&
-        PowerTools.promptEngine
-    ) {
+    if (!window.PowerTools) {
 
-        console.log("✅ Prompt Engine Ready");
-
-    } else {
-
-        console.error("❌ Prompt Engine Not Loaded");
+        console.error("❌ PowerTools not loaded");
+        return;
 
     }
 
-    if (
-        PowerTools &&
-        typeof PowerTools.init === "function"
-    ) {
+    if (PowerTools.promptEngine) {
 
-        PowerTools.init();
+        console.log("✅ Prompt Engine Ready");
+
+    }
+
+    if (typeof PowerTools.start === "function") {
+
+        await PowerTools.start();
+
+    } else {
+
+        console.error("❌ PowerTools.start() not found");
 
     }
 
