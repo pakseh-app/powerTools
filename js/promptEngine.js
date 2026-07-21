@@ -247,7 +247,7 @@ window.PowerTools=window.PowerTools||{};
 
 window.PowerTools.promptEngine=new PromptEngine();
 
-// })(window);
+})(window);
 
 /*
 ============================================================
